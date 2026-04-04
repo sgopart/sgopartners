@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Montserrat:wght@300;600&display=swap');
+
+:root {
+    --primary-color: #080C14; 
+    --accent-color: #B89450;  
+    --text-color: #1A1A1A;
+    --bg-color: #FFFFFF;
+}
+
+body {
+    margin: 0;
+    font-family: 'Montserrat', 'Hiragino Kaku Gothic ProN', sans-serif;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    line-height: 1.8;
+}
+
+h1, h2, h3 { font-family: 'Noto Serif JP', serif; }
+
+.header {
+    position: fixed;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background-color: rgba(255, 255, 255, 0.98);
+    border-bottom: 1px solid #EEEEEE;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--primary-color);
+}
+
+.nav a {
+    color: var(--primary-color);
+    text-decoration: none;
+    margin-left: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 10%;
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+    background-image: radial-gradient(circle at 20% 30%, #1A2A44 0%, var(--primary-color) 70%);
+}
+
+.sub-title {
+    display: block;
+    color: var(--accent-color);
+    font-size: 0.9rem;
+    letter-spacing: 5px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.hero h1 { font-size: 3.2rem; margin-bottom: 30px; }
+
+.hero p {
+    font-size: 1.05rem;
+    max-width: 550px;
+    color: rgba(255,255,255,0.7);
+}
+
+.services { padding: 120px 10%; }
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+}
+
+.service-card {
+    padding: 60px;
+    border: 1px solid #F0F0F0;
+    transition: 0.4s;
+}
+
+.service-card:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+}
+
+.footer { padding: 40px; background: #F9F9F9; text-align: center; font-size: 0.7rem; color: #999; }
