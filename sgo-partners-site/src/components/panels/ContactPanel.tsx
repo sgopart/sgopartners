@@ -83,70 +83,82 @@ export default function ContactPanel({ onClose }: Props) {
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-              <div className="flex flex-col gap-2 group">
-                <label className="font-oswald text-[10px] tracking-[0.3em] text-gray-400 uppercase group-focus-within:text-red-500 transition-colors">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div className="flex flex-col gap-3 group">
+                <label className="font-oswald text-[11px] tracking-[0.4em] text-red-600/60 uppercase group-focus-within:text-red-500 transition-colors">
                   Name
                 </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={form.name}
-                  onChange={handleChange}
-                  required
-                  placeholder="氏名を入力"
-                  className="w-full bg-transparent border-b border-white/20 focus:border-red-600 outline-none px-0 py-3 text-white placeholder-gray-700 text-sm font-light tracking-[0.1em] transition-all duration-500 focus:pl-2"
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    required
+                    placeholder="FULL NAME"
+                    className="w-full bg-transparent border-b border-white/10 focus:border-red-600 outline-none px-0 py-4 text-white placeholder-white/5 text-sm font-light tracking-[0.2em] transition-all duration-700"
+                  />
+                  <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-red-600 group-focus-within:w-full transition-all duration-700" />
+                </div>
               </div>
 
-              <div className="flex flex-col gap-2 group">
-                <label className="font-oswald text-[10px] tracking-[0.3em] text-gray-400 uppercase group-focus-within:text-red-500 transition-colors">
+              <div className="flex flex-col gap-3 group">
+                <label className="font-oswald text-[11px] tracking-[0.4em] text-red-600/60 uppercase group-focus-within:text-red-500 transition-colors">
                   Company
                 </label>
-                <input
-                  type="text"
-                  name="company"
-                  value={form.company}
-                  onChange={handleChange}
-                  placeholder="会社名（任意）"
-                  className="w-full bg-transparent border-b border-white/20 focus:border-red-600 outline-none px-0 py-3 text-white placeholder-gray-700 text-sm font-light tracking-[0.1em] transition-all duration-500 focus:pl-2"
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="company"
+                    value={form.company}
+                    onChange={handleChange}
+                    placeholder="COMPANY (OPTIONAL)"
+                    className="w-full bg-transparent border-b border-white/10 focus:border-red-600 outline-none px-0 py-4 text-white placeholder-white/5 text-sm font-light tracking-[0.2em] transition-all duration-700"
+                  />
+                  <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-red-600 group-focus-within:w-full transition-all duration-700" />
+                </div>
               </div>
             </div>
 
-            <div className="flex flex-col gap-2 group">
-              <label className="font-oswald text-[10px] tracking-[0.3em] text-gray-400 uppercase group-focus-within:text-red-500 transition-colors">
-                Email
+            <div className="flex flex-col gap-3 group">
+              <label className="font-oswald text-[11px] tracking-[0.4em] text-red-600/60 uppercase group-focus-within:text-red-500 transition-colors">
+                Email Address
               </label>
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                required
-                placeholder="example@sgo-partners.jp"
-                className="w-full bg-transparent border-b border-white/20 focus:border-red-600 outline-none px-0 py-3 text-white placeholder-gray-700 text-sm font-light tracking-[0.1em] transition-all duration-500 focus:pl-2"
-              />
+              <div className="relative">
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="EMAIL@DOMAIN.COM"
+                  className="w-full bg-transparent border-b border-white/10 focus:border-red-600 outline-none px-0 py-4 text-white placeholder-white/5 text-sm font-light tracking-[0.2em] transition-all duration-700"
+                />
+                <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-red-600 group-focus-within:w-full transition-all duration-700" />
+              </div>
             </div>
 
-            <div className="flex flex-col gap-2 group">
-              <label className="font-oswald text-[10px] tracking-[0.3em] text-gray-400 uppercase group-focus-within:text-red-500 transition-colors">
-                Message
+            <div className="flex flex-col gap-3 group">
+              <label className="font-oswald text-[11px] tracking-[0.4em] text-red-600/60 uppercase group-focus-within:text-red-500 transition-colors">
+                Your Message
               </label>
-              <textarea
-                name="message"
-                value={form.message}
-                onChange={handleChange}
-                rows={4}
-                required
-                placeholder="ご相談内容をご記入ください"
-                className="w-full bg-transparent border-b border-white/20 focus:border-red-600 outline-none px-0 py-3 text-white placeholder-gray-700 text-sm font-light tracking-[0.1em] transition-all duration-500 focus:pl-2 resize-none"
-              />
+              <div className="relative">
+                <textarea
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  rows={5}
+                  required
+                  placeholder="DESCRIBE YOUR INQUIRY..."
+                  className="w-full bg-transparent border-b border-white/10 focus:border-red-600 outline-none px-0 py-4 text-white placeholder-white/5 text-sm font-light tracking-[0.1em] leading-relaxed transition-all duration-700 resize-none"
+                />
+                <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-red-600 group-focus-within:w-full transition-all duration-700" />
+              </div>
             </div>
 
-            <div className="flex flex-col gap-6">
-              <p className="text-[10px] text-gray-500 leading-relaxed font-light">
+            <div className="flex flex-col gap-8 mt-4">
+              <p className="text-[10px] text-gray-500 leading-relaxed font-light tracking-[0.05em]">
                 * お送りいただいた情報は、お問い合わせへの回答および弊社のサービス向上目的のみに使用し、個人情報保護方針に基づき適切に管理いたします。
               </p>
 
@@ -155,13 +167,14 @@ export default function ContactPanel({ onClose }: Props) {
               <button
                 type="submit"
                 disabled={loading}
-                className="relative group overflow-hidden font-oswald tracking-[0.4em] text-xs px-12 py-5 bg-white text-black hover:text-white transition-colors duration-500 uppercase w-full disabled:opacity-50"
+                className="relative group overflow-hidden font-oswald tracking-[0.5em] text-xs px-12 py-6 bg-white text-black hover:text-white transition-all duration-700 uppercase w-full disabled:opacity-50"
               >
                 <span className="relative z-10">{loading ? "SENDING..." : "SEND MESSAGE"}</span>
-                <div className="absolute inset-0 bg-red-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+                <div className="absolute inset-0 bg-red-600 -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-[0.16, 1, 0.3, 1]" />
               </button>
             </div>
           </form>
+
         )}
       </motion.div>
     </div>

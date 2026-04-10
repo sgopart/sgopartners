@@ -47,32 +47,35 @@ export default function ServicesPanel({ onClose }: Props) {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 + i * 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col gap-6 relative group"
+            className="flex flex-col gap-6 relative group pl-12 md:pl-16"
           >
-            <div className="flex items-baseline gap-4">
-              <span className="font-oswald text-5xl text-white/5 tracking-tighter absolute -left-8 -top-4 select-none group-hover:text-red-600/10 transition-colors duration-700">
+            {/* サービス番号を左側に配置し、重なりを回避 */}
+            <div className="absolute left-0 top-0 h-full flex items-start pt-1">
+              <span className="font-oswald text-4xl md:text-5xl text-white/5 tracking-tighter select-none group-hover:text-red-600/20 transition-all duration-700">
                 0{i + 1}
               </span>
-              <div className="flex flex-col">
-                <span className="font-oswald tracking-[0.3em] text-[10px] text-red-600 uppercase mb-2">Service 0{i + 1}</span>
-                <h3 className="font-oswald text-3xl md:text-4xl tracking-[0.1em] text-white uppercase mb-1">
-                  {svc.title}
-                </h3>
-                <p className="text-gray-500 font-light text-xs tracking-[0.1em] mb-4 italic">
-                  — {svc.subtitle}
-                </p>
-              </div>
+            </div>
+
+            <div className="flex flex-col relative">
+              <span className="font-oswald tracking-[0.4em] text-[10px] text-red-600/80 uppercase mb-2">Service 0{i + 1}</span>
+              <h3 className="font-oswald text-3xl md:text-5xl tracking-[0.05em] text-white uppercase mb-2 leading-tight">
+                {svc.title}
+              </h3>
+              <p className="text-gray-500 font-light text-xs md:text-sm tracking-[0.1em] mb-6 italic">
+                — {svc.subtitle}
+              </p>
             </div>
             
             <div className="relative">
-              <div className="absolute top-0 left-0 w-1 h-0 bg-red-600 group-hover:h-full transition-all duration-700 ease-in-out" />
-              <p className="text-gray-400 font-light tracking-[0.1em] leading-[2.4] text-sm md:text-base border-l border-white/5 md:pl-10 pl-6 py-1 transition-all duration-700 group-hover:border-white/10 group-hover:text-gray-300">
+              <div className="absolute top-0 left-0 w-[2px] h-0 bg-red-600 group-hover:h-full transition-all duration-700 ease-in-out" />
+              <p className="text-gray-400 font-light tracking-[0.12em] leading-[2.2] text-sm md:text-base border-l border-white/5 md:pl-12 pl-8 py-1 transition-all duration-700 group-hover:border-white/10 group-hover:text-gray-200">
                 {svc.body}
               </p>
             </div>
           </motion.div>
         ))}
       </div>
+
 
       {/* フッター代わりのテキスト */}
       <div className="mt-auto pt-10 border-t border-white/5 opacity-30 select-none">

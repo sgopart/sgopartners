@@ -33,19 +33,23 @@ export default function Home() {
 
       {/* 2. 左〜中央エリア：巨大タイポグラフィ */}
       <motion.div 
-        animate={{ opacity: activePanel ? 0.2 : 1 }}
+        animate={{ 
+          opacity: activePanel ? 0.05 : 1,
+          scale: activePanel ? 0.95 : 1,
+          filter: activePanel ? "blur(4px)" : "blur(0px)"
+        }}
         transition={{ duration: 0.8 }}
         className="absolute inset-y-0 left-0 flex flex-col justify-center px-8 md:px-24 z-10 pointer-events-none"
       >
         <motion.p 
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
-          className="font-oswald text-gray-400 tracking-[0.5em] text-xs md:text-sm uppercase mb-4"
+          className="font-oswald text-gray-400 tracking-[0.5em] text-[10px] md:text-xs uppercase mb-4"
         >
           Business Partner · Navigator · Mentor
         </motion.p>
         <motion.h1 
           initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }}
-          className="font-oswald text-[12vw] md:text-[8vw] lg:text-[7vw] leading-[1.1] tracking-[0.1em] uppercase text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+          className="font-oswald text-[12vw] md:text-[8vw] lg:text-[7vw] leading-[1.1] tracking-[0.1em] uppercase text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.1)]"
         >
           SGO
           <br />
@@ -53,27 +57,34 @@ export default function Home() {
         </motion.h1>
       </motion.div>
 
-      {/* 3. 右エリア：ナビゲーション */}
-      <div className="absolute inset-y-0 right-8 md:right-24 flex flex-col justify-center gap-12 md:gap-16 z-20">
+      {/* 3. ナビゲーション（右上に完全に固定） */}
+      <div className="absolute top-10 right-10 md:right-20 flex gap-10 md:gap-14 z-[100]">
         {navItems.map((item, i) => (
           <motion.button
             key={item}
-            animate={{ opacity: activePanel && activePanel !== item ? 0.3 : 1 }}
-            initial={{ opacity: 0, x: 30 }} transition={{ delay: 0.6 + i * 0.1 }}
+            initial={{ opacity: 0, y: -20 }} 
+            animate={{ 
+              opacity: activePanel && activePanel !== item ? 0.2 : 1,
+              y: 0 
+            }}
+            transition={{ delay: 0.5 + i * 0.1 }}
             onClick={() => setActivePanel(activePanel === item ? null : item)}
-            className="group flex flex-col items-end gap-2 text-right"
+            className="group flex flex-col items-center"
           >
-            <span className={`font-oswald text-xl md:text-3xl tracking-[0.3em] uppercase transition-all duration-500 ${
-              activePanel === item ? "text-red-500" : "text-white group-hover:text-red-400"
+            <span className={`font-oswald text-[11px] md:text-[13px] tracking-[0.4em] uppercase transition-all duration-700 ${
+              activePanel === item ? "text-red-600" : "text-white/60 group-hover:text-white"
             }`}>
               {item}
             </span>
-            <span className={`h-px bg-red-600 transition-all duration-500 ${
-              activePanel === item ? "w-full" : "w-0 group-hover:w-full"
-            }`} />
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: activePanel === item ? "100%" : "0%" }}
+              className="h-[1px] bg-red-600 mt-1 group-hover:w-full transition-all duration-700"
+            />
           </motion.button>
         ))}
       </div>
+
 
       {/* 4. スライドイン・パネル */}
       <AnimatePresence>
@@ -85,24 +96,26 @@ export default function Home() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActivePanel(null)}
-              className="absolute inset-0 z-30 bg-black/60 backdrop-blur-sm"
+              className="absolute inset-0 z-30 bg-black/40 backdrop-blur-md"
             />
 
-            {/* パネル本体 (右からスライドイン) */}
+            {/* パネル本体 (右からスライドイン) - 背景をほぼ不透明にして可読性向上 */}
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "tween", ease: [0.16, 1, 0.3, 1], duration: 1 }}
-              className="absolute top-0 right-0 bottom-0 w-[95vw] md:w-[60vw] lg:w-[50vw] z-40 bg-black/80 backdrop-blur-2xl border-l border-white/5 shadow-[-30px_0_60px_rgba(0,0,0,0.8)]"
+              className="absolute top-0 right-0 bottom-0 w-full md:w-[65vw] lg:w-[55vw] z-[110] bg-[#050505] border-l border-white/10 shadow-[-50px_0_150px_rgba(0,0,0,0.95)]"
             >
               {activePanel === "PHILOSOPHY" && <PhilosophyPanel onClose={() => setActivePanel(null)} />}
               {activePanel === "SERVICES" && <ServicesPanel onClose={() => setActivePanel(null)} />}
               {activePanel === "CONTACT" && <ContactPanel onClose={() => setActivePanel(null)} />}
             </motion.div>
+
           </>
         )}
       </AnimatePresence>
+
 
     </main>
   );
