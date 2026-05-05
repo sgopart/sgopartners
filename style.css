@@ -34,6 +34,51 @@ body {
     padding: 0 2rem;
 }
 
+/* * トップナビゲーション */
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 60px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.top-nav .logo {
+    font-family: var(--font-oswald);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--text-color);
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #888;
+    font-family: var(--font-oswald);
+    font-size: 0.8rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
 /* * ヘッダーセクション */
 header {
     height: 100vh;
@@ -278,6 +323,52 @@ input:focus, textarea:focus {
     color: #fff;
 }
 
+/* * 会社概要セクション */
+.company-section {
+    padding: 8rem 0;
+    position: relative;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.profile-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 3rem;
+    background: rgba(20, 20, 20, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.profile-table tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.profile-table tr:last-child {
+    border-bottom: none;
+}
+
+.profile-table th, .profile-table td {
+    padding: 2rem;
+    text-align: left;
+}
+
+.profile-table th {
+    width: 30%;
+    font-family: var(--font-oswald);
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.profile-table td {
+    font-weight: 300;
+    color: #ccc;
+    font-size: 1rem;
+}
+
 /* * フッター */
 footer {
     background: #050505;
@@ -305,8 +396,27 @@ footer {
     .hero-content h1 { font-size: 3rem; }
     .text-section { padding: 3rem 2rem; }
     .grid-wrapper { grid-template-columns: 1fr; }
-    .footer-content { flex-direction: column; text-align: center; }
     .footer-links a { margin: 0 1rem; }
+
+    .top-nav {
+        padding: 0 2rem;
+        height: 60px;
+    }
+    .top-nav .logo {
+        font-size: 1rem;
+    }
+    .nav-links {
+        display: none; /* スマホでは簡易化のため非表示、またはハンバーガーメニューが必要ですが、一旦非表示 */
+    }
+
+    .profile-table th, .profile-table td {
+        display: block;
+        width: 100%;
+        padding: 1rem 2rem;
+    }
+    .profile-table th {
+        padding-bottom: 0;
+    }
 }
 
 /* * モーダル */
