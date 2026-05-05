@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Montserrat:wght@300;400;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
 
 :root {
     --primary-color: #E60000;
     --accent-color: #ff4d4d;
     --bg-color: #000000;
     --text-color: #ffffff;
-    --font-oswald: 'Oswald', sans-serif;
+    --font-heading: 'Syncopate', sans-serif;
+    --font-body: 'Montserrat', 'Noto Sans JP', sans-serif;
     --font-noto: 'Noto Sans JP', sans-serif;
 }
 
@@ -16,7 +17,7 @@ html {
 }
 
 body {
-    font-family: var(--font-noto);
+    font-family: var(--font-body);
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.8;
@@ -56,7 +57,7 @@ body {
 }
 
 .top-nav .logo {
-    font-family: var(--font-oswald);
+    font-family: var(--font-heading);
     font-size: 1.2rem;
     font-weight: 700;
     letter-spacing: 0.2em;
@@ -72,7 +73,7 @@ body {
 .nav-links a {
     text-decoration: none;
     color: #888;
-    font-family: var(--font-oswald);
+    font-family: var(--font-heading);
     font-size: 0.8rem;
     font-weight: 400;
     text-transform: uppercase;
@@ -141,11 +142,11 @@ header {
     margin-bottom: 1.5rem;
     letter-spacing: 0.2em;
     backdrop-filter: blur(5px);
-    font-family: var(--font-oswald);
+    font-family: var(--font-heading);
     text-transform: uppercase;
 }
 .hero-content h1 {
-    font-family: var(--font-oswald);
+    font-family: var(--font-heading);
     font-size: 5rem;
     font-weight: 700;
     line-height: 1.1;
@@ -175,7 +176,7 @@ header {
     animation: fadeIn 1s ease-out forwards 1.5s;
 }
 .scroll-text {
-    font-family: var(--font-oswald);
+    font-family: var(--font-heading);
     font-size: 0.8rem;
     letter-spacing: 0.3em;
     margin-bottom: 10px;
@@ -228,7 +229,7 @@ header {
 }
 
 .section-title {
-    font-family: var(--font-oswald);
+    font-family: var(--font-heading);
     font-size: 3rem;
     margin-bottom: 2rem;
     color: var(--text-color);
@@ -290,7 +291,7 @@ header {
 .card-body { padding: 2.5rem; flex: 1; display: flex; flex-direction: column; }
 .card-cat {
     color: var(--primary-color);
-    font-family: var(--font-oswald);
+    font-family: var(--font-heading);
     font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -317,7 +318,7 @@ header {
 }
 .form-group label {
     display: block;
-    font-family: var(--font-oswald);
+    font-family: var(--font-heading);
     font-size: 0.8rem;
     letter-spacing: 0.2em;
     color: var(--primary-color);
@@ -332,7 +333,7 @@ input, textarea {
     padding: 15px 0;
     color: var(--text-color);
     font-size: 1rem;
-    font-family: var(--font-noto);
+    font-family: var(--font-body);
     outline: none;
     transition: 0.5s;
 }
@@ -345,7 +346,7 @@ input:focus, textarea:focus {
     background: var(--text-color);
     color: var(--bg-color);
     border: none;
-    font-family: var(--font-oswald);
+    font-family: var(--font-heading);
     font-size: 1rem;
     font-weight: 700;
     letter-spacing: 0.4em;
@@ -391,7 +392,7 @@ input:focus, textarea:focus {
 
 .profile-table th {
     width: 30%;
-    font-family: var(--font-oswald);
+    font-family: var(--font-heading);
     font-size: 0.8rem;
     letter-spacing: 0.2em;
     color: var(--primary-color);
@@ -417,7 +418,7 @@ footer {
     flex-wrap: wrap; gap: 2rem;
 }
 .footer-logo { 
-    font-family: var(--font-oswald); 
+    font-family: var(--font-heading); 
     font-size: 1.5rem; 
     font-weight: 700; 
     letter-spacing: 0.2em;
@@ -427,7 +428,7 @@ footer {
 }
 .footer-links a {
     color: #888; text-decoration: none; margin-left: 2rem; transition: 0.3s;
-    font-family: var(--font-oswald); font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;
+    font-family: var(--font-heading); font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;
 }
 .footer-links a:hover { color: var(--primary-color); }
 
