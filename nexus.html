@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<!--
+  Template: NEXUS v1.0
+  Author: Haruki Tominaga
+  License: https://amix-design.com/tominaga/eyan-theme/license 
+  © 2025 EYAN / トミナガハルキ
+-->
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="robots" content="noindex, nofollow">
+    
+    <title>Template - NEXUS</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    
+    <style>
+        /* * ▼▼ カラー設定 ▼▼
+         * サイト全体の色を変更したい場合はここを編集してください 
+         */
+        :root {
+            /* メインカラー（ロゴや見出しに使用） */
+            --primary-color: #0056b3;
+            /* アクセントカラー（強調部分に使用） */
+            --accent-color: #00a8ff;
+            /* 背景色 */
+            --bg-color: #f4f7f9;
+            /* 基本文字色 */
+            --text-color: #333333;
+        }
+
+        /* リセットCSS & 基本設定 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Jost', 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* * 3D背景 (Canvas) */
+        #webgl-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* * ヘッダーセクション */
+        header {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .hero-content {
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out forwards 0.5s;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-label {
+            display: inline-block;
+            background: rgba(0, 86, 179, 0.1);
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.1em;
+            backdrop-filter: blur(5px);
+        }
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+        .hero-desc {
+            font-size: 1.1rem;
+            color: #444;
+            margin-bottom: 3rem;
+            font-weight: 500;
+        }
+
+        /* * スクロールインジケーター */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards 1.5s;
+        }
+        .scroll-text {
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: rgba(0,0,0,0.1);
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 50%;
+            background: var(--primary-color);
+            animation: scrollDown 2s infinite;
+        }
+        @keyframes scrollDown {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(200%); }
+        }
+
+        /* * フリーテキストエリア（モダン化） */
+        .section { padding: 8rem 0; }
+        
+        .text-section {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            margin-bottom: 8rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 0.8s;
+            position: relative;
+            overflow: hidden;
+        }
+        .text-section::before {
+            content: '';
+            position: absolute; top: 0; left: 0; width: 6px; height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+        }
+        .section-title span {
+            font-weight: 700;
+            display: block;
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            color: #999;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+        
+        #message-body { font-size: 1.1rem; color: #333; }
+
+        /* * サービス/事業内容グリッド */
+        .grid-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        .card {
+            background: #fff;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 86, 179, 0.15);
+        }
+        .card-img-wrap {
+            width: 100%; height: 220px;
+            background: #f0f0f0;
+            overflow: hidden;
+            position: relative;
+        }
+        .card-img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: 0.6s;
+        }
+        .card:hover .card-img { transform: scale(1.1); }
+
+        .card-body { padding: 2rem; flex: 1; display: flex; flex-direction: column; }
+        .card-cat {
+            color: var(--accent-color);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+        .card-title { font-size: 1.25rem; margin-bottom: 1rem; font-weight: 700; }
+        .card-desc { font-size: 0.9rem; color: #666; font-weight: 400; line-height: 1.6; }
+
+        /* * 会社概要セクション */
+        .company-profile-section {
+            background: #fff;
+            padding: 6rem 0;
+            margin-top: 6rem;
+            position: relative;
+            border-top: 1px solid #eee;
+        }
+        .profile-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .profile-header { text-align: center; margin-bottom: 3rem; }
+        .profile-table { width: 100%; border-collapse: collapse; }
+        .profile-table th, .profile-table td {
+            padding: 1.5rem; text-align: left; border-bottom: 1px solid #eee;
+        }
+        .profile-table th { width: 30%; color: #888; font-weight: 500; font-size: 0.9rem; }
+        .profile-table td { font-weight: 500; }
+
+        /* * フッター */
+        footer {
+            background: #111;
+            color: #fff;
+            padding: 5rem 0;
+        }
+        .footer-content {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            flex-wrap: wrap; gap: 3rem;
+        }
+        .footer-logo { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
+        .footer-links a {
+            color: #aaa; text-decoration: none; margin-right: 2rem; transition: 0.3s;
+            font-size: 0.9rem;
+        }
+        .footer-links a:hover { color: #fff; }
+
+        /* * アニメーション定義 */
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 1; } }
+        .visible { opacity: 1 !important; transform: translateY(0) !important; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .text-section { padding: 2rem; }
+            .grid-wrapper { grid-template-columns: 1fr; }
+            .profile-table th, .profile-table td { display: block; width: 100%; padding: 0.5rem 0; border: none; }
+            .profile-table th { margin-top: 1rem; font-size: 0.8rem; }
+            .profile-table tr { border-bottom: 1px solid #eee; display: block; padding-bottom: 1rem; }
+            .footer-content { flex-direction: column; }
+        }
+        
+        /* * モーダル */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: 0.3s;
+            padding: 1rem;
+            backdrop-filter: blur(5px);
+        }
+        .modal.active { opacity: 1; visibility: visible; }
+        .modal-content {
+            background: #fff; max-width: 800px; width: 100%;
+            border-radius: 8px; overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .modal-img { width: 100%; max-height: 50vh; object-fit: cover; cursor: pointer; }
+        .modal-body { padding: 2.5rem; }
+    </style>
+</head>
+<body>
+
+    <canvas id="webgl-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <div class="hero-content">
+                <span id="company-tag" class="hero-label"></span>
+                <h1 id="company-name"></h1>
+                <p id="company-desc" class="hero-desc"></p>
+            </div>
+            
+            <div class="scroll-indicator">
+                <div class="scroll-text">SCROLL</div>
+                <div class="scroll-line"></div>
+            </div>
+        </header>
+
+        <section class="section">
+            <div id="message-area" class="text-section">
+                <h2 class="section-title">
+                    <span>Philosophy</span>
+                    <div id="message-title"></div>
+                </h2>
+                <div id="message-body"></div>
+            </div>
+
+            <div class="section-title" style="margin-bottom: 3rem; text-align: center;">
+                <span>Works & Services</span>
+                Selected Projects
+            </div>
+            
+            <div id="service-grid" class="grid-wrapper"></div>
+        </section>
+    </div>
+
+    <section class="company-profile-section">
+        <div class="profile-container">
+            <div class="profile-header">
+                <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;">Company Overview</h2>
+                <p style="color: #888; font-size: 0.9rem;">会社概要</p>
+            </div>
+            <table class="profile-table">
+                <tr><th>社名</th><td id="profile-name"></td></tr>
+                
+                <tr><th>設立</th><td>2015年 4月 1日</td></tr>
+                <tr><th>代表者</th><td>代表取締役 山田 太郎</td></tr>
+                <tr><th>所在地</th><td>〒100-0000<br>東京都千代田区大手町 0-1-2 イマジナリービルディング 25F</td></tr>
+                <tr><th>事業内容</th><td>システム開発事業 / デザインコンサルティング / AIソリューション導入</td></tr>
+            </table>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div>
+                <div id="footer-name" class="footer-logo"></div>
+                <p style="color: #666; font-size: 0.9rem;">&copy; <span id="year"></span> All Rights Reserved.</p>
+            </div>
+            <div id="footer-links" class="footer-links"></div>
+        </div>
+    </footer>
+
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img id="modal-img" class="modal-img" src="" onclick="closeModal()" title="クリックで閉じる">
+            
+            <div class="modal-body">
+                <span id="modal-cat" style="color: var(--primary-color); font-weight: bold; font-size: 0.8rem;"></span>
+                <h3 id="modal-title" style="font-size: 1.5rem; margin: 0.5rem 0 1rem;"></h3>
+                <div id="modal-desc" style="color: #666; line-height: 1.8;"></div>
+                
+                <button onclick="closeModal()" style="margin-top: 1.5rem; padding: 0.8rem 2.5rem; background: #333; color:#fff; border:none; cursor:pointer; border-radius:4px;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * ============================================================
+         * ★ 設定エリア (CONFIG)
+         * このセクションを編集するだけで、サイトの文字や画像を入れ替えられます。
+         * ============================================================
+         */
+        const config = {
+            // ▼ サイトの基本情報
+            name: "NEXUS TECHNOLOGIES", // 会社名・サイト名
+            tag: "Digital Solutions",     // ロゴ上の小さなタグテキスト
+            
+            // ▼ メインビジュアルの説明文 (\n で改行)
+            description: "テクノロジーで未来を加速させる。\n私たちはビジネスの課題をデジタルの力で解決するパートナーです。",
+            
+            // ▼ Philosophy（企業理念）セクション
+            message: {
+                title: "Our Philosophy",
+                // <br> で改行できます
+                text: "変化の激しい現代において、変わらない価値を提供し続けること。<br>私たちは技術力と創造性を融合させ、クライアントのビジョンを現実のものにします。<br><br>単なるシステム開発ではなく、ビジネスの成長そのものをデザインするエンジニアリング集団です。"
+            },
+            
+            // ▼ フッターのリンク (URLと表示名を変更可能)
+            links: [
+                { label: "Facebook", url: "#" },
+                { label: "Instagram", url: "#" },
+                { label: "Contact", url: "mailto:info@example.com" }
+            ],
+
+            // ▼ 実績・サービス紹介パネルの設定
+            // 番号は 1, 2, 3... と続けてください。
+            // 必要な数だけ記述すれば、その分だけパネルが表示されます。
+            customItems: {
+                1: { 
+                    title: "System Development",  // タイトル
+                    cat: "Service",               // カテゴリ（青文字）
+                    desc: "堅牢かつスケーラブルな基幹システムの構築。", // 一覧画面での短い説明
+                    modalDesc: "【詳細】金融機関向けの勘定系システムから、スタートアップ向けのMVP開発まで幅広く対応。<br>マイクロサービスアーキテクチャを採用し、将来的な拡張性を担保したシステム設計を行います。", // モーダル内の詳細説明（HTMLタグ使用可）
+                    image: "image/image1.jpg" // 画像パス（imageフォルダに入れてファイル名を指定）
+                },
+                2: { 
+                    title: "Mobile Apps", 
+                    cat: "App", 
+                    desc: "iOS/Android向けのネイティブアプリ開発。",
+                    modalDesc: "FlutterやReact Nativeを用いたクロスプラットフォーム開発により、コストを抑えつつ高品質なアプリを提供。<br>UI/UXデザインからストア申請までワンストップでサポートします。",
+                    image: "image/image2.jpg"
+                },
+                3: { 
+                    title: "Cloud Infrastructure", 
+                    cat: "Infrastructure", 
+                    desc: "AWS/GCPを活用した高可用性サーバー構築。",
+                    modalDesc: "24時間365日の安定稼働を実現するクラウドインフラの設計・構築。<br>TerraformによるIaC化を推進し、運用コストの削減とセキュリティ強化を両立させます。",
+                    image: "image/image3.jpg"
+                },
+                4: { 
+                    title: "IoT Solutions", 
+                    cat: "IoT", 
+                    desc: "工場や物流現場のデジタル化を支援するセンサー連携システム。",
+                    modalDesc: "エッジデバイスからクラウドへのデータ収集基盤を構築。<br>リアルタイムなデータ可視化により、予知保全や業務効率化に貢献するスマートファクトリー化を実現します。",
+                    image: "image/image4.jpg"
+                },
+                5: { 
+                    title: "Data Analytics", 
+                    cat: "Data Science", 
+                    desc: "ビッグデータ解析による経営意思決定サポート。",
+                    modalDesc: "売上データや顧客行動ログの収集・分析基盤を構築。<br>TableauやPower BIを用いたダッシュボード開発により、直感的なデータドリブン経営を支援します。",
+                    image: "image/image5.jpg"
+                },
+                6: { 
+                    title: "EC Platform", 
+                    cat: "E-Commerce", 
+                    desc: "売上最大化を目指すヘッドレスコマース開発。",
+                    modalDesc: "Shopify Plusや独自構築によるECサイトのリニューアル。<br>CRM連携やMAツール導入を含めたマーケティング施策まで、オンライン販売の成長をトータルサポートします。",
+                    image: "image/image6.jpg"
+                }
+            }
+        };
+
+        /* * ============================================================
+         * ▼▼ プログラム本体（ここから下は変更不要） ▼▼
+         * ============================================================
+         */
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('company-name').innerHTML = config.name;
+            document.getElementById('footer-name').innerHTML = config.name;
+            document.getElementById('profile-name').innerHTML = config.name;
+            document.getElementById('company-tag').textContent = config.tag;
+            document.getElementById('company-desc').innerHTML = config.description.replace(/\n/g, '<br>');
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            if (config.message && config.message.text) {
+                document.getElementById('message-title').textContent = config.message.title;
+                document.getElementById('message-body').innerHTML = config.message.text;
+            } else {
+                document.getElementById('message-area').style.display = 'none';
+            }
+
+            const linksArea = document.getElementById('footer-links');
+            config.links.forEach(link => {
+                const a = document.createElement('a');
+                a.href = link.url;
+                a.textContent = link.label;
+                linksArea.appendChild(a);
+            });
+
+            // グリッド生成
+            const grid = document.getElementById('service-grid');
+            const maxImages = 18; // ループ最大値（設定がない場合は表示されないので安全）
+
+            for (let i = 1; i <= maxImages; i++) {
+                // デフォルトのフォールバック情報（設定漏れ防止）
+                let itemData = {
+                    title: `Project ${String(i).padStart(2, '0')}`,
+                    cat: "Work",
+                    desc: "Project description goes here.",
+                    modalDesc: null, 
+                    image: `image/image${i}.jpg`
+                };
+
+                // 設定があれば上書き
+                if (config.customItems[i]) {
+                    Object.assign(itemData, config.customItems[i]);
+                } else {
+                    // 設定がない番号はスキップ（表示しない）
+                    continue;
+                }
+
+                const el = document.createElement('div');
+                el.className = 'card';
+                // アニメーションのズレ演出
+                el.style.transitionDelay = `${(i % 3) * 0.1}s`;
+                
+                el.innerHTML = `
+                    <div class="card-img-wrap">
+                        <img src="${itemData.image}" class="card-img" alt="${itemData.title}">
+                    </div>
+                    <div class="card-body">
+                        <span class="card-cat">${itemData.cat}</span>
+                        <h3 class="card-title">${itemData.title}</h3>
+                        <p class="card-desc">${itemData.desc}</p>
+                    </div>
+                `;
+
+                const imgTag = el.querySelector('img');
+                // 画像読み込みエラー時は非表示にする処理
+                imgTag.onerror = function() {
+                    el.style.display = 'none';
+                    el.classList.add('hidden-card');
+                };
+                imgTag.onload = function() {
+                    el.onclick = () => openModal(itemData);
+                }
+                grid.appendChild(el);
+            }
+
+            // スクロール監視（ふわっと表示させる処理）
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.getElementById('message-area').classList.add('fade-target');
+            observer.observe(document.getElementById('message-area'));
+            
+            setTimeout(() => {
+                document.querySelectorAll('.card').forEach(card => {
+                    if (card.style.display !== 'none') {
+                        observer.observe(card);
+                    }
+                });
+            }, 500);
+
+            initThreeJS();
+        });
+
+        // モーダル制御
+        const modal = document.getElementById('modal');
+        function openModal(item) {
+            document.getElementById('modal-img').src = item.image;
+            document.getElementById('modal-title').textContent = item.title;
+            document.getElementById('modal-cat').textContent = item.cat;
+            
+            // モーダル用テキストがあればそれを、なければ一覧用テキストを表示
+            const content = item.modalDesc ? item.modalDesc : item.desc;
+            document.getElementById('modal-desc').innerHTML = content;
+            
+            modal.classList.add('active');
+        }
+        function closeModal() {
+            modal.classList.remove('active');
+            setTimeout(() => { document.getElementById('modal-img').src = ''; }, 300);
+        }
+
+        // Three.js 背景（変更なし）
+        function initThreeJS() {
+            const canvas = document.getElementById('webgl-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 30;
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            const particlesGeometry = new THREE.BufferGeometry();
+            const count = 400;
+            const posArray = new Float32Array(count * 3);
+            for(let i = 0; i < count * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 80;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const material = new THREE.PointsMaterial({
+                size: 0.15,
+                color: 0x0056b3, // ※ここもprimary-colorと合わせると綺麗ですがJSなので今回はコメントのみ
+                transparent: true,
+                opacity: 0.8,
+            });
+            const particlesMesh = new THREE.Points(particlesGeometry, material);
+            scene.add(particlesMesh);
+            let mouseX = 0;
+            let mouseY = 0;
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX / window.innerWidth - 0.5;
+                mouseY = event.clientY / window.innerHeight - 0.5;
+            });
+            const clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+                particlesMesh.rotation.y = elapsedTime * 0.05;
+                particlesMesh.rotation.x = elapsedTime * 0.02;
+                particlesMesh.rotation.x += mouseY * 0.05;
+                particlesMesh.rotation.y += mouseX * 0.05;
+                renderer.render(scene, camera);
+            }
+            animate();
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+    </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"edff3d709f6e4536b5cdd493679d29f0","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9f6d77533c4df611',t:'MTc3Nzk2MDIxMA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

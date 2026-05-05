@@ -4,101 +4,151 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGO Partners | ビジネスの伴走者</title>
-    <meta name="description" content="「成功」は語らない。失敗という最強の教科書と、最後まで走り抜くための「伴走」。SGO Partnersは起業前から新規事業立ち上げ、
-    既存事業の更なる推進、組織変革、ビジネスオーナーのメンタルケアまで一貫してサポートするビジネスパートナーです。">
+    <meta name="description" content="「成功」は語らない。失敗という最強の教科書と、最後まで走り抜くための「伴走」。SGO Partnersは起業前から新規事業立ち上げ、既存事業の更なる推進、組織変革、ビジネスオーナーのメンタルケアまで一貫してサポートするビジネスパートナーです。">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 </head>
 <body>
-    <header class="header">
-        <div class="logo">SGO PARTNERS.</div>
-        <nav class="nav">
-            <a href="#philosophy">Philosophy</a>
-            <a href="#services">Services</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
 
-    <main>
-        <section class="hero">
-            <div class="hero-bg"></div>
+    <!-- 3D Background Canvas -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <div class="container">
+        <!-- Header / Hero Section -->
+        <header>
             <div class="hero-content">
-                <span class="hero-subtitle">Business Partner · Navigator · Mentor</span>
+                <span class="hero-label">Business Partner · Navigator · Mentor</span>
                 <h1>SGO<br><span>PARTNERS</span></h1>
-                <p>戦略策定から現場の実働支援まで。SGO Partners は、貴社の挑戦に「並走」し、本質的な価値を形にする総合事業支援パートナーです。</p>
+                <p class="hero-desc">戦略策定から現場の実働支援まで。SGO Partners は、貴社の挑戦に「並走」し、本質的な価値を形にする総合事業支援パートナーです。</p>
             </div>
-        </section>
-
-        <section id="philosophy" class="container">
-            <h2 class="section-title">Philosophy</h2>
-            <div class="philosophy-grid">
-                <div>
-                    <h3 style="font-family: var(--font-noto); font-size: 1.8rem; margin-bottom: 20px;">～事業を深化させ、確かな未来へ～</h3>
-                </div>
-                <div class="philosophy-text">
-                    <p>戦略策定から現場の実働支援まで。<br>SGO Partners は、挑戦する皆様と「並走」し、本質的な価値を形にする総合事業支援パートナーです。</p>
-                    <p class="philosophy-highlight">誰かの「成功体験」は万人には当てはまらない。<br>私たちが共有したいのは
-                        「失敗事例」という最強の教科書。そして、最後まで諦めずに走り抜く「伴走」です。</p>
-                    <p>積み上げられた知識と現場感覚を融合。貴社の挑戦に限界を設けず、その先に待つ景色を共に見据えます。</p>
-                </div>
+            
+            <div class="scroll-indicator">
+                <div class="scroll-text">SCROLL</div>
+                <div class="scroll-line"></div>
             </div>
-        </section>
+        </header>
 
-        <section id="services" class="container">
-            <h2 class="section-title">Our Expertise</h2>
-            <div class="service-grid">
-                <div class="service-card">
-                    <div class="number">01</div>
-                    <h3>Strategic Branding</h3>
-                    <p>自社の本質的な強みを抽出し、市場での立ち位置を再定義。一過性の流行ではない、10年先、さらにその先にある未来を見据えたブランド基盤を構築します。</p>
-                </div>
-                <div class="service-card">
-                    <div class="number">02</div>
-                    <h3>Business Execution</h3>
-                    <p>助言のみに留まらず、伴走する実働部隊として現場の課題を解決。起業前・新規事業の立ち上げから組織構築まで、あらゆるプロセスに深く介入し、確かな成果へと繋げます。</p>
+        <!-- Main Content Sections -->
+        <section class="section">
+            
+            <!-- Philosophy Section -->
+            <div id="philosophy-area" class="text-section">
+                <h2 class="section-title">
+                    <span>Philosophy</span>
+                    ～事業を深化させ、確かな未来へ～
+                </h2>
+                <div id="message-body">
+                    戦略策定から現場の実働支援まで。<br>
+                    SGO Partners は、挑戦する皆様と「並走」し、本質的な価値を形にする総合事業支援パートナーです。<br><br>
+                    誰かの「成功体験」は万人には当てはまらない。<br>
+                    私たちが共有したいのは「失敗事例」という最強の教科書。そして、最後まで諦めずに走り抜く「伴走」です。<br><br>
+                    積み上げられた知識と現場感覚を融合。貴社の挑戦に限界を設けず、その先に待つ景色を共に見据えます。
                 </div>
             </div>
-        </section>
 
-        <section id="contact" class="container">
-            <h2 class="section-title">Contact</h2>
-            <div class="contact-container">
-                <div id="contact-form-wrapper">
-                    <form id="contact-form" action="https://formsubmit.co/ajax/pigumaruke+01@gmail.com" method="POST">
-                        <!-- スパム対策: ハニーポット -->
-                        <input type="text" name="_honey" style="display:none">
-                        <!-- 件名設定 -->
-                        <input type="hidden" name="_subject" value="【HPお問い合わせ】新規メッセージが届きました">
-                        <!-- キャプチャ無効（AJAX利用のため） -->
-                        <input type="hidden" name="_captcha" value="false">
-
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" name="name" placeholder="FULL NAME" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <input type="email" name="email" id="email-input" placeholder="EMAIL@DOMAIN.COM" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Your Message</label>
-                            <textarea name="message" rows="5" placeholder="DESCRIBE YOUR INQUIRY..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn-submit" id="submit-btn">Send Message</button>
-                    </form>
+            <!-- Services Section -->
+            <div class="section-title" style="margin-bottom: 3rem; text-align: center;">
+                <span>Works & Services</span>
+                Our Expertise
+            </div>
+            
+            <div class="grid-wrapper">
+                <!-- Service 1 -->
+                <div class="card" onclick="openModal('Strategic Branding', 'Branding', '自社の本質的な強みを抽出し、市場での立ち位置を再定義。一過性の流行ではない、10年先、さらにその先にある未来を見据えたブランド基盤を構築します。', 'luxury-hero.png')" style="transition-delay: 0s;">
+                    <div class="card-img-wrap">
+                        <img src="luxury-hero.png" class="card-img" alt="Strategic Branding">
+                    </div>
+                    <div class="card-body">
+                        <span class="card-cat">Branding</span>
+                        <h3 class="card-title">Strategic Branding</h3>
+                        <p class="card-desc">自社の本質的な強みを抽出し、市場での立ち位置を再定義。一過性の流行ではない、10年先、さらにその先にある未来を見据えたブランド基盤を構築します。</p>
+                    </div>
                 </div>
-                <div id="contact-success" style="display: none; text-align: center; padding: 40px; border: 1px solid var(--accent-color); background: rgba(230,0,0,0.05);">
-                    <h3 style="font-family: var(--font-oswald); font-size: 1.5rem; color: var(--accent-color); margin-bottom: 20px;">MESSAGE SENT</h3>
-                    <p style="color: var(--sub-text); font-weight: 300;">お問い合わせありがとうございます。内容を確認の上、担当者よりご連絡いたします。</p>
-                    <button onclick="resetForm()" style="margin-top: 30px; background: transparent; border: 1px solid var(--border-color); color: var(--sub-text); padding: 10px 20px; font-family: var(--font-oswald); cursor: pointer; letter-spacing: 0.2em; font-size: 0.7rem;">BACK TO FORM</button>
+
+                <!-- Service 2 -->
+                <div class="card" onclick="openModal('Business Execution', 'Consulting', '助言のみに留まらず、伴走する実働部隊として現場の課題を解決。起業前・新規事業の立ち上げから組織構築まで、あらゆるプロセスに深く介入し、確かな成果へと繋げます。', 'luxury-texture.png')" style="transition-delay: 0.1s;">
+                    <div class="card-img-wrap">
+                        <img src="luxury-texture.png" class="card-img" alt="Business Execution">
+                    </div>
+                    <div class="card-body">
+                        <span class="card-cat">Consulting</span>
+                        <h3 class="card-title">Business Execution</h3>
+                        <p class="card-desc">助言のみに留まらず、伴走する実働部隊として現場の課題を解決。起業前・新規事業の立ち上げから組織構築まで、あらゆるプロセスに深く介入し、確かな成果へと繋げます。</p>
+                    </div>
                 </div>
             </div>
-        </section>
-    </main>
 
-    <footer class="footer">
-        <p>&copy; 2026 SGO PARTNERS. All rights reserved.</p>
+        </section>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="contact-container container">
+            <h2 class="section-title" style="text-align: center;">
+                <span>Get in touch</span>
+                Contact Us
+            </h2>
+            
+            <div id="contact-form-wrapper" style="background: rgba(20,20,20,0.6); backdrop-filter: blur(10px); padding: 4rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); margin-top: 3rem;">
+                <form id="contact-form" action="https://formsubmit.co/ajax/pigumaruke+01@gmail.com" method="POST">
+                    <input type="text" name="_honey" style="display:none">
+                    <input type="hidden" name="_subject" value="【HPお問い合わせ】新規メッセージが届きました">
+                    <input type="hidden" name="_captcha" value="false">
+
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="name" placeholder="FULL NAME" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" name="email" id="email-input" placeholder="EMAIL@DOMAIN.COM" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Message</label>
+                        <textarea name="message" rows="5" placeholder="DESCRIBE YOUR INQUIRY..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit" id="submit-btn">Send Message</button>
+                </form>
+            </div>
+            
+            <div id="contact-success" style="display: none; text-align: center; padding: 5rem; background: rgba(20,20,20,0.6); backdrop-filter: blur(10px); border-radius: 12px; border: 1px solid rgba(230,0,0,0.3); margin-top: 3rem;">
+                <h3 style="font-family: var(--font-oswald); font-size: 2rem; color: var(--primary-color); margin-bottom: 20px; letter-spacing: 0.1em;">MESSAGE SENT</h3>
+                <p style="color: #ccc; font-weight: 300;">お問い合わせありがとうございます。内容を確認の上、担当者よりご連絡いたします。</p>
+                <button onclick="resetForm()" class="btn-submit" style="max-width: 300px; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #ccc;">BACK TO FORM</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div>
+                <div class="footer-logo">SGO PARTNERS.</div>
+                <p style="color: #666; font-size: 0.9rem; margin-top: 10px;">&copy; 2026 SGO PARTNERS. All Rights Reserved.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#philosophy">Philosophy</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
     </footer>
+
+    <!-- Modal -->
+    <div id="modal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img id="modal-img" class="modal-img" src="" onclick="closeModal()" title="クリックで閉じる">
+            <div class="modal-body">
+                <span id="modal-cat" style="color: var(--primary-color); font-weight: bold; font-size: 0.8rem; font-family: var(--font-oswald); letter-spacing: 0.2em; text-transform: uppercase;"></span>
+                <h3 id="modal-title" style="font-family: var(--font-oswald); font-size: 2rem; margin: 0.5rem 0 1rem; color: #fff; font-weight: 400; letter-spacing: 0.05em;"></h3>
+                <div id="modal-desc" style="color: #ccc; line-height: 1.8; font-weight: 300;"></div>
+                <button onclick="closeModal()" class="modal-close-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Form Submit Logic
         const form = document.getElementById('contact-form');
         const wrapper = document.getElementById('contact-form-wrapper');
         const successMsg = document.getElementById('contact-success');
@@ -141,6 +191,94 @@
             successMsg.style.display = 'none';
             submitBtn.disabled = false;
             submitBtn.textContent = 'SEND MESSAGE';
+        }
+
+        // Modal Logic
+        const modal = document.getElementById('modal');
+        function openModal(title, cat, desc, image) {
+            document.getElementById('modal-img').src = image;
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-cat').textContent = cat;
+            document.getElementById('modal-desc').innerHTML = desc;
+            modal.classList.add('active');
+        }
+        function closeModal() {
+            modal.classList.remove('active');
+            setTimeout(() => { document.getElementById('modal-img').src = ''; }, 300);
+        }
+
+        // Intersection Observer for Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            observer.observe(document.getElementById('philosophy-area'));
+            
+            setTimeout(() => {
+                document.querySelectorAll('.card').forEach(card => {
+                    observer.observe(card);
+                });
+            }, 500);
+
+            initThreeJS();
+        });
+
+        // Three.js Background Logic (Red particles)
+        function initThreeJS() {
+            const canvas = document.getElementById('webgl-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 30;
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            const particlesGeometry = new THREE.BufferGeometry();
+            const count = 400;
+            const posArray = new Float32Array(count * 3);
+            for(let i = 0; i < count * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 80;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            
+            // SGO Primary Color (Red: #E60000)
+            const material = new THREE.PointsMaterial({
+                size: 0.15,
+                color: 0xE60000, 
+                transparent: true,
+                opacity: 0.8,
+            });
+            const particlesMesh = new THREE.Points(particlesGeometry, material);
+            scene.add(particlesMesh);
+            
+            let mouseX = 0;
+            let mouseY = 0;
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX / window.innerWidth - 0.5;
+                mouseY = event.clientY / window.innerHeight - 0.5;
+            });
+            
+            const clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+                particlesMesh.rotation.y = elapsedTime * 0.05;
+                particlesMesh.rotation.x = elapsedTime * 0.02;
+                particlesMesh.rotation.x += mouseY * 0.05;
+                particlesMesh.rotation.y += mouseX * 0.05;
+                renderer.render(scene, camera);
+            }
+            animate();
+            
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
         }
     </script>
 </body>
