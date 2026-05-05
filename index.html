@@ -3,43 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGO Partners | Suzuki General Office</title>
+    <title>SGO Partners | ビジネスの伴走者</title>
+    <meta name="description" content="「成功」は語らない。失敗という最強の教科書と、最後まで走り抜くための「伴走」。SGO Partnersは起業前から新規事業立ち上げ、
+    既存事業の更なる推進、組織変革、ビジネスオーナーのメンタルケアまで一貫してサポートするビジネスパートナーです。">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header class="header">
         <div class="logo">SGO PARTNERS.</div>
         <nav class="nav">
-            <a href="#about">About</a>
+            <a href="#philosophy">Philosophy</a>
             <a href="#services">Services</a>
             <a href="#contact">Contact</a>
         </nav>
     </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <span class="sub-title">Suzuki General Office</span>
-            <h1>事業を深化させ、<br>確かな未来へ。</h1>
-            <p>戦略策定から現場の実働支援まで。鈴木総合事務所を母体とする SGO Partners は、貴社の挑戦に「並走」し、本質的な価値を形にする総合事業支援パートナーです。</p>
-        </div>
-    </section>
+    <main>
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-content">
+                <span class="hero-subtitle">Business Partner · Navigator · Mentor</span>
+                <h1>SGO<br><span>PARTNERS</span></h1>
+                <p>戦略策定から現場の実働支援まで。SGO Partners は、貴社の挑戦に「並走」し、本質的な価値を形にする総合事業支援パートナーです。</p>
+            </div>
+        </section>
 
-    <section id="services" class="services">
-        <h2>Our Expertise</h2>
-        <div class="service-grid">
-            <div class="service-card">
-                <h3>Strategic Branding</h3>
-                <p>本質的な強みを抽出し、市場での立ち位置を再定義。一過性の流行ではない、10年先を見据えたブランド基盤を構築します。</p>
+        <section id="philosophy" class="container">
+            <h2 class="section-title">Philosophy</h2>
+            <div class="philosophy-grid">
+                <div>
+                    <h3 style="font-family: var(--font-noto); font-size: 1.8rem; margin-bottom: 20px;">～事業を深化させ、確かな未来へ～</h3>
+                </div>
+                <div class="philosophy-text">
+                    <p>戦略策定から現場の実働支援まで。<br>SGO Partners は、挑戦する皆様と「並走」し、本質的な価値を形にする総合事業支援パートナーです。</p>
+                    <p class="philosophy-highlight">誰かの「成功体験」は万人には当てはまらない。<br>私たちが共有したいのは
+                        「失敗事例」という最強の教科書。そして、最後まで諦めずに走り抜く「伴走」です。</p>
+                    <p>積み上げられた知識と現場感覚を融合。貴社の挑戦に限界を設けず、その先に待つ景色を共に見据えます。</p>
+                </div>
             </div>
-            <div class="service-card">
-                <h3>Business Execution</h3>
-                <p>助言のみに留まらず、実働部隊として現場の課題を解決。新規事業の立ち上げから組織構築、法人化までを完遂させます。</p>
+        </section>
+
+        <section id="services" class="container">
+            <h2 class="section-title">Our Expertise</h2>
+            <div class="service-grid">
+                <div class="service-card">
+                    <div class="number">01</div>
+                    <h3>Strategic Branding</h3>
+                    <p>自社の本質的な強みを抽出し、市場での立ち位置を再定義。一過性の流行ではない、10年先、さらにその先にある未来を見据えたブランド基盤を構築します。</p>
+                </div>
+                <div class="service-card">
+                    <div class="number">02</div>
+                    <h3>Business Execution</h3>
+                    <p>助言のみに留まらず、伴走する実働部隊として現場の課題を解決。起業前・新規事業の立ち上げから組織構築まで、あらゆるプロセスに深く介入し、確かな成果へと繋げます。</p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <section id="contact" class="container">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-container">
+                <form>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" placeholder="FULL NAME" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" placeholder="EMAIL@DOMAIN.COM" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Message</label>
+                        <textarea rows="5" placeholder="DESCRIBE YOUR INQUIRY..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
 
     <footer class="footer">
-        <p>&copy; 2026 SGO PARTNERS. (Suzuki General Office) All rights reserved.</p>
+        <p>&copy; 2026 SGO PARTNERS. All rights reserved.</p>
     </footer>
 </body>
 </html>

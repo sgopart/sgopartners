@@ -19,7 +19,7 @@ const notoSansJP = Noto_Sans_JP({
 export const metadata: Metadata = {
   title: "SGO Partners | ビジネスの伴走者",
   description:
-    "「成功」は語らない。失敗という最強の教科書と、最後まで走り抜くための「伴走」。SGO Partnersは起業前から立ち上げ、メンタルケアまで一貫してサポートするビジネスパートナーです。",
+    "「成功」は語らない。失敗という最強の教科書と、最後まで走り抜くための「伴走」。SGO Partnersは起業前から新規事業立ち上げ、既存事業の更なる推進、組織変革、ビジネスオーナーのメンタルケアまで一貫してサポートするビジネスパートナーです。",
   keywords: ["起業支援", "ビジネスコーチング", "伴走", "経営支援", "SGO Partners"],
 };
 

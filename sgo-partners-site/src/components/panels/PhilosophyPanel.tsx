@@ -46,8 +46,8 @@ export default function PhilosophyPanel({ onClose }: Props) {
           </p>
 
           <p className="relative">
-            <span className="text-white/80 font-medium">「成功」は語らない。</span><br />
-            私たちが共有するのは、失敗という最強の教科書と、最後まで走り抜くための「伴走」です。
+            <span className="text-white/80 font-medium">誰かの「成功体験」は万人には当てはまらない。</span><br />
+            私たちが共有したいのは「失敗事例」という最強の教科書。そして、最後まで諦めずに走り抜く「伴走」です。
           </p>
 
           <p>

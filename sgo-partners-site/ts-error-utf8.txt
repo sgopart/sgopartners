@@ -1,0 +1,6 @@
+﻿src/components/Footer.tsx(4,10): error TS2305: Module '"lucide-react"' has no exported member 'Twitter'.
+src/components/Footer.tsx(4,19): error TS2305: Module '"lucide-react"' has no exported member 'Instagram'.
+src/components/Footer.tsx(4,30): error TS2305: Module '"lucide-react"' has no exported member 'Facebook'.
+src/components/Header.tsx(4,10): error TS2305: Module '"lucide-react"' has no exported member 'Twitter'.
+src/components/Header.tsx(4,19): error TS2305: Module '"lucide-react"' has no exported member 'Instagram'.
+src/components/Header.tsx(4,30): error TS2305: Module '"lucide-react"' has no exported member 'Facebook'.
