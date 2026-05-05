@@ -250,7 +250,7 @@ header {
 
 .section-subtitle {
     font-family: var(--font-accent-jp);
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     color: #ccc;
     font-weight: 400;
     letter-spacing: 0.15em;
@@ -510,6 +510,11 @@ footer {
 
     .section-title {
         font-size: 2.2rem;
+    }
+
+    .section-subtitle {
+        font-size: 1.2rem;
+        margin-top: 0.8rem;
     }
 
     .grid-wrapper { 
