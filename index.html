@@ -62,21 +62,28 @@
         <section id="contact" class="container">
             <h2 class="section-title">Contact</h2>
             <div class="contact-container">
-                <form>
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" placeholder="FULL NAME" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Email Address</label>
-                        <input type="email" placeholder="EMAIL@DOMAIN.COM" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Your Message</label>
-                        <textarea rows="5" placeholder="DESCRIBE YOUR INQUIRY..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn-submit">Send Message</button>
-                </form>
+                <div id="contact-form-wrapper">
+                    <form id="contact-form" action="https://formsubmit.co/ajax/pigumaruke+01@gmail.com" method="POST">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" name="name" placeholder="FULL NAME" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" name="email" placeholder="EMAIL@DOMAIN.COM" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Your Message</label>
+                            <textarea name="message" rows="5" placeholder="DESCRIBE YOUR INQUIRY..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit" id="submit-btn">Send Message</button>
+                    </form>
+                </div>
+                <div id="contact-success" style="display: none; text-align: center; padding: 40px; border: 1px solid var(--accent-color); background: rgba(230,0,0,0.05);">
+                    <h3 style="font-family: var(--font-oswald); font-size: 1.5rem; color: var(--accent-color); margin-bottom: 20px;">MESSAGE SENT</h3>
+                    <p style="color: var(--sub-text); font-weight: 300;">お問い合わせありがとうございます。内容を確認の上、担当者よりご連絡いたします。</p>
+                    <button onclick="resetForm()" style="margin-top: 30px; background: transparent; border: 1px solid var(--border-color); color: var(--sub-text); padding: 10px 20px; font-family: var(--font-oswald); cursor: pointer; letter-spacing: 0.2em; font-size: 0.7rem;">BACK TO FORM</button>
+                </div>
             </div>
         </section>
     </main>
@@ -84,5 +91,50 @@
     <footer class="footer">
         <p>&copy; 2026 SGO PARTNERS. All rights reserved.</p>
     </footer>
+    <script>
+        const form = document.getElementById('contact-form');
+        const wrapper = document.getElementById('contact-form-wrapper');
+        const successMsg = document.getElementById('contact-success');
+        const submitBtn = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'SENDING...';
+
+            const formData = new FormData(form);
+            const object = {};
+            formData.forEach((value, key) => object[key] = value);
+            const json = JSON.stringify(object);
+
+            fetch("https://formsubmit.co/ajax/pigumaruke+01@gmail.com", {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+            .then(response => response.json())
+            .then(data => {
+                wrapper.style.display = 'none';
+                successMsg.style.display = 'block';
+            })
+            .catch(error => {
+                console.log(error);
+                alert('送信に失敗しました。時間をおいて再度お試しください。');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'SEND MESSAGE';
+            });
+        });
+
+        function resetForm() {
+            form.reset();
+            wrapper.style.display = 'block';
+            successMsg.style.display = 'none';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'SEND MESSAGE';
+        }
+    </script>
 </body>
 </html>
