@@ -64,13 +64,20 @@
             <div class="contact-container">
                 <div id="contact-form-wrapper">
                     <form id="contact-form" action="https://formsubmit.co/ajax/pigumaruke+01@gmail.com" method="POST">
+                        <!-- スパム対策: ハニーポット -->
+                        <input type="text" name="_honey" style="display:none">
+                        <!-- 件名設定 -->
+                        <input type="hidden" name="_subject" value="【HPお問い合わせ】新規メッセージが届きました">
+                        <!-- キャプチャ無効（AJAX利用のため） -->
+                        <input type="hidden" name="_captcha" value="false">
+
                         <div class="form-group">
                             <label>Name</label>
                             <input type="text" name="name" placeholder="FULL NAME" required>
                         </div>
                         <div class="form-group">
                             <label>Email Address</label>
-                            <input type="email" name="email" placeholder="EMAIL@DOMAIN.COM" required>
+                            <input type="email" name="email" id="email-input" placeholder="EMAIL@DOMAIN.COM" required>
                         </div>
                         <div class="form-group">
                             <label>Your Message</label>
