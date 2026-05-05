@@ -51,7 +51,7 @@
         <section class="section">
 
             <!-- Philosophy Section -->
-            <div id="philosophy-area" class="text-section">
+            <div id="philosophy" class="text-section">
                 <h2 class="section-title">
                     <span>Philosophy</span>
                     ～事業を深化させ、確かな未来へ～
@@ -66,7 +66,7 @@
             </div>
 
             <!-- Services Section -->
-            <div class="section-title" style="margin-bottom: 3rem; text-align: center;">
+            <div id="services" class="section-title" style="margin-bottom: 3rem; text-align: center;">
                 <span>Works & Services</span>
                 Our Expertise
             </div>
@@ -299,7 +299,7 @@
                 });
             }, { threshold: 0.1 });
 
-            observer.observe(document.getElementById('philosophy-area'));
+            observer.observe(document.getElementById('philosophy'));
 
             setTimeout(() => {
                 document.querySelectorAll('.card').forEach(card => {
