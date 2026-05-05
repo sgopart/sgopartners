@@ -251,7 +251,7 @@ header {
 .section-subtitle {
     font-family: var(--font-accent-jp);
     font-size: 1.8rem;
-    color: #ccc;
+    color: #fff;
     font-weight: 400;
     letter-spacing: 0.15em;
     display: block;
