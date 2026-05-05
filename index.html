@@ -20,11 +20,16 @@
         <!-- Top Navigation -->
         <nav class="top-nav">
             <div class="logo">SGO PARTNERS</div>
-            <div class="nav-links">
-                <a href="#philosophy">Philosophy</a>
-                <a href="#services">Services</a>
-                <a href="#company">Company</a>
-                <a href="#contact">Contact</a>
+            <div class="nav-links" id="nav-links">
+                <a href="#philosophy" onclick="closeMenu()">Philosophy</a>
+                <a href="#services" onclick="closeMenu()">Services</a>
+                <a href="#company" onclick="closeMenu()">Company</a>
+                <a href="#contact" onclick="closeMenu()">Contact</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </nav>
 
@@ -268,6 +273,20 @@
         function closeModal() {
             modal.classList.remove('active');
             setTimeout(() => { document.getElementById('modal-img').src = ''; }, 300);
+        }
+
+        // Mobile Menu Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        function closeMenu() {
+            menuToggle.classList.remove('active');
+            navLinks.classList.remove('active');
         }
 
         // Intersection Observer for Animations
