@@ -61,7 +61,7 @@ body {
 
 .top-nav .logo {
     font-family: var(--font-heading);
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 700;
     letter-spacing: 0.2em;
     color: var(--text-color);
@@ -74,7 +74,21 @@ body {
 
 .nav-links {
     display: flex;
-    gap: 40px;
+    gap: 50px;
+    align-items: center;
+}
+.nav-social-links {
+    display: flex;
+    gap: 25px;
+    margin-left: 10px;
+}
+.nav-social-links a {
+    color: #fff;
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+.nav-social-links a:hover {
+    color: var(--primary-color);
 }
 
 .nav-links a {
@@ -482,7 +496,7 @@ footer {
 }
 .footer-social-links a {
     color: #888;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     transition: 0.3s;
     margin: 0 !important;
 }
@@ -541,13 +555,13 @@ footer {
         margin: 0;
     }
     .nav-social-links {
-        margin-top: 1rem;
+        margin-top: 1.5rem;
         display: flex;
-        gap: 2rem;
+        gap: 2.5rem;
     }
     .nav-social-links a {
         color: #fff;
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         transition: 0.3s;
     }
     .nav-social-links a:hover {
@@ -578,10 +592,12 @@ footer {
     }
 
     .section-subtitle {
-        white-space: nowrap;
-        font-size: 1rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        white-space: normal;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        word-break: keep-all;
+        overflow: visible;
+        text-overflow: clip;
     }
 
     .grid-wrapper { 
@@ -612,12 +628,17 @@ footer {
 
     .footer-links {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+        width: 100%;
     }
-
-    .footer-links a { margin: 0 0.5rem; }
+    .footer-links a { margin: 0; }
+    .footer-social-links {
+        margin-top: 1.5rem;
+        width: 100%;
+        justify-content: center;
+    }
 
     .profile-table th, .profile-table td {
         display: block;
