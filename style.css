@@ -605,12 +605,13 @@ footer {
 .modal.active { opacity: 1; visibility: visible; }
 .modal-content {
     background: #111; max-width: 800px; width: 100%;
-    border-radius: 12px; overflow: hidden;
+    max-height: 90vh; overflow-y: auto;
+    border-radius: 12px;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255,255,255,0.1);
 }
 .modal-img { width: 100%; max-height: 50vh; object-fit: cover; cursor: pointer; opacity: 0.8; }
-.modal-body { padding: 3rem; }
+.modal-body { padding: 3rem; line-height: 1.6; }
 .modal-close-btn {
     margin-top: 2rem; padding: 1rem 3rem; background: var(--primary-color); color:#fff; 
     border:none; cursor:pointer; border-radius:4px; font-family: var(--font-oswald); 
