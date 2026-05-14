@@ -474,6 +474,28 @@ footer {
 }
 .footer-links a:hover { color: var(--primary-color); }
 
+.footer-social-links {
+    margin-top: 2rem;
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+}
+.footer-social-links a {
+    color: #888;
+    font-size: 1.2rem;
+    transition: 0.3s;
+    margin: 0 !important;
+}
+.footer-social-links a:hover {
+    color: var(--primary-color);
+    transform: translateY(-3px);
+}
+@media (max-width: 768px) {
+    .footer-social-links {
+        justify-content: center;
+    }
+}
+
 /* * アニメーション定義 */
 @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeIn { to { opacity: 1; } }
@@ -517,6 +539,19 @@ footer {
         font-size: 1.3rem;
         color: #fff;
         margin: 0;
+    }
+    .nav-social-links {
+        margin-top: 1rem;
+        display: flex;
+        gap: 2rem;
+    }
+    .nav-social-links a {
+        color: #fff;
+        font-size: 1.5rem;
+        transition: 0.3s;
+    }
+    .nav-social-links a:hover {
+        color: var(--primary-color);
     }
 
     .hero-content h1 { 
