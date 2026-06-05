@@ -27,10 +27,10 @@
                 <a href="#company" onclick="closeMenu()">Company</a>
                 <a href="#contact" onclick="closeMenu()">Contact</a>
                 <div class="nav-social-links">
-                    <a href="#" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" target="_blank" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="#" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" target="_blank" aria-label="LINE"><i class="fa-brands fa-line"></i></a>
+                    <a href="#" onclick="showUnderConstruction(event)" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" onclick="showUnderConstruction(event)" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" onclick="showUnderConstruction(event)" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" onclick="showUnderConstruction(event)" aria-label="LINE"><i class="fa-brands fa-line"></i></a>
                 </div>
             </div>
             <div class="menu-toggle" id="menu-toggle">
@@ -190,7 +190,7 @@
                     </tr>
                     <tr>
                         <th>関連会社</th>
-                        <td>SGO Entertainment、鈴木総合事務所</td>
+                        <td>SGO Entertainment  /  鈴木総合事務所</td>
                     </tr>
                 </table>
             </div>
@@ -257,10 +257,10 @@
                 <a href="#contact">Contact</a>
                 <a href="privacy.html">Privacy Policy</a>
                 <div class="footer-social-links">
-                    <a href="#" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" target="_blank" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="#" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" target="_blank" aria-label="LINE"><i class="fa-brands fa-line"></i></a>
+                    <a href="#" onclick="showUnderConstruction(event)" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" onclick="showUnderConstruction(event)" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" onclick="showUnderConstruction(event)" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" onclick="showUnderConstruction(event)" aria-label="LINE"><i class="fa-brands fa-line"></i></a>
                 </div>
             </div>
         </div>
@@ -283,6 +283,12 @@
     </div>
 
     <script>
+        // SNS Under Construction Alert
+        function showUnderConstruction(event) {
+            if (event) event.preventDefault();
+            alert("現在制作中です。");
+        }
+
         // Form Submit Logic
         const form = document.getElementById('contact-form');
         const wrapper = document.getElementById('contact-form-wrapper');
