@@ -10,6 +10,14 @@
     <link rel="stylesheet" href="style.css?v=202605051752">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <!-- Google Analytics (GA4) -->
+    <script src="ga.js"></script>
+    
+    <!-- Favicon / Mobile Icons -->
+    <link rel="icon" href="favicon.ico" sizes="32x32">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
 </head>
 
 <body>
@@ -209,7 +217,7 @@
 
             <div id="contact-form-wrapper"
                 style="background: rgba(20,20,20,0.6); backdrop-filter: blur(10px); padding: 4rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); margin-top: 3rem;">
-                <form id="contact-form" action="https://formsubmit.co/ajax/pigumaruke+01@gmail.com" method="POST">
+                <form id="contact-form" action="https://formsubmit.co/ajax/info@sgopartners.jp" method="POST">
                     <input type="text" name="_honey" style="display:none">
                     <input type="hidden" name="_subject" value="【HPお問い合わせ】新規メッセージが届きました">
                     <input type="hidden" name="_captcha" value="false">
@@ -306,7 +314,7 @@
             formData.forEach((value, key) => object[key] = value);
             const json = JSON.stringify(object);
 
-            fetch("https://formsubmit.co/ajax/pigumaruke+01@gmail.com", {
+            fetch("https://formsubmit.co/ajax/info@sgopartners.jp", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
