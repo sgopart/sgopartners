@@ -6,4 +6,4 @@ compatibility_date = "2024-09-23"
 [[d1_databases]]
 binding = "DB"
 database_name = "sgo-db"
-database_id = "sgo-db"
+database_id = "4b0f4b43-01c4-4f82-b4c4-c0e3cfcd614a"
