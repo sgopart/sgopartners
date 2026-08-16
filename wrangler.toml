@@ -1,0 +1,9 @@
+name = "sgopartners"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-09-23"
+
+# Cloudflare D1 データベースバインディング
+[[d1_databases]]
+binding = "DB"
+database_name = "sgo-db"
+database_id = "sgo-db"
