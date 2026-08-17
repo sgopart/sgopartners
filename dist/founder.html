@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOUNDER'S BACKBONE | SGO Partners</title>
+    <meta name="description"
+        content="SGO Partners 代表 Keigo Suzuki のバックボーン。現場叩き上げ、25年の事業経営、挫折と再起、そして他者の挑戦を支える創業の原点について。">
+    <link rel="stylesheet" href="style.css?v=202605051800">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <!-- Google Analytics (GA4) -->
+    <script src="ga.js"></script>
+
+    <!-- Favicon / Mobile Icons -->
+    <link rel="icon" href="favicon.ico" sizes="32x32">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+</head>
+
+<body>
+
+    <!-- 3D Background Canvas -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <div class="container">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <a href="/" class="logo">SGO <span>PARTNERS</span></a>
+            <div class="nav-links" id="nav-links">
+                <a href="/" style="color: var(--accent-color); font-weight: 700;">TOP (無料相談)</a>
+                <a href="corporate.html#philosophy">Philosophy</a>
+                <a href="corporate.html#services">Services</a>
+                <a href="corporate.html#company">Company</a>
+                <a href="corporate.html#contact" class="nav-contact-btn">Contact</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle" aria-label="メニュー開閉">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="section" style="padding-top: 8rem; min-height: 80vh;">
+            <div class="text-section visible" style="max-width: 860px; margin: 0 auto; opacity: 1 !important; transform: none !important;">
+                
+                <!-- Section Header -->
+                <div style="margin-bottom: 3.5rem;">
+                    <div style="display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(230,0,0,0.3); background: rgba(230,0,0,0.06); padding: 6px 14px; border-radius: 20px; margin-bottom: 1.2rem;">
+                        <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--primary-color);"></span>
+                        <span style="font-family: var(--font-oswald); font-size: 0.85rem; letter-spacing: 0.15em; color: var(--primary-color);">ORIGIN & STORY</span>
+                    </div>
+                    <h1 class="section-title" style="font-size: clamp(2rem, 4vw, 3rem); text-align: left; margin-bottom: 0.5rem;">
+                        <span>Backbone</span>
+                        FOUNDER'S BACKBONE
+                        <span class="section-title-jp" style="margin-top: 0.4rem; font-size: 1.1rem; color: #aaa;">代表の歩みと原点</span>
+                    </h1>
+                </div>
+
+                <!-- Core Quote Banner -->
+                <div style="background: linear-gradient(135deg, rgba(20,28,45,0.7) 0%, rgba(10,14,22,0.85) 100%); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid var(--primary-color); padding: 2rem 2.5rem; border-radius: 6px; margin-bottom: 3rem; backdrop-filter: blur(10px);">
+                    <h2 style="font-size: clamp(1.15rem, 2.2vw, 1.45rem); color: #ffffff; font-weight: 700; line-height: 1.6; margin: 0;">
+                        「成功」は語らない。<br>
+                        現場の泥臭さも、挫折の痛みも知るからこそ、最後まで共に挑む。
+                    </h2>
+                </div>
+
+                <!-- Story Narrative Body -->
+                <div id="message-body" style="font-size: 1rem; line-height: 2.1; color: #ddd; text-align: justify;">
+                    
+                    <h3 style="font-size: 1.15rem; color: var(--primary-color); font-family: var(--font-oswald); letter-spacing: 0.08em; margin: 2.5rem 0 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem;">
+                        01 / 現場叩き上げと表現の追求
+                    </h3>
+                    <p style="margin-bottom: 1.5rem;">
+                        学生時代より、多様な業種でのアルバイトを経験。新卒で建築業界へ身を投じ、徹底した現場主義を貫きながら役職者へとキャリアを重ねていきました。
+                        その一方、ギタリストとしての音楽活動を並行し、メジャーシーンでの活動も経験。
+                        その後、自身の音楽活動が順調になったタイミングで独立系音楽レーベルおよび音楽マネジメント事務所、さらに建築設備設計施工管理会社を設立しました。
+                    </p>
+
+                    <h3 style="font-size: 1.15rem; color: var(--primary-color); font-family: var(--font-oswald); letter-spacing: 0.08em; margin: 2.5rem 0 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem;">
+                        02 / 四半世紀の経営、そして最大の挫折と再起
+                    </h3>
+                    <p style="margin-bottom: 1.5rem;">
+                        今年で会社経営歴は四半世紀（25年）を数えます。順風満帆な時期ばかりではありませんでした。
+                        約15年前、難病による長期闘病を余儀なくされ、それに伴う心身の疲弊も重なり、苦痛の思いで一度「会社を解散」させるという大きな挫折を経験しました。
+                        事業のすべてを失いかけた苦境の中で、家族や周りの温かいサポートを受け、再び前を向き、一歩ずつ再起を果たして今に至ります。
+                    </p>
+
+                    <h3 style="font-size: 1.15rem; color: var(--primary-color); font-family: var(--font-oswald); letter-spacing: 0.08em; margin: 2.5rem 0 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem;">
+                        03 / 事業支援を始めたキッカケと、最大のやりがい
+                    </h3>
+                    <p style="margin-bottom: 1.5rem;">
+                        自身が再起を果たす中で、周囲から起業の相談や新規事業立ち上げ、組織運営に関する相談を頻繁に受けるようになりました。
+                        相談に親身に向き合い、現場で共に手を動かす中で気づいたのは、<strong style="color: #ffffff; background: rgba(230,0,0,0.15); padding: 2px 6px;">「自分自身の成功以上に、他者の挑戦が実を結び、目標が達成された瞬間にこそ、何物にも代えがたい充実感と喜び、やりがいがある」</strong>ということでした。
+                    </p>
+
+                    <h3 style="font-size: 1.15rem; color: var(--primary-color); font-family: var(--font-oswald); letter-spacing: 0.08em; margin: 2.5rem 0 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.5rem;">
+                        04 / 伴走者としての約束
+                    </h3>
+                    <p style="margin-bottom: 2rem;">
+                        現場の汗や空気感、経営の重圧と板挟み。カルチャーの創出、先を見通す判断、長期視点、そして挫折と再生――。
+                        身をもって経験したリアルな知見があるからこそ、机上の空論や成功事例の押し付けではない「現場実働」と「心への寄り添い」で、リーダーの次の一手を支え続けます。
+                    </p>
+
+                    <!-- Signature Block -->
+                    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: gap; gap: 20px;">
+                        <div>
+                            <span style="font-size: 0.85rem; color: #888; letter-spacing: 0.05em; display: block; margin-bottom: 4px;">SGO PARTNERS FOUNDER & STRATEGIC PARTNER</span>
+                            <span style="font-family: var(--font-oswald); font-size: 1.6rem; letter-spacing: 0.08em; color: #ffffff;">Keigo Suzuki</span>
+                        </div>
+                        <div style="font-size: 0.85rem; color: #aaa; text-align: right;">
+                            会社経営歴25年 / 実働型事業支援・ブランディング・メンタル伴走
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Back Navigation & CTA -->
+                <div style="margin-top: 4.5rem; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                    <a href="/" class="btn-submit" style="display: inline-flex; align-items: center; gap: 8px; max-width: 240px; text-decoration: none; justify-content: center; background: var(--primary-color); color: #fff;">
+                        <i class="fa-solid fa-comments"></i> 無料相談はこちら
+                    </a>
+                    <a href="corporate.html" class="btn-submit" style="display: inline-flex; align-items: center; gap: 8px; max-width: 240px; text-decoration: none; justify-content: center; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #ccc;">
+                        <i class="fa-solid fa-arrow-left"></i> 公式HP（企業概要）
+                    </a>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer style="margin-top: 5rem; padding: 3rem 0; border-top: 1px solid rgba(255,255,255,0.05); text-align: center; font-size: 0.85rem; color: #666;">
+            <p>&copy; 2026 SGO Partners. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Hamburger Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+        if (menuToggle && navLinks) {
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+        }
+
+        // Initialize Three.js Starfield Background
+        document.addEventListener('DOMContentLoaded', () => {
+            initThreeJS();
+        });
+
+        function initThreeJS() {
+            const canvas = document.getElementById('webgl-canvas');
+            if (!canvas || !window.THREE) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 50;
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            const starCanvas = document.createElement('canvas');
+            starCanvas.width = 64;
+            starCanvas.height = 64;
+            const ctx = starCanvas.getContext('2d');
+            const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+            gradient.addColorStop(0.3, 'rgba(255, 247, 173, 1)');
+            gradient.addColorStop(0.6, 'rgba(184, 134, 11, 0.4)');
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 64, 64);
+            const starTexture = new THREE.CanvasTexture(starCanvas);
+
+            const particlesGeometry = new THREE.BufferGeometry();
+            const count = 3000;
+            const posArray = new Float32Array(count * 3);
+
+            for (let i = 0; i < count * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 180;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 0.6,
+                map: starTexture,
+                transparent: true,
+                opacity: 1.0,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+            });
+
+            const particlesMesh = new THREE.Points(particlesGeometry, material);
+            scene.add(particlesMesh);
+
+            let mouseX = 0;
+            let mouseY = 0;
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
+                mouseY = (event.clientY / window.innerHeight - 0.5) * 2;
+            });
+
+            const clock = new THREE.Clock();
+            let currentMouseX = 0;
+            let currentMouseY = 0;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const elapsedTime = clock.getElapsedTime();
+                
+                currentMouseX += (mouseX - currentMouseX) * 0.05;
+                currentMouseY += (mouseY - currentMouseY) * 0.05;
+
+                particlesMesh.rotation.y = elapsedTime * 0.01 + currentMouseX * 0.3;
+                particlesMesh.rotation.x = currentMouseY * 0.3;
+                
+                camera.position.x = currentMouseX * 25;
+                camera.position.y = -currentMouseY * 25;
+                camera.lookAt(currentMouseX * 5, -currentMouseY * 5, 0);
+
+                const positions = particlesGeometry.attributes.position.array;
+                const speed = 0.15 + (Math.abs(mouseX) + Math.abs(mouseY)) * 0.2;
+                
+                for(let i = 2; i < count * 3; i += 3) {
+                    positions[i] += speed;
+                    if(positions[i] > 60) {
+                        positions[i] = -120;
+                        positions[i-2] = (Math.random() - 0.5) * 180;
+                        positions[i-1] = (Math.random() - 0.5) * 180;
+                    }
+                }
+                particlesGeometry.attributes.position.needsUpdate = true;
+                material.opacity = 0.8 + Math.sin(elapsedTime * 1.5) * 0.2;
+                
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+    </script>
+</body>
+</html>

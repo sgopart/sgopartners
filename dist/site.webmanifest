@@ -1,0 +1,15 @@
+{
+  "name": "SGO Partners",
+  "short_name": "SGOP",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#4A3E3D",
+  "background_color": "#FAF7F2",
+  "display": "standalone",
+  "start_url": "/index.html"
+}
