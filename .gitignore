@@ -1,0 +1,31 @@
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.crt
+
+# Cloudflare & Wrangler Local Caches
+.wrangler/
+.wrangler-dist/
+
+# Dependencies & Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database & SQLite
+*.sqlite
+*.sqlite3
+*.db
+data/
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
