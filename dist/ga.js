@@ -1,6 +1,5 @@
 // Google Analytics (GA4) 測定ID設定
-// SGOpartners.com で利用するGA4の測定ID（G-XXXXXXXXXXなど）を設定してください。
-const GA_TRACKING_ID = "G-XXXXXXXXXX"; 
+const GA_TRACKING_ID = "G-7N5WYV8GFE"; 
 
 if (GA_TRACKING_ID && GA_TRACKING_ID !== "G-XXXXXXXXXX") {
   // 1. gtag.js の非同期読み込みスクリプトを生成して head に挿入
@@ -15,5 +14,7 @@ if (GA_TRACKING_ID && GA_TRACKING_ID !== "G-XXXXXXXXXX") {
   window.gtag = gtag; // 他のスクリプトからも呼び出せるようにグローバルへ公開
   
   gtag('js', new Date());
-  gtag('config', GA_TRACKING_ID);
+  gtag('config', GA_TRACKING_ID, {
+    send_page_view: true
+  });
 }
