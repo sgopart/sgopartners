@@ -751,7 +751,6 @@ footer {
     border-color: var(--primary-color);
 }
 .modal-img { width: 100%; max-height: 50vh; object-fit: cover; cursor: pointer; opacity: 0.8; }
-.modal-body { padding: 3rem; line-height: 1.6; }
 .modal-close-btn {
     margin-top: 2rem; padding: 1rem 3rem; background: var(--primary-color); color:#fff; 
     border:none; cursor:pointer; border-radius:4px; font-family: var(--font-oswald); 
@@ -759,3 +758,44 @@ footer {
     transition: 0.3s;
 }
 .modal-close-btn:hover { background: #fff; color: var(--bg-color); }
+
+/* Founder Backbone Accordion & Signature Responsive */
+.founder-sign-block {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 14px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 1.2rem;
+    margin-top: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    #founder-accordion-panel .founder-panel-inner {
+        padding: 1.6rem 1.4rem 4rem !important;
+    }
+    .founder-sign-block {
+        justify-content: flex-start !important;
+        gap: 12px !important;
+    }
+    .founder-sign-text {
+        text-align: left !important;
+    }
+    .founder-sign-text span {
+        display: block !important;
+        margin-left: 0 !important;
+        margin-top: 2px !important;
+        font-size: 0.76rem !important;
+    }
+    .founder-signature-wrap {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 14px !important;
+    }
+    .founder-signature-wrap .founder-sub-desc {
+        text-align: left !important;
+        margin-top: 4px !important;
+        font-size: 0.8rem !important;
+        line-height: 1.6 !important;
+    }
+}

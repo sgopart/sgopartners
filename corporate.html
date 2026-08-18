@@ -218,7 +218,7 @@
 
                 <!-- Founder's Backbone Accordion Panel -->
                 <div id="founder-accordion-panel" style="max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;">
-                    <div style="background: rgba(20, 20, 20, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-left: 3px solid var(--primary-color); padding: 2.2rem 2.5rem; margin-top: 1.8rem; border-radius: 6px; backdrop-filter: blur(12px);">
+                    <div class="founder-panel-inner" style="background: rgba(20, 20, 20, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-left: 3px solid var(--primary-color); padding: 2.2rem 2.5rem 3.5rem; margin-top: 1.8rem; border-radius: 6px; backdrop-filter: blur(12px);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.8rem;">
                             <span style="font-family: var(--font-oswald); font-size: 0.85rem; letter-spacing: 0.15em; color: var(--primary-color);">FOUNDER'S BACKBONE</span>
                             <span style="font-size: 0.8rem; color: #888;">代表の歩みと原点</span>
@@ -242,9 +242,14 @@
                             <p style="margin-bottom: 1.5rem;">
                                 現場の汗や空気感、経営の重圧と板挟み。カルチャーの創出、先を見通す大局的な判断、そして挫折と再生――。身をもって経験したリアルな知見があるからこそ、机上の空論ではない「現場実働」と「心への寄り添い」で、リーダーの次の一手を支え続けます。
                             </p>
-                            <div style="text-align: right; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.8rem;">
-                                <strong style="font-family: var(--font-oswald); font-size: 1.1rem; color: #fff; letter-spacing: 0.05em;">Keigo Suzuki</strong>
-                                <span style="font-size: 0.82rem; color: #888; margin-left: 8px;">/ Founder & Strategic Partner</span>
+                            <div class="founder-sign-block" style="display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 14px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.2rem; margin-top: 1.2rem;">
+                                <div style="width: 52px; height: 52px; border-radius: 50%; overflow: hidden; border: 1px solid rgba(255,255,255,0.2); background: #1a1a1a; box-shadow: 0 4px 12px rgba(0,0,0,0.4); flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                                    <img src="/assets/founder-illustration.jpg" alt="Keigo Suzuki" style="width: 100%; height: 100%; object-fit: cover; object-position: 58% 18%;" loading="lazy">
+                                </div>
+                                <div class="founder-sign-text" style="line-height: 1.4;">
+                                    <strong style="font-family: var(--font-oswald); font-size: 1.1rem; color: #fff; letter-spacing: 0.05em; display: inline-block;">Keigo Suzuki</strong>
+                                    <span style="font-size: 0.82rem; color: #888; margin-left: 8px;">/ Founder & Strategic Partner</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -435,13 +440,30 @@
             if (isOpen) {
                 panel.style.maxHeight = '0px';
                 panel.style.opacity = '0';
-                if (btn) btn.setAttribute('aria-expanded', 'false');
-                if (icon) icon.className = 'fa-solid fa-chevron-down';
+                if (btn) {
+                    btn.setAttribute('aria-expanded', 'false');
+                    btn.style.background = 'rgba(230,0,0,0.06)';
+                    btn.style.color = 'var(--primary-color)';
+                    btn.style.borderColor = 'rgba(230,0,0,0.35)';
+                }
+                if (icon) {
+                    icon.style.transform = 'rotate(0deg)';
+                }
             } else {
                 panel.style.maxHeight = (panel.scrollHeight + 150) + 'px';
                 panel.style.opacity = '1';
-                if (btn) btn.setAttribute('aria-expanded', 'true');
-                if (icon) icon.className = 'fa-solid fa-chevron-up';
+                if (btn) {
+                    btn.setAttribute('aria-expanded', 'true');
+                    btn.style.background = 'var(--primary-color)';
+                    btn.style.color = '#ffffff';
+                    btn.style.borderColor = 'var(--primary-color)';
+                }
+                if (icon) {
+                    icon.style.transform = 'rotate(180deg)';
+                }
+                setTimeout(() => {
+                    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 120);
             }
         }
 
