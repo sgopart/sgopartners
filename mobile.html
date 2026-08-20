@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SGO Mobile Command & SNS Studio</title>
+  <style>
+    :root {
+      --bg: #0b1320;
+      --card-bg: #142033;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent-oji: #f59e0b;
+      --accent-x: #1d9bf0;
+      --accent-ig: #e1306c;
+      --accent-fb: #1877f2;
+      --accent-note: #2cb696;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding: 16px; min-height: 100vh; display: flex; flex-direction: column; }
+    
+    header { text-align: center; margin-bottom: 16px; }
+    header h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    header p { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+    
+    .quick-tags { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; scrollbar-width: none; }
+    .tag-btn { white-space: nowrap; padding: 8px 14px; border-radius: 20px; border: 1px solid var(--border); background: #1a2942; color: #e2e8f0; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .tag-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .tag-btn.oji { border-color: rgba(245, 158, 11, 0.4); color: #fbbf24; }
+    .tag-btn.oji.active { background: #d97706; color: #fff; }
+
+    .input-card { background: var(--card-bg); border-radius: 16px; padding: 14px; border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,0.3); margin-bottom: 16px; }
+    .textarea-wrapper { position: relative; }
+    textarea { width: 100%; height: 100px; background: #0c1421; border: 1px solid var(--border); border-radius: 12px; color: #fff; padding: 12px; font-size: 0.95rem; line-height: 1.5; resize: none; outline: none; transition: border-color 0.2s; }
+    textarea:focus { border-color: #3b82f6; }
+    
+    .input-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+    .char-count { font-size: 0.75rem; color: var(--text-muted); }
+    
+    .btn-send { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; border: none; padding: 12px 24px; border-radius: 12px; font-size: 0.95rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(37,99,235,0.4); transition: transform 0.1s, opacity 0.2s; }
+    .btn-send:active { transform: scale(0.97); }
+
+    /* タブ切り替えバー */
+    .tab-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 10px; scrollbar-width: none; }
+    .tab-btn { flex: 1; min-width: 70px; padding: 8px 4px; border: none; border-radius: 10px; background: #1a2a44; color: var(--text-muted); font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; text-align: center; }
+    .tab-btn.active { background: #2563eb; color: #fff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4); }
+
+    .result-section { flex: 1; display: flex; flex-direction: column; }
+    .result-card { background: var(--card-bg); border-radius: 16px; padding: 16px; border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,0.3); flex: 1; display: flex; flex-direction: column; min-height: 250px; }
+    .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .result-title { font-size: 0.9rem; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 6px; }
+    
+    .result-body { flex: 1; background: #0c1421; border-radius: 12px; padding: 14px; color: #f1f5f9; font-size: 0.9rem; line-height: 1.6; white-space: pre-wrap; word-break: break-word; overflow-y: auto; max-height: 380px; border: 1px solid var(--border); }
+    
+    .action-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .btn-action { padding: 12px; border-radius: 12px; font-size: 0.9rem; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; text-align: center; }
+    .btn-copy { background: #2563eb; color: #fff; }
+    .btn-copy.copied { background: #10b981; }
+    .btn-open { background: #334155; color: #f8fafc; }
+
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 10px 24px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 100; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🚀 SGO Mobile Studio</h1>
+    <p>外出先のスマホから音声入力 ➔ note＆SNS投稿一括生成</p>
+  </header>
+
+  <!-- クイックテンプレート -->
+  <div class="quick-tags">
+    <button class="tag-btn oji active" onclick="setMode('oji')">✍️ オジ文体note</button>
+    <button class="tag-btn" onclick="setMode('sns')">📱 4大SNSマルチ展開</button>
+    <button class="tag-btn" onclick="setMode('decompose')">🔄 noteをSNS告知化</button>
+  </div>
+
+  <!-- 入力カード -->
+  <div class="input-card">
+    <div class="textarea-wrapper">
+      <textarea id="promptInput" placeholder="お題を入力（スマホのマイク音声入力も使えます🎙️）..."></textarea>
+    </div>
+    <div class="input-footer">
+      <span id="charCount" class="char-count">0 文字</span>
+      <button id="sendBtn" class="btn-send" onclick="generateContent()">
+        <span>🚀 瞬時に作成</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 結果カード -->
+  <div class="result-section">
+    <div class="result-card">
+      <div class="result-header">
+        <span id="resultTitle" class="result-title">✨ 生成結果プレビュー</span>
+        <span id="charLengthBadge" style="font-size: 0.75rem; color: #94a3b8;">0 文字</span>
+      </div>
+
+      <!-- SNSモード時のプラットフォームタブ -->
+      <div id="snsTabBar" class="tab-bar" style="display: none;">
+        <button class="tab-btn active" onclick="switchSNSTab('x')">🐦 X</button>
+        <button class="tab-btn" onclick="switchSNSTab('instagram')">📸 Instagram</button>
+        <button class="tab-btn" onclick="switchSNSTab('facebook')">👥 Facebook</button>
+        <button class="tab-btn" onclick="switchSNSTab('note')">📝 note</button>
+      </div>
+
+      <div id="resultBody" class="result-body">ここに生成結果が表示されます。
+上にお題（例: 「新入社員の挨拶」「クーラー温度バトル」）を音声入力して「🚀 瞬時に作成」を押してください。</div>
+
+      <div class="action-bar">
+        <button id="copyBtn" class="btn-action btn-copy" onclick="copyResult()">
+          <span>📋 全文コピー</span>
+        </button>
+        <a id="openAppBtn" class="btn-action btn-open" href="https://note.com" target="_blank" rel="noopener">
+          <span>🚀 アプリを開く</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">クリップボードにコピーしました！</div>
+
+  <script>
+    let currentMode = 'oji';
+    let currentSNSTab = 'x';
+    let generatedData = {
+      oji: "",
+      x: "",
+      instagram: "",
+      facebook: "",
+      note: ""
+    };
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const input = document.getElementById('promptInput');
+      const tabBar = document.getElementById('snsTabBar');
+      const openBtn = document.getElementById('openAppBtn');
+
+      if (mode === 'oji') {
+        tabBar.style.display = 'none';
+        input.placeholder = "noteのお題を入力（例: リモートワークの罠、新入社員の挨拶）...";
+        openBtn.href = "https://note.com";
+        openBtn.innerHTML = "<span>📝 noteを開く</span>";
+      } else {
+        tabBar.style.display = 'flex';
+        input.placeholder = "SNSに投稿したい実績やトピックを入力...";
+        updateSNSAppBtn();
+      }
+      updateCharCount();
+    }
+
+    const inputArea = document.getElementById('promptInput');
+    inputArea.addEventListener('input', updateCharCount);
+
+    function updateCharCount() {
+      document.getElementById('charCount').textContent = `${inputArea.value.length} 文字`;
+    }
+
+    function generateContent() {
+      const topic = inputArea.value.trim() || "日常の気づきとビジネスの違和感";
+      
+      // 1. オジ文体生成ロジック
+      const ojiText = `【${topic.length > 8 ? topic.slice(0, 6) : topic}】
+
+■オフィスで感じる、ふとした瞬間
+
+連日、様々なニュースや出来事が流れていく。
+そして日常の中で、ふとした瞬間に立ち止まる細身のオジ(おじ)がいる。
+
+お題：「${topic}」
+
+理由はざっくり3つ。
+
+1. 時代の変化スピードが早すぎて、オジ(おじ)のアップデートが追いついていない（自虐()）。
+2. 若者の感覚や合理性は正しいのに、なんとなく過去のやり方に固執してしまう（反省()）。
+3. そして、言葉にしない違和感をみんな抱えながら、毎日を必死に生きているということ。
+
+つまりこれは「誰が悪い」という話ではなく(みんな知ってる)、時代の移り変わりと構造の変化が生んだ、ごく自然なグラデーションに過ぎない。らしい。
+
+■オジ(おじ)の立ち位置
+
+一応、あります。私なりの配慮が。
+
+若い世代の邪魔をしないように、でも困ったときにはそっと手を差し伸べられるように（大人の分別()）。
+偉そうなアドバイスなんて求められてないし、聞かれてもないのに語り出すオジ(おじ)にはなりたくない。
+
+…持たざるものの知恵、か。
+
+■デメリット
+
+意固地になることのダメージは、地味に切実。
+
+変われない人間から孤立していく。
+これはもう完全に歴史が証明している。私はそう思っている。
+
+______
+
+現実問題、世の中はどんどんスマートに、タイパ重視で進んでいきます。
+デカい変化。これからはもっと加速する。
+
+だから今出来る事を黙々とやるよ、
+自分のペースで、一歩ずつ前に進むだけ。
+熟睡したいぜ。いつも夜は美味しいご飯を食べてぐっすり眠りたい。
+
+皆さんよい週末を。`;
+
+      // 2. SNSマルチ展開
+      const xPost = `【新着トピック】
+${topic}
+
+横浜・桜木町から中小企業・スタートアップの成長を強力にサポート。
+現場重視の伴走支援を展開中。
+
+詳細はこちら👇
+https://sgopartners.com
+#SGOPartners #事業支援 #横浜`;
+
+      const igPost = `✨ SGO Partners 支援トピック ✨
+${topic}
+
+横浜・桜木町を拠点に、経営戦略・財務計画からWeb・IT実装まで一気通貫で伴走支援を行っています。
+
+📍 SGO Partners
+拠点：横浜・桜木町
+対応エリア：神奈川・東京・全国オンライン
+
+プロフィールのリンクから無料相談を受付中🔗
+@sgopartners_official
+
+.
+#SGOPartners #事業コンサルティング #経営戦略 #中小企業支援 #横浜ビジネス #桜木町 #DX推進`;
+
+      const fbPost = `【SGO Partners 最新の取り組み】
+
+${topic}
+
+平素よりSGO Partnersをご愛顧いただき誠にありがとうございます。
+横浜・桜木町を拠点に、中小企業・スタートアップ企業様向けに伴走型事業支援を展開しております。
+
+▼ 詳しい支援実績・無料経営相談はこちら
+https://sgopartners.com`;
+
+      generatedData = {
+        oji: ojiText,
+        x: xPost,
+        instagram: igPost,
+        facebook: fbPost,
+        note: ojiText
+      };
+
+      renderResult();
+    }
+
+    function switchSNSTab(tab) {
+      currentSNSTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      updateSNSAppBtn();
+      renderResult();
+    }
+
+    function updateSNSAppBtn() {
+      const openBtn = document.getElementById('openAppBtn');
+      const urls = {
+        x: 'https://twitter.com/compose/tweet',
+        instagram: 'https://www.instagram.com/',
+        facebook: 'https://www.facebook.com/',
+        note: 'https://note.com/'
+      };
+      openBtn.href = urls[currentSNSTab] || '#';
+      openBtn.innerHTML = `<span>🚀 ${currentSNSTab.toUpperCase()} を開く</span>`;
+    }
+
+    function renderResult() {
+      const body = document.getElementById('resultBody');
+      const text = currentMode === 'oji' ? (generatedData.oji || "") : (generatedData[currentSNSTab] || "");
+      body.textContent = text || "お題を入力して「🚀 瞬時に作成」を押してください。";
+      document.getElementById('charLengthBadge').textContent = `${text.length} 文字`;
+    }
+
+    function copyResult() {
+      const text = document.getElementById('resultBody').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.classList.add('copied');
+        btn.innerHTML = '<span>✅ コピー完了！</span>';
+
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = '<span>📋 全文コピー</span>';
+          toast.classList.remove('show');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
