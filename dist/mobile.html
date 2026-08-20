@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SGO Mobile Command & SNS Studio</title>
   <style>
     :root {
@@ -11,57 +11,53 @@
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
       --accent-oji: #f59e0b;
-      --accent-x: #1d9bf0;
-      --accent-ig: #e1306c;
-      --accent-fb: #1877f2;
-      --accent-note: #2cb696;
       --text: #f8fafc;
       --text-muted: #94a3b8;
       --border: rgba(255, 255, 255, 0.1);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding: 16px; min-height: 100vh; display: flex; flex-direction: column; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    html, body { background: var(--bg); color: var(--text); padding: 12px; min-height: 100vh; overflow-x: hidden; }
     
-    header { text-align: center; margin-bottom: 16px; }
-    header h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-    header p { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+    header { text-align: center; margin-bottom: 12px; padding-top: 4px; }
+    header h1 { font-size: 1.2rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    header p { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
     
-    .quick-tags { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 12px; scrollbar-width: none; }
-    .tag-btn { white-space: nowrap; padding: 8px 14px; border-radius: 20px; border: 1px solid var(--border); background: #1a2942; color: #e2e8f0; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .quick-tags { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; scrollbar-width: none; }
+    .tag-btn { white-space: nowrap; padding: 6px 12px; border-radius: 16px; border: 1px solid var(--border); background: #1a2942; color: #e2e8f0; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
     .tag-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .tag-btn.oji { border-color: rgba(245, 158, 11, 0.4); color: #fbbf24; }
     .tag-btn.oji.active { background: #d97706; color: #fff; }
 
-    .input-card { background: var(--card-bg); border-radius: 16px; padding: 14px; border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,0.3); margin-bottom: 16px; }
+    .input-card { background: var(--card-bg); border-radius: 14px; padding: 12px; border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,0.25); margin-bottom: 12px; }
     .textarea-wrapper { position: relative; }
-    textarea { width: 100%; height: 100px; background: #0c1421; border: 1px solid var(--border); border-radius: 12px; color: #fff; padding: 12px; font-size: 0.95rem; line-height: 1.5; resize: none; outline: none; transition: border-color 0.2s; }
+    textarea { width: 100%; height: 85px; background: #0c1421; border: 1px solid var(--border); border-radius: 10px; color: #fff; padding: 10px; font-size: 0.95rem; line-height: 1.4; resize: none; outline: none; transition: border-color 0.2s; }
     textarea:focus { border-color: #3b82f6; }
     
-    .input-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+    .input-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
     .char-count { font-size: 0.75rem; color: var(--text-muted); }
     
-    .btn-send { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; border: none; padding: 12px 24px; border-radius: 12px; font-size: 0.95rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(37,99,235,0.4); transition: transform 0.1s, opacity 0.2s; }
+    .btn-send { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; border: none; padding: 10px 20px; border-radius: 10px; font-size: 0.9rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(37,99,235,0.4); }
     .btn-send:active { transform: scale(0.97); }
 
     /* タブ切り替えバー */
-    .tab-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 10px; scrollbar-width: none; }
-    .tab-btn { flex: 1; min-width: 70px; padding: 8px 4px; border: none; border-radius: 10px; background: #1a2a44; color: var(--text-muted); font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; text-align: center; }
-    .tab-btn.active { background: #2563eb; color: #fff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4); }
+    .tab-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 8px; scrollbar-width: none; }
+    .tab-btn { flex: 1; min-width: 65px; padding: 8px 2px; border: none; border-radius: 8px; background: #1a2a44; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s; text-align: center; }
+    .tab-btn.active { background: #2563eb; color: #fff; }
 
-    .result-section { flex: 1; display: flex; flex-direction: column; }
-    .result-card { background: var(--card-bg); border-radius: 16px; padding: 16px; border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,0.3); flex: 1; display: flex; flex-direction: column; min-height: 250px; }
-    .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .result-title { font-size: 0.9rem; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 6px; }
+    .result-section { display: flex; flex-direction: column; }
+    .result-card { background: var(--card-bg); border-radius: 14px; padding: 14px; border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,0.25); display: flex; flex-direction: column; }
+    .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .result-title { font-size: 0.85rem; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 6px; }
     
-    .result-body { flex: 1; background: #0c1421; border-radius: 12px; padding: 14px; color: #f1f5f9; font-size: 0.9rem; line-height: 1.6; white-space: pre-wrap; word-break: break-word; overflow-y: auto; max-height: 380px; border: 1px solid var(--border); }
+    .result-body { background: #0c1421; border-radius: 10px; padding: 12px; color: #f1f5f9; font-size: 0.9rem; line-height: 1.6; white-space: pre-wrap; word-break: break-word; overflow-y: auto; max-height: 360px; border: 1px solid var(--border); }
     
-    .action-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-    .btn-action { padding: 12px; border-radius: 12px; font-size: 0.9rem; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; text-align: center; }
+    .action-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .btn-action { padding: 11px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; text-decoration: none; text-align: center; }
     .btn-copy { background: #2563eb; color: #fff; }
     .btn-copy.copied { background: #10b981; }
     .btn-open { background: #334155; color: #f8fafc; }
 
-    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 10px 24px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 100; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 100; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
   </style>
 </head>
@@ -69,20 +65,20 @@
 
   <header>
     <h1>🚀 SGO Mobile Studio</h1>
-    <p>外出先のスマホから音声入力 ➔ note＆SNS投稿一括生成</p>
+    <p>音声入力でお題を話す ➔ Enterキーで即時一括作成</p>
   </header>
 
   <!-- クイックテンプレート -->
   <div class="quick-tags">
-    <button class="tag-btn oji active" onclick="setMode('oji')">✍️ オジ文体note</button>
-    <button class="tag-btn" onclick="setMode('sns')">📱 4大SNSマルチ展開</button>
-    <button class="tag-btn" onclick="setMode('decompose')">🔄 noteをSNS告知化</button>
+    <button class="tag-btn oji active" onclick="setMode('oji', event)">✍️ オジ文体note</button>
+    <button class="tag-btn" onclick="setMode('sns', event)">📱 4大SNSマルチ展開</button>
+    <button class="tag-btn" onclick="setMode('decompose', event)">🔄 noteをSNS告知化</button>
   </div>
 
   <!-- 入力カード -->
   <div class="input-card">
     <div class="textarea-wrapper">
-      <textarea id="promptInput" placeholder="お題を入力（スマホのマイク音声入力も使えます🎙️）..."></textarea>
+      <textarea id="promptInput" placeholder="お題を入力（Enterキーで即時作成・実行できます🎙️）..."></textarea>
     </div>
     <div class="input-footer">
       <span id="charCount" class="char-count">0 文字</span>
@@ -93,7 +89,7 @@
   </div>
 
   <!-- 結果カード -->
-  <div class="result-section">
+  <div class="result-section" id="resultSection">
     <div class="result-card">
       <div class="result-header">
         <span id="resultTitle" class="result-title">✨ 生成結果プレビュー</span>
@@ -102,14 +98,14 @@
 
       <!-- SNSモード時のプラットフォームタブ -->
       <div id="snsTabBar" class="tab-bar" style="display: none;">
-        <button class="tab-btn active" onclick="switchSNSTab('x')">🐦 X</button>
-        <button class="tab-btn" onclick="switchSNSTab('instagram')">📸 Instagram</button>
-        <button class="tab-btn" onclick="switchSNSTab('facebook')">👥 Facebook</button>
-        <button class="tab-btn" onclick="switchSNSTab('note')">📝 note</button>
+        <button class="tab-btn active" onclick="switchSNSTab('x', event)">🐦 X</button>
+        <button class="tab-btn" onclick="switchSNSTab('instagram', event)">📸 Instagram</button>
+        <button class="tab-btn" onclick="switchSNSTab('facebook', event)">👥 Facebook</button>
+        <button class="tab-btn" onclick="switchSNSTab('note', event)">📝 note</button>
       </div>
 
       <div id="resultBody" class="result-body">ここに生成結果が表示されます。
-上にお題（例: 「新入社員の挨拶」「クーラー温度バトル」）を音声入力して「🚀 瞬時に作成」を押してください。</div>
+お題を音声入力してキーボードの「確定/Enter」または「🚀 瞬時に作成」を押してください。</div>
 
       <div class="action-bar">
         <button id="copyBtn" class="btn-action btn-copy" onclick="copyResult()">
@@ -135,10 +131,11 @@
       note: ""
     };
 
-    function setMode(mode) {
+    function setMode(mode, e) {
+      if (e) e.preventDefault();
       currentMode = mode;
       document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+      if (e && e.target) e.target.classList.add('active');
 
       const input = document.getElementById('promptInput');
       const tabBar = document.getElementById('snsTabBar');
@@ -146,12 +143,12 @@
 
       if (mode === 'oji') {
         tabBar.style.display = 'none';
-        input.placeholder = "noteのお題を入力（例: リモートワークの罠、新入社員の挨拶）...";
+        input.placeholder = "noteのお題を入力（Enterで即時作成）...";
         openBtn.href = "https://note.com";
         openBtn.innerHTML = "<span>📝 noteを開く</span>";
       } else {
         tabBar.style.display = 'flex';
-        input.placeholder = "SNSに投稿したい実績やトピックを入力...";
+        input.placeholder = "SNSに投稿したい実績やトピックを入力（Enterで即時作成）...";
         updateSNSAppBtn();
       }
       updateCharCount();
@@ -160,11 +157,22 @@
     const inputArea = document.getElementById('promptInput');
     inputArea.addEventListener('input', updateCharCount);
 
+    // ★ Enterキーで画面スクロールさせず即座に実行する設定
+    inputArea.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault(); // 余計な改行や画面ジャンプを阻止
+        generateContent();
+      }
+    });
+
     function updateCharCount() {
       document.getElementById('charCount').textContent = `${inputArea.value.length} 文字`;
     }
 
     function generateContent() {
+      // スマホの仮想キーボードを自動で閉じて画面をすっきり表示
+      inputArea.blur();
+
       const topic = inputArea.value.trim() || "日常の気づきとビジネスの違和感";
       
       // 1. オジ文体生成ロジック
@@ -257,12 +265,16 @@ https://sgopartners.com`;
       };
 
       renderResult();
+
+      // 結果エリアへスムーズにスクロール
+      document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
-    function switchSNSTab(tab) {
+    function switchSNSTab(tab, e) {
+      if (e) e.preventDefault();
       currentSNSTab = tab;
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+      if (e && e.target) e.target.classList.add('active');
       updateSNSAppBtn();
       renderResult();
     }
