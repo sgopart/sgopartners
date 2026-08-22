@@ -1,8 +1,8 @@
 /**
- * SGO Security Shield (ダイナミック・ウォーターマーク ＆ スクリーンショット検知モジュール)
+ * SGO Security Shield (ダイナミック・ウォーターマーク ＆ スクリーンショット検知モジュール - 改良版)
  * 
- * 1. 極薄ダイナミック・ウォーターマーク (SGO PARTNERS / 日時 / 端末ID)
- * 2. スクリーンショット・印刷・画面切り取り操作のリアルタイム検知
+ * 1. 視認性を最適化したダイナミック・ウォーターマーク (不透明度 8%、コントラスト強化)
+ * 2. スマホ（Android/iOS）およびPC対応のスクリーンショット・切り取り・保存・印刷検知
  * 3. 高級感のあるスタイリッシュな警告トースト通知
  * 4. 属性情報（IP・日時・URL・端末・解像度）の収集とログ保存
  */
@@ -13,7 +13,7 @@
   function getSessionId() {
     let sid = sessionStorage.getItem('sgo_sec_sid');
     if (!sid) {
-      sid = 'SEC-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
+      sid = 'SEC-' + Math.random().toString(36).substring(2, 7).toUpperCase() + '-' + Date.now().toString(36).slice(-4).toUpperCase();
       sessionStorage.setItem('sgo_sec_sid', sid);
     }
     return sid;
@@ -22,7 +22,7 @@
   const sessionId = getSessionId();
 
   // ==========================================
-  // 1. ダイナミック・ウォーターマーク（極薄 3.8%）
+  // 1. ダイナミック・ウォーターマーク（視認性 8%）
   // ==========================================
   function initWatermark() {
     if (document.getElementById('sgo-watermark-overlay')) return;
@@ -30,22 +30,22 @@
     const overlay = document.createElement('div');
     overlay.id = 'sgo-watermark-overlay';
     overlay.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      user-select: none;
-      -webkit-user-select: none;
-      z-index: 99998;
-      opacity: 0.038;
-      overflow: hidden;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      pointer-events: none !important;
+      user-select: none !important;
+      -webkit-user-select: none !important;
+      z-index: 99998 !important;
+      opacity: 0.08 !important;
+      overflow: hidden !important;
     `;
 
     const canvas = document.createElement('canvas');
-    canvas.width = 380;
-    canvas.height = 190;
+    canvas.width = 340;
+    canvas.height = 170;
     const ctx = canvas.getContext('2d');
 
     function updateWatermarkPattern() {
@@ -53,7 +53,7 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.save();
       ctx.translate(canvas.width / 2, canvas.height / 2);
-      ctx.rotate(-25 * Math.PI / 180);
+      ctx.rotate(-22 * Math.PI / 180);
 
       const now = new Date();
       const dateStr = now.getFullYear() + '-' +
@@ -63,14 +63,20 @@
         String(now.getMinutes()).padStart(2, '0') + ':' +
         String(now.getSeconds()).padStart(2, '0');
 
-      ctx.font = '600 13px "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif';
+      // テキスト描画（白文字＋微細なシャドウで背景色に関わらず視認可能に）
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+      ctx.shadowBlur = 3;
+      ctx.shadowOffsetX = 1;
+      ctx.shadowOffsetY = 1;
+
+      ctx.font = '700 13.5px "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif';
       ctx.fillStyle = '#ffffff';
       ctx.textAlign = 'center';
       ctx.fillText('SGO PARTNERS', 0, -10);
 
-      ctx.font = '400 10.5px "Noto Sans JP", sans-serif';
+      ctx.font = '600 11px "Noto Sans JP", sans-serif';
       ctx.fillStyle = '#ffffff';
-      ctx.fillText(dateStr + '  [' + sessionId + ']', 0, 10);
+      ctx.fillText(dateStr + '  [' + sessionId + ']', 0, 11);
       ctx.restore();
 
       overlay.style.backgroundImage = `url(${canvas.toDataURL('image/png')})`;
@@ -78,10 +84,9 @@
     }
 
     updateWatermarkPattern();
-    // 10秒毎に時刻を最新化
-    setInterval(updateWatermarkPattern, 10000);
+    // 5秒毎に時刻を最新化
+    setInterval(updateWatermarkPattern, 5000);
 
-    // DOMへの追加（bodyが準備でき次第）
     function appendOverlay() {
       if (document.body && !document.getElementById('sgo-watermark-overlay')) {
         document.body.appendChild(overlay);
@@ -103,7 +108,7 @@
   function showSecurityToast() {
     if (toastCooldown) return;
     toastCooldown = true;
-    setTimeout(() => { toastCooldown = false; }, 4000); // 4秒間の連打防止
+    setTimeout(() => { toastCooldown = false; }, 3500); // 3.5秒間の連打防止
 
     // 既存トーストがあれば削除
     const existing = document.getElementById('sgo-security-toast');
@@ -112,38 +117,39 @@
     const toast = document.createElement('div');
     toast.id = 'sgo-security-toast';
     toast.style.cssText = `
-      position: fixed;
-      top: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-20px);
-      background: rgba(15, 23, 42, 0.94);
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-left: 4px solid #3b82f6;
-      border-radius: 12px;
-      padding: 16px 22px;
-      max-width: 90vw;
-      width: 520px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45), 0 0 25px rgba(59, 130, 246, 0.2);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      z-index: 999999;
-      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans JP", Roboto, sans-serif;
-      opacity: 0;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      line-height: 1.5;
+      position: fixed !important;
+      top: 20px !important;
+      left: 50% !important;
+      transform: translateX(-50%) translateY(-25px) !important;
+      background: rgba(15, 23, 42, 0.96) !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-left: 4px solid #3b82f6 !important;
+      border-radius: 12px !important;
+      padding: 16px 20px !important;
+      max-width: 92vw !important;
+      width: 500px !important;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(59, 130, 246, 0.25) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      z-index: 9999999 !important;
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans JP", Roboto, sans-serif !important;
+      opacity: 0 !important;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 6px !important;
+      line-height: 1.5 !important;
+      box-sizing: border-box !important;
     `;
 
     toast.innerHTML = `
-      <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px;">
-        <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.98rem; color: #f8fafc; letter-spacing: 0.02em;">
+      <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.96rem; color: #f8fafc; letter-spacing: 0.02em;">
           <span style="font-size: 1.15rem;">📸</span>
           <span>スクリーンショットを検知しました</span>
         </div>
-        <button type="button" id="sgo-toast-close" style="background: none; border: none; color: #94a3b8; font-size: 1.2rem; cursor: pointer; padding: 0 4px; line-height: 1;" aria-label="閉じる">&times;</button>
+        <button type="button" id="sgo-toast-close" style="background: none; border: none; color: #94a3b8; font-size: 1.3rem; cursor: pointer; padding: 0 6px; line-height: 1;" aria-label="閉じる">&times;</button>
       </div>
       <div style="font-size: 0.82rem; color: #cbd5e1; font-weight: 400; padding-top: 2px;">
         ※本サイトのコンテンツは著作権により保護されています。
@@ -180,16 +186,16 @@
       };
     }
 
-    // 6秒後に自動非表示
+    // 7秒後に自動非表示
     setTimeout(() => {
       removeToast(toast);
-    }, 6000);
+    }, 7000);
   }
 
   function removeToast(toast) {
     if (!toast || !toast.parentNode) return;
     toast.style.opacity = '0';
-    toast.style.transform = 'translateX(-50%) translateY(-20px)';
+    toast.style.transform = 'translateX(-50%) translateY(-25px)';
     setTimeout(() => {
       if (toast.parentNode) toast.parentNode.removeChild(toast);
     }, 350);
@@ -219,11 +225,9 @@
       logs.unshift(payload);
       if (logs.length > 50) logs.pop();
       localStorage.setItem('sgo_security_logs', JSON.stringify(logs));
-    } catch (e) {
-      // localStorage disabled or full
-    }
+    } catch (e) {}
 
-    // サーバーログエンドポイントへ非同期送信（存在する場合）
+    // サーバーログエンドポイントへ送信
     try {
       if (navigator.sendBeacon) {
         navigator.sendBeacon('/api/security-log', JSON.stringify(payload));
@@ -240,58 +244,77 @@
     console.info('[SGO Security Shield] Capture event recorded:', payload.sessionId, payload.trigger);
   }
 
+  function handleCaptureDetected(triggerType) {
+    showSecurityToast();
+    logSecurityEvent(triggerType);
+  }
+
   // ==========================================
-  // 4. イベントリスナー（キーボード・印刷・切り取り検知）
+  // 4. イベントリスナー（PC ＆ スマホ両対応）
   // ==========================================
   function initListeners() {
-    // 1) キーボードショートカット検知
+    // 1) PC: キーボードショートカット検知
     window.addEventListener('keydown', function (e) {
-      // PrintScreen キー
       if (e.key === 'PrintScreen' || e.keyCode === 44) {
-        handleCaptureDetected('PrintScreen Key');
+        handleCaptureDetected('PC: PrintScreen Key');
         return;
       }
 
-      // Windows: Win + Shift + S (ブラウザではShift+Sの組み合わせとして検知)
-      // Mac: Cmd + Shift + 3 / 4 / 5
       if ((e.metaKey || e.ctrlKey) && e.shiftKey) {
-        const k = e.key.toUpperCase();
+        const k = (e.key || '').toUpperCase();
         if (k === '3' || k === '4' || k === '5' || k === 'S') {
-          handleCaptureDetected('Screenshot Shortcut (' + k + ')');
+          handleCaptureDetected('PC: Screenshot Shortcut (' + k + ')');
           return;
         }
       }
 
-      // 印刷・PDF保存: Ctrl + P / Cmd + P
       if ((e.metaKey || e.ctrlKey) && (e.key === 'p' || e.key === 'P' || e.keyCode === 80)) {
-        handleCaptureDetected('Print / PDF Shortcut');
+        handleCaptureDetected('PC: Print / PDF Shortcut');
       }
     }, true);
 
     // 2) 印刷イベント検知
     window.addEventListener('beforeprint', function () {
-      handleCaptureDetected('Browser Print Dialog');
+      handleCaptureDetected('Print Dialog');
     });
 
-    // 3) 画面切り取りツール等のウィンドウフォーカス外れ検知（キー操作直後のBlur）
-    let keySuspectTime = 0;
-    window.addEventListener('keydown', function (e) {
-      if (e.key === 'Meta' || e.key === 'Control' || e.key === 'Alt' || e.shiftKey) {
-        keySuspectTime = Date.now();
+    // 3) スマホ/PC: 画面の可視性変化・非アクティブ化からの復帰検知（スクショ撮影・共有シート起動時の挙動）
+    let hiddenTimestamp = 0;
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') {
+        hiddenTimestamp = Date.now();
+      } else if (document.visibilityState === 'visible') {
+        const diff = Date.now() - hiddenTimestamp;
+        // 画面が0.2秒〜10秒程度離脱してすぐ戻ってきた場合（スクショ撮影や共有時）
+        if (diff > 200 && diff < 12000) {
+          handleCaptureDetected('Mobile/OS: App Switch / Screenshot Action');
+        }
       }
     });
 
-    window.addEventListener('blur', function () {
-      if (Date.now() - keySuspectTime < 600) {
-        // 直前に修飾キーが押された状態でフォーカスが外れた場合（Snipping Tool等）
-        handleCaptureDetected('Snipping / Screen Capture Tool (Blur Trigger)');
-      }
-    });
-  }
+    // 4) スマホ: 長押し（画像保存メニュー等の呼び出し）検知
+    let touchStartTime = 0;
+    window.addEventListener('touchstart', function (e) {
+      touchStartTime = Date.now();
+    }, { passive: true });
 
-  function handleCaptureDetected(triggerType) {
-    showSecurityToast();
-    logSecurityEvent(triggerType);
+    window.addEventListener('touchend', function (e) {
+      const holdTime = Date.now() - touchStartTime;
+      if (holdTime > 750) {
+        // 0.75秒以上の長押し操作
+        handleCaptureDetected('Mobile: Long Press / Save Action');
+      }
+    }, { passive: true });
+
+    // 5) スマホ/PC: 右クリック・コンテキストメニュー検知
+    window.addEventListener('contextmenu', function (e) {
+      handleCaptureDetected('Context Menu / Save Image Attempt');
+    });
+
+    // 6) スマホ/PC: コピー操作検知
+    window.addEventListener('copy', function (e) {
+      handleCaptureDetected('Copy Action');
+    });
   }
 
   // 初期化実行
