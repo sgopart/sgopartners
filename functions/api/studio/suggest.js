@@ -13,13 +13,14 @@ const PRESET_IDEAS = [
 
 export async function onRequestPost(context) {
   try {
-    const { apiKey } = await context.request.json().catch(() => ({}));
+    const data = await context.request.json().catch(() => ({}));
+    const apiKey = (data.apiKey || "").trim().replace(/^['"]|['"]$/g, "");
 
     if (!apiKey) {
       const shuffled = [...PRESET_IDEAS].sort(() => 0.5 - Math.random()).slice(0, 5);
       return new Response(JSON.stringify({ success: true, ideas: shuffled }), {
         status: 200,
-        headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+        headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
       });
     }
 
@@ -35,37 +36,50 @@ export async function onRequestPost(context) {
   }
 ]`;
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    const candidateModels = ["gemini-3.6-flash", "gemini-2.5-flash", "gemini-1.5-flash"];
+    let ideas = [];
 
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.9, responseMimeType: "application/json" }
-      }),
-      signal: controller.signal
-    });
-    clearTimeout(timeoutId);
+    for (const model of candidateModels) {
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-    if (res.ok) {
-      const data = await res.json();
-      const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || "[]";
-      const parsed = JSON.parse(raw);
-      return new Response(JSON.stringify({ success: true, ideas: parsed }), {
-        status: 200,
-        headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
-      });
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.9, responseMimeType: "application/json" }
+          }),
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+
+        if (res.ok) {
+          const resData = await res.json();
+          const raw = resData.candidates?.[0]?.content?.parts?.[0]?.text || "[]";
+          ideas = JSON.parse(raw);
+          if (ideas.length > 0) break;
+        }
+      } catch (err) {
+        // 次のモデル
+      }
     }
 
-    throw new Error("Gemini API error");
+    if (ideas.length === 0) {
+      ideas = [...PRESET_IDEAS].sort(() => 0.5 - Math.random()).slice(0, 5);
+    }
+
+    return new Response(JSON.stringify({ success: true, ideas }), {
+      status: 200,
+      headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+    });
   } catch (e) {
     const shuffled = [...PRESET_IDEAS].sort(() => 0.5 - Math.random()).slice(0, 5);
     return new Response(JSON.stringify({ success: true, ideas: shuffled }), {
       status: 200,
-      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+      headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
     });
   }
 }

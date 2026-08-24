@@ -56,23 +56,26 @@ export async function onRequestPost(context) {
     const systemPrompt = TONES_MAP[tone] || TONES_MAP.oji;
     const userPrompt = `【お題】: ${topic}\n${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}\n\n上記のお題に基づき、指定の文体・構成ルールを100%遵守して、1,500〜2,500文字の完全ゼロベース書き下ろしエッセイを作成してください。`;
 
-    // 試行するモデル順
+    // Google APIの最新モデル順（gemini-3.6-flash最優先）
     const candidateModels = [
+      "gemini-3.6-flash",
+      "gemini-3.6-pro",
+      "gemini-3.0-flash",
       "gemini-2.5-flash",
       "gemini-1.5-flash",
       "gemini-1.5-pro",
-      "gemini-2.0-flash-exp",
-      "gemini-2.0-flash"
+      "gemini-2.0-flash-exp"
     ];
 
     let essayText = "";
     let lastErrorMsg = "";
+    let successfulModel = "";
 
     for (const model of candidateModels) {
       try {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${cleanKey}`;
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 25000);
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
 
         const res = await fetch(url, {
           method: "POST",
@@ -97,7 +100,10 @@ export async function onRequestPost(context) {
         if (res.ok) {
           const resData = await res.json();
           essayText = resData.candidates?.[0]?.content?.parts?.[0]?.text || "";
-          if (essayText) break;
+          if (essayText) {
+            successfulModel = model;
+            break;
+          }
         } else {
           const errData = await res.json().catch(() => ({}));
           const msg = errData.error?.message || `HTTP ${res.status}`;
@@ -128,12 +134,13 @@ export async function onRequestPost(context) {
       });
     }
 
-    // SNS投稿文作成
+    // SNS投稿文作成（成功したモデルを使用）
     let sns = { x: "", instagram: "", facebook: "" };
     try {
       const snsPrompt = `以下のnoteエッセイを元に、各SNSプラットフォームに最適化された投稿文をJSON形式で作成してください。\n\n【元エッセイ】:\n${essayText.slice(0, 2000)}\n\n【出力フォーマット（厳格なJSONのみ）】:\n{\n  "x": "140字以内のX投稿文（興味を惹くフック＋要約＋ハッシュタグ2〜3個）",\n  "instagram": "Instagram用キャプション（改行で読みやすく、共感ストーリー＋関連ハッシュタグ15個程度）",\n  "facebook": "Facebook用投稿文（ビジネス関係者や経営者向けの丁寧な解説と学び、導入リンク導線）"\n}`;
 
-      const snsUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${cleanKey}`;
+      const snsModel = successfulModel || "gemini-3.6-flash";
+      const snsUrl = `https://generativelanguage.googleapis.com/v1beta/models/${snsModel}:generateContent?key=${cleanKey}`;
       const snsRes = await fetch(snsUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -155,7 +162,8 @@ export async function onRequestPost(context) {
       success: true,
       text: essayText,
       charCount: essayText.length,
-      sns: sns
+      sns: sns,
+      modelUsed: successfulModel
     }), {
       status: 200,
       headers: {
