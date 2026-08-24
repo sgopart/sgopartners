@@ -1,10 +1,11 @@
 /**
- * SGO Security Shield (ダイナミック・ウォーターマーク ＆ スクリーンショット検知モジュール - 改良版)
+ * SGO Security Shield (ダイナミック・ウォーターマーク ＆ セキュリティモジュール)
  * 
  * 1. 視認性を最適化したダイナミック・ウォーターマーク (不透明度 8%、コントラスト強化)
- * 2. スマホ（Android/iOS）およびPC対応のスクリーンショット・切り取り・保存・印刷検知
- * 3. 高級感のあるスタイリッシュな警告トースト通知
- * 4. 属性情報（IP・日時・URL・端末・解像度）の収集とログ保存
+ * 2. PC環境限定の意図的なキャプチャ・印刷検知（PrintScreen, Cmd+Shift+3/4/5, 印刷）
+ *    ※スマホ環境（iOS/Android）では誤検知防止・UX向上のため検知・警告コードを完全撤廃
+ * 3. スタイリッシュなトースト通知（PCのみ）
+ * 4. 属性情報（IP・日時・URL・端末・解像度）の収集とログ保存（PCのみ）
  */
 (function () {
   'use strict';
@@ -244,16 +245,31 @@
     console.info('[SGO Security Shield] Capture event recorded:', payload.sessionId, payload.trigger);
   }
 
+  // モバイル・タッチ端末の判定
+  function isMobileOrTouch() {
+    return (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+      (navigator.maxTouchPoints && navigator.maxTouchPoints > 1) ||
+      window.innerWidth <= 820
+    );
+  }
+
   function handleCaptureDetected(triggerType) {
+    // スマホ端末では警告・ログ処理を一切行わない
+    if (isMobileOrTouch()) return;
+
     showSecurityToast();
     logSecurityEvent(triggerType);
   }
 
   // ==========================================
-  // 4. イベントリスナー（PC ＆ スマホ両対応）
+  // 4. イベントリスナー（PC環境限定・誤検知防止）
   // ==========================================
   function initListeners() {
-    // 1) PC: キーボードショートカット検知
+    // スマホ・タッチ端末ではイベントリスナーを一切登録しない（完全撤廃）
+    if (isMobileOrTouch()) return;
+
+    // 1) PC: キーボードショートカット検知（PrintScreen / Cmd+Shift+3,4,5）
     window.addEventListener('keydown', function (e) {
       if (e.key === 'PrintScreen' || e.keyCode === 44) {
         handleCaptureDetected('PC: PrintScreen Key');
@@ -273,47 +289,9 @@
       }
     }, true);
 
-    // 2) 印刷イベント検知
+    // 2) 印刷ダイアログ検知
     window.addEventListener('beforeprint', function () {
       handleCaptureDetected('Print Dialog');
-    });
-
-    // 3) スマホ/PC: 画面の可視性変化・非アクティブ化からの復帰検知（スクショ撮影・共有シート起動時の挙動）
-    let hiddenTimestamp = 0;
-    document.addEventListener('visibilitychange', function () {
-      if (document.visibilityState === 'hidden') {
-        hiddenTimestamp = Date.now();
-      } else if (document.visibilityState === 'visible') {
-        const diff = Date.now() - hiddenTimestamp;
-        // 画面が0.2秒〜10秒程度離脱してすぐ戻ってきた場合（スクショ撮影や共有時）
-        if (diff > 200 && diff < 12000) {
-          handleCaptureDetected('Mobile/OS: App Switch / Screenshot Action');
-        }
-      }
-    });
-
-    // 4) スマホ: 長押し（画像保存メニュー等の呼び出し）検知
-    let touchStartTime = 0;
-    window.addEventListener('touchstart', function (e) {
-      touchStartTime = Date.now();
-    }, { passive: true });
-
-    window.addEventListener('touchend', function (e) {
-      const holdTime = Date.now() - touchStartTime;
-      if (holdTime > 750) {
-        // 0.75秒以上の長押し操作
-        handleCaptureDetected('Mobile: Long Press / Save Action');
-      }
-    }, { passive: true });
-
-    // 5) スマホ/PC: 右クリック・コンテキストメニュー検知
-    window.addEventListener('contextmenu', function (e) {
-      handleCaptureDetected('Context Menu / Save Image Attempt');
-    });
-
-    // 6) スマホ/PC: コピー操作検知
-    window.addEventListener('copy', function (e) {
-      handleCaptureDetected('Copy Action');
     });
   }
 
