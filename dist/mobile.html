@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>SGO Mobile Command & SNS Studio</title>
+  <title>SGO Mobile Studio | オジ文体note ＆ SNSマルチ作成</title>
   <style>
     :root {
       --bg: #0b1320;
@@ -23,14 +23,14 @@
     header p { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
     
     .quick-tags { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; scrollbar-width: none; }
-    .tag-btn { white-space: nowrap; padding: 6px 12px; border-radius: 16px; border: 1px solid var(--border); background: #1a2942; color: #e2e8f0; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .tag-btn { white-space: nowrap; padding: 7px 14px; border-radius: 16px; border: 1px solid var(--border); background: #1a2942; color: #e2e8f0; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
     .tag-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .tag-btn.oji { border-color: rgba(245, 158, 11, 0.4); color: #fbbf24; }
     .tag-btn.oji.active { background: #d97706; color: #fff; }
 
     .input-card { background: var(--card-bg); border-radius: 14px; padding: 12px; border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,0.25); margin-bottom: 12px; }
     .textarea-wrapper { position: relative; }
-    textarea { width: 100%; height: 85px; background: #0c1421; border: 1px solid var(--border); border-radius: 10px; color: #fff; padding: 10px; font-size: 0.95rem; line-height: 1.4; resize: none; outline: none; transition: border-color 0.2s; }
+    textarea { width: 100%; height: 95px; background: #0c1421; border: 1px solid var(--border); border-radius: 10px; color: #fff; padding: 10px; font-size: 0.95rem; line-height: 1.45; resize: none; outline: none; transition: border-color 0.2s; }
     textarea:focus { border-color: #3b82f6; }
     
     .input-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
@@ -49,7 +49,7 @@
     .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     .result-title { font-size: 0.85rem; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 6px; }
     
-    .result-body { background: #0c1421; border-radius: 10px; padding: 12px; color: #f1f5f9; font-size: 0.9rem; line-height: 1.6; white-space: pre-wrap; word-break: break-word; overflow-y: auto; max-height: 360px; border: 1px solid var(--border); }
+    .result-body { background: #0c1421; border-radius: 10px; padding: 12px; color: #f1f5f9; font-size: 0.9rem; line-height: 1.65; white-space: pre-wrap; word-break: break-word; overflow-y: auto; max-height: 420px; border: 1px solid var(--border); }
     
     .action-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
     .btn-action { padding: 11px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; text-decoration: none; text-align: center; }
@@ -65,7 +65,7 @@
 
   <header>
     <h1>🚀 SGO Mobile Studio</h1>
-    <p>音声入力でお題を話す ➔ Enterキーで即時一括作成</p>
+    <p>音声入力でお題を話す ➔ 瞬時にオジ文体エッセイ＆SNS一括生成</p>
   </header>
 
   <!-- クイックテンプレート -->
@@ -78,7 +78,7 @@
   <!-- 入力カード -->
   <div class="input-card">
     <div class="textarea-wrapper">
-      <textarea id="promptInput" placeholder="お題を入力（Enterキーで即時作成・実行できます🎙️）..."></textarea>
+      <textarea id="promptInput" placeholder="お題や気になることを入力（例: 新入社員の挨拶、リモートワークの罠、値上げ、洗車の現場）..."></textarea>
     </div>
     <div class="input-footer">
       <span id="charCount" class="char-count">0 文字</span>
@@ -112,7 +112,7 @@
           <span>📋 全文コピー</span>
         </button>
         <a id="openAppBtn" class="btn-action btn-open" href="https://note.com" target="_blank" rel="noopener">
-          <span>🚀 アプリを開く</span>
+          <span>📝 noteを開く</span>
         </a>
       </div>
     </div>
@@ -143,7 +143,7 @@
 
       if (mode === 'oji') {
         tabBar.style.display = 'none';
-        input.placeholder = "noteのお題を入力（Enterで即時作成）...";
+        input.placeholder = "noteのお題を入力（例: 新入社員の挨拶、リモートワーク、値上げ、洗車の現場）...";
         openBtn.href = "https://note.com";
         openBtn.innerHTML = "<span>📝 noteを開く</span>";
       } else {
@@ -157,10 +157,10 @@
     const inputArea = document.getElementById('promptInput');
     inputArea.addEventListener('input', updateCharCount);
 
-    // ★ Enterキーで画面スクロールさせず即座に実行する設定
+    // Enterキーで画面スクロールさせず即座に実行
     inputArea.addEventListener('keydown', function(e) {
       if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault(); // 余計な改行や画面ジャンプを阻止
+        e.preventDefault();
         generateContent();
       }
     });
@@ -169,89 +169,138 @@
       document.getElementById('charCount').textContent = `${inputArea.value.length} 文字`;
     }
 
-    function generateContent() {
-      // スマホの仮想キーボードを自動で閉じて画面をすっきり表示
-      inputArea.blur();
+    // ==========================================
+    // オジ文体・インテリジェント生成ロジック
+    // ==========================================
+    function extractTitleKeyword(topic) {
+      const t = topic.trim();
+      const m = t.match(/【(.*?)】/);
+      if (m) return m[1];
+      if (t.length <= 6) return t;
 
-      const topic = inputArea.value.trim() || "日常の気づきとビジネスの違和感";
-      
-      // 1. オジ文体生成ロジック
-      const ojiText = `【${topic.length > 8 ? topic.slice(0, 6) : topic}】
+      const mapping = [
+        [/(新入社員|若者|世代|新人|Z世代)/, '温度差'],
+        [/(リモート|在宅|出社|オフィス|zoom)/, '距離感'],
+        [/(AI|ChatGPT|Claude|ツール|自動化)/, '道具と人間'],
+        [/(値上げ|コスト|インフレ|価格|お金|給料)/, '実体経済'],
+        [/(洗車|車|現場|職人|設備|建築)/, '泥臭さ'],
+        [/(人間関係|コミュニケーション|挨拶|本音|建前)/, '境界線'],
+        [/(タイパ|コスパ|効率|時短)/, '倍速の世界'],
+        [/(失敗|挫折|倒産|赤字|借金)/, '最強の教科書'],
+        [/(経営|独立|起業|事業|リーダー)/, '覚悟の重さ'],
+        [/(SNS|X|Twitter|インスタ|バズ)/, '承認と虚栄'],
+        [/(健康|睡眠|老い|中年|体力|体調)/, '枯れゆく身体'],
+        [/(横浜|桜木町|街|地元|地域)/, '街の記憶']
+      ];
 
-■オフィスで感じる、ふとした瞬間
+      for (let [re, title] of mapping) {
+        if (re.test(t)) return title;
+      }
+      return t.length <= 8 ? t : '違和感';
+    }
 
-連日、様々なニュースや出来事が流れていく。
-そして日常の中で、ふとした瞬間に立ち止まる細身のオジ(おじ)がいる。
+    function buildDynamicOjiEssay(rawTopic) {
+      const topic = rawTopic.trim().replace(/^【(.*?)】$/, '$1');
+      const title = extractTitleKeyword(topic);
 
-お題：「${topic}」
+      return `【${title}】
 
-理由はざっくり3つ。
+■街とオフィスで感じる、ふとした瞬間
 
-1. 時代の変化スピードが早すぎて、オジ(おじ)のアップデートが追いついていない（自虐()）。
-2. 若者の感覚や合理性は正しいのに、なんとなく過去のやり方に固執してしまう（反省()）。
-3. そして、言葉にしない違和感をみんな抱えながら、毎日を必死に生きているということ。
+連日、様々なニュースや新しいトレンドが猛スピードで流れていく。
+街を歩いていても、打ち合わせの席に座っていても、ふとした瞬間に立ち止まるオジ(おじ)がいる。
 
-つまりこれは「誰が悪い」という話ではなく(みんな知ってる)、時代の移り変わりと構造の変化が生んだ、ごく自然なグラデーションに過ぎない。らしい。
+お題は、まさに「${topic}」についてだ。
+
+世間ではスマートな正論や効率的なノウハウが飛び交っているけれど、実際に泥臭く現場で汗を流していると、どうしても言葉にできないザラつきのようなものが胸に残る。
+
+理由はざっくり3つある。
+
+1. 時代の変化スピードが早すぎて、オジ(おじ)の脳内OSのアップデートがまるで追いついていない（自虐()）。
+2. 若い世代やデジタルの合理性は100%正しいのに、なんとなく過去のやり方に未練を残してしまう（反省()）。
+3. そして、「${topic}」の背後にある本音や違和感を、みんな見て見ぬふりをしながら毎日を必死に生き抜いているということ。
+
+つまりこれは「誰が正しい」「誰が間違っている」という話ではなく(みんな薄々気づいてる)、時代の移り変わりと人間心理が生み出した、ごく自然なグラデーションに過ぎない。らしい。
 
 ■オジ(おじ)の立ち位置
 
-一応、あります。私なりの配慮が。
+一応、あります。私なりの配慮と大人の分別が。
 
-若い世代の邪魔をしないように、でも困ったときにはそっと手を差し伸べられるように（大人の分別()）。
-偉そうなアドバイスなんて求められてないし、聞かれてもないのに語り出すオジ(おじ)にはなりたくない。
+会社経営を25年やってきて、建築の現場から音楽マネジメント、事業支援まで色々と見てきた。
+痛い目も山ほど見たし、失敗という名の最強の教科書も死ぬほど読んできた。
 
+だからこそ、若い世代の邪魔はしたくない。
+聞かれてもないのに「昔はこうだった」なんて語り出すオジ(おじ)には絶対に成り下がりたくない（カッコつけ()）。
+
+でも、困ったときに後ろからそっと手を差し伸べられるくらいの余白は持っておきたい。
 …持たざるものの知恵、か。
 
-■デメリット
+■デメリットと現実
 
-意固地になることのダメージは、地味に切実。
+意固地になることのダメージは、地味に切実だ。
 
-変われない人間から孤立していく。
+「${topic}」に向き合えず、過去の栄光やすがれる何かに固執した人間から、静かに時代の外側へ追いやられていく。
 これはもう完全に歴史が証明している。私はそう思っている。
 
 ______
 
-現実問題、世の中はどんどんスマートに、タイパ重視で進んでいきます。
+現実問題、世の中はどんどんタイパ重視で、無駄を削ぎ落としたスマートな方向へ進んでいきます。
 デカい変化。これからはもっと加速する。
+
+でも、最後に人を動かすのは、やっぱり計算できない泥臭さと、不器用な情熱だったりするんだよね。知らんけど()。
 
 だから今出来る事を黙々とやるよ、
 自分のペースで、一歩ずつ前に進むだけ。
-熟睡したいぜ。いつも夜は美味しいご飯を食べてぐっすり眠りたい。
+熟睡したいぜ。今夜は美味しいご飯を食べて、何にも考えずにぐっすり眠りたい。
 
 皆さんよい週末を。`;
+    }
 
-      // 2. SNSマルチ展開
-      const xPost = `【新着トピック】
-${topic}
+    async function generateContent() {
+      inputArea.blur();
+      const rawTopic = inputArea.value.trim() || "日常の気づきとビジネスの違和感";
 
-横浜・桜木町から中小企業・スタートアップの成長を強力にサポート。
-現場重視の伴走支援を展開中。
+      // 1. オジ文体動的生成
+      const ojiText = buildDynamicOjiEssay(rawTopic);
+
+      // 2. SNSマルチ展開テキスト動的生成
+      const xPost = `【事業支援・新着トピック】
+${rawTopic}
+
+横浜・桜木町を拠点に、中小企業・スタートアップの現場に入り込む実働型事業支援パートナー。
+課題解決から次の成長の一手まで一貫伴走します。
 
 詳細はこちら👇
 https://sgopartners.com
-#SGOPartners #事業支援 #横浜`;
+#SGOPartners #事業支援 #横浜 #経営パートナー`;
 
-      const igPost = `✨ SGO Partners 支援トピック ✨
-${topic}
+      const igPost = `✨ ${rawTopic} ✨
 
-横浜・桜木町を拠点に、経営戦略・財務計画からWeb・IT実装まで一気通貫で伴走支援を行っています。
+私たちが目指すのは、ただのアドバイスにとどまらない「現場伴走型の事業支援」。
+経営課題の抽出から、事業計画・ブランディング・Web実装まで一気通貫でサポートします。
 
+━━━━━━━━━━━━━━━
 📍 SGO Partners
-拠点：横浜・桜木町
+拠点：横浜・桜木町（クロスゲート7F）
 対応エリア：神奈川・東京・全国オンライン
+━━━━━━━━━━━━━━━
 
 プロフィールのリンクから無料相談を受付中🔗
 @sgopartners_official
 
 .
-#SGOPartners #事業コンサルティング #経営戦略 #中小企業支援 #横浜ビジネス #桜木町 #DX推進`;
+#SGOPartners #事業コンサルティング #経営戦略 #中小企業支援 #スタートアップ支援 #横浜ビジネス #桜木町 #神奈川 #Web集客 #DX推進 #事業成長 #起業家支援 #ビジネスパートナー #伴走支援 #経営革新 #戦略支援`;
 
-      const fbPost = `【SGO Partners 最新の取り組み】
+      const fbPost = `【SGO Partners 最新の取り組みと事業報告】
 
-${topic}
+『${rawTopic}』
 
 平素よりSGO Partnersをご愛顧いただき誠にありがとうございます。
-横浜・桜木町を拠点に、中小企業・スタートアップ企業様向けに伴走型事業支援を展開しております。
+私たちは横浜・桜木町を拠点に、神奈川および東京の中小企業・スタートアップ企業様向けに伴走型事業支援を展開しております。
+
+昨今のビジネス環境において、単なる部分最適ではなく、事業戦略・財務計画・マーケティング・ITシステム実装までをシームレスに統合した伴走支援が求められています。
+
+弊社では今後も、経営者様と同じ目線で課題解決と持続的成長の実現にコミットしてまいります。
 
 ▼ 詳しい支援実績・無料経営相談はこちら
 https://sgopartners.com`;
@@ -264,9 +313,24 @@ https://sgopartners.com`;
         note: ojiText
       };
 
-      renderResult();
+      // バックエンド（mobile_bridge.py等）が存在する場合は非同期通信も試行
+      try {
+        fetch('/api/mobile_execute', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mode: currentMode, prompt: rawTopic })
+        }).then(res => res.ok ? res.json() : null).then(json => {
+          if (json && json.output) {
+            if (currentMode === 'oji') {
+              generatedData.oji = json.output;
+              generatedData.note = json.output;
+            }
+            renderResult();
+          }
+        }).catch(() => {});
+      } catch (e) {}
 
-      // 結果エリアへスムーズにスクロール
+      renderResult();
       document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
