@@ -3,155 +3,538 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>SGO Mobile Studio | クイックコピー＆SNS投稿</title>
+  <title>SGO Mobile Studio | ゼロベース執筆＆4大SNSマルチ展開</title>
+  <meta name="description" content="鈴木啓悟の実筆オジ文体エッセイ・ビジネスコラムのゼロベース生成＆4大SNS（note, X, Instagram, Facebook）マルチ展開スタジオ">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <style>
     :root {
-      --bg: #0b1320;
-      --card-bg: #142033;
+      --bg: #070d18;
+      --card-bg: #0f172a;
+      --card-inner: #080e1a;
       --primary: #2563eb;
-      --accent: #38bdf8;
+      --primary-hover: #1d4ed8;
+      --primary-gradient: linear-gradient(135deg, #2563eb, #1d4ed8);
+      --accent-cyan: #38bdf8;
+      --accent-gold: #f59e0b;
+      --accent-green: #10b981;
       --text: #f8fafc;
       --text-muted: #94a3b8;
-      --border: rgba(255, 255, 255, 0.1);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-focus: #3b82f6;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    html, body { background: var(--bg); color: var(--text); padding: 14px; min-height: 100vh; }
-    
-    header { text-align: center; margin-bottom: 16px; padding-top: 6px; }
-    header h1 { font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px; color: #fff; }
-    header p { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
-    
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: var(--text); padding: 14px 12px 60px; min-height: 100vh; line-height: 1.5; }
+
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding: 2px 4px; }
+    .header-left h1 { font-size: 1.25rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; display: flex; align-items: center; gap: 6px; }
+    .header-left p { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+    .header-actions { display: flex; gap: 6px; }
+    .btn-header { background: #1e293b; border: 1px solid var(--border); color: var(--text-muted); border-radius: 10px; padding: 7px 11px; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .btn-header.key-set { color: #38bdf8; border-color: rgba(56,189,248,0.3); }
+    .btn-header.key-empty { background: #dc2626; color: #fff; border-color: #ef4444; }
+
+    .card { background: var(--card-bg); border-radius: 16px; padding: 14px; border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,0.35); margin-bottom: 14px; }
+    .card-title { font-size: 0.82rem; font-weight: 700; color: var(--accent-cyan); display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+
+    /* トーン選択グリッド */
+    .tone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+    .tone-btn { background: #162032; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 10px 8px; text-align: left; cursor: pointer; transition: all 0.2s; }
+    .tone-btn.active { background: var(--primary-gradient); border-color: #60a5fa; color: #fff; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+    .tone-name { font-size: 0.8rem; font-weight: 700; color: #f1f5f9; }
+    .tone-btn.active .tone-name { color: #fff; }
+    .tone-desc { font-size: 0.66rem; color: #64748b; margin-top: 3px; line-height: 1.3; }
+    .tone-btn.active .tone-desc { color: rgba(255,255,255,0.85); }
+
+    /* 入力フォーム */
+    .field-group { margin-bottom: 12px; }
+    .field-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .field-label { font-size: 0.8rem; font-weight: 700; color: #f8fafc; }
+    .field-count { font-size: 0.72rem; color: #64748b; }
+    input[type="text"], textarea { width: 100%; background: var(--card-inner); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 12px; color: #fff; font-size: 0.92rem; outline: none; transition: border-color 0.2s; }
+    input[type="text"]:focus, textarea:focus { border-color: var(--border-focus); }
+
+    .btn-generate { width: 100%; background: var(--primary-gradient); color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 0.98rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 16px rgba(37,99,235,0.4); display: flex; align-items: center; justify-content: center; gap: 8px; transition: transform 0.1s, opacity 0.2s; }
+    .btn-generate:active { transform: scale(0.98); }
+    .btn-generate:disabled { background: #334155; opacity: 0.6; cursor: not-allowed; }
+
+    /* 4大SNSタブ */
     .tab-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 12px; scrollbar-width: none; }
-    .tab-btn { flex: 1; min-width: 70px; padding: 9px 4px; border: 1px solid var(--border); border-radius: 10px; background: #1a2a44; color: var(--text-muted); font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; text-align: center; }
-    .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .tab-btn { flex: 1; min-width: 68px; padding: 9px 4px; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; background: #162032; color: var(--text-muted); font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s; text-align: center; }
+    .tab-btn.active { background: var(--primary); color: #fff; border-color: #60a5fa; }
 
-    .card { background: var(--card-bg); border-radius: 14px; padding: 14px; border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(0,0,0,0.3); margin-bottom: 14px; }
-    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .card-title { font-size: 0.88rem; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 6px; }
-    .char-badge { font-size: 0.75rem; color: var(--text-muted); }
+    .result-box { width: 100%; height: 340px; background: var(--card-inner); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 14px; color: #f1f5f9; font-size: 0.9rem; line-height: 1.7; outline: none; resize: none; margin-bottom: 12px; }
+    .result-box.sns-mode { height: 180px; }
 
-    textarea { width: 100%; height: 260px; background: #0c1421; border: 1px solid var(--border); border-radius: 10px; color: #fff; padding: 12px; font-size: 0.95rem; line-height: 1.6; resize: none; outline: none; transition: border-color 0.2s; }
-    textarea:focus { border-color: #3b82f6; }
+    .action-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 10px; }
+    .btn-action { padding: 13px; border-radius: 12px; font-size: 0.9rem; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; text-align: center; }
+    .btn-copy { background: linear-gradient(135deg, #10b981, #059669); color: #fff; box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+    .btn-copy.copied { background: #059669; }
+    .btn-open { background: #1e293b; color: #f8fafc; border: 1px solid rgba(255,255,255,0.1); }
 
-    .action-bar { display: grid; grid-template-columns: 1.2fr 1fr; gap: 10px; margin-top: 12px; }
-    .btn { padding: 12px; border-radius: 10px; font-size: 0.9rem; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; text-align: center; }
-    .btn-copy { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; box-shadow: 0 4px 12px rgba(37,99,235,0.4); }
-    .btn-copy.copied { background: #10b981; }
-    .btn-open { background: #1e293b; color: #f8fafc; border: 1px solid var(--border); }
+    /* モーダル・ドロワー */
+    .drawer-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.75); z-index: 900; display: none; justify-content: flex-end; backdrop-filter: blur(3px); }
+    .drawer-overlay.open { display: flex; }
+    .drawer-content { width: 100%; maxWidth: 420px; background: #0f172a; height: 100%; padding: 18px 14px; display: flex; flex-direction: column; border-left: 1px solid rgba(255,255,255,0.1); }
 
-    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: #10b981; color: #fff; padding: 10px 24px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 100; box-shadow: 0 4px 16px rgba(0,0,0,0.5); }
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px); }
+    .modal-overlay.open { display: flex; }
+    .modal-card { background: #0f172a; border-radius: 18px; padding: 20px; width: 100%; max-width: 420px; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 16px 36px rgba(0,0,0,0.6); }
+
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: rgba(16, 185, 129, 0.95); color: #fff; padding: 10px 22px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1100; box-shadow: 0 6px 20px rgba(0,0,0,0.5); backdrop-filter: blur(8px); }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
+  <!-- ヘッダー -->
   <header>
-    <h1>🚀 SGO Mobile Studio</h1>
-    <p>AI生成テキストの確認・ワンタップコピー＆アプリ連携</p>
+    <div class="header-left">
+      <h1>🚀 SGO Mobile Studio</h1>
+      <p>ゼロベース執筆＆4大SNSマルチ展開スタジオ</p>
+    </div>
+    <div class="header-actions">
+      <button id="historyBtn" class="btn-header" onclick="openHistory()">📚 履歴 (<span id="historyCount">0</span>)</button>
+      <button id="keyBtn" class="btn-header key-empty" onclick="openKeyModal()">⚙️ 設定</button>
+    </div>
   </header>
 
-  <!-- プラットフォーム切り替えタブ -->
-  <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('note', event)">📝 note</button>
-    <button class="tab-btn" onclick="switchTab('x', event)">🐦 X</button>
-    <button class="tab-btn" onclick="switchTab('instagram', event)">📸 Instagram</button>
-    <button class="tab-btn" onclick="switchTab('facebook', event)">👥 Facebook</button>
+  <!-- トーン選択カード -->
+  <div class="card">
+    <div class="card-title">🎭 執筆トーンを選択</div>
+    <div class="tone-grid">
+      <button class="tone-btn active" onclick="selectTone('oji', this)">
+        <div class="tone-name">✍️ オジ文体 (原本再現)</div>
+        <div class="tone-desc">自虐・自己ツッコミ()・肌感から実体経済/格差着地・熟睡したいぜ</div>
+      </button>
+      <button class="tone-btn" onclick="selectTone('business', this)">
+        <div class="tone-name">💼 硬派ビジネス・知見</div>
+        <div class="tone-desc">25年の経営知見・現場の泥臭さ・構造的アプローチ</div>
+      </button>
+      <button class="tone-btn" onclick="selectTone('sharp', this)">
+        <div class="tone-name">⚡ 鋭い辛口・本音</div>
+        <div class="tone-desc">世間の建前や欺瞞、構造の歪みをズバッと突く切れ味</div>
+      </button>
+      <button class="tone-btn" onclick="selectTone('story', this)">
+        <div class="tone-name">🌿 現場録・人間ドラマ</div>
+        <div class="tone-desc">汗と泥臭い情熱、人間味あふれる共感エッセイ</div>
+      </button>
+    </div>
   </div>
 
+  <!-- 入力フォーム -->
   <div class="card">
-    <div class="card-header">
-      <span id="targetLabel" class="card-title">📝 note エッセイ本文</span>
-      <span id="charCount" class="char-badge">0 文字</span>
+    <div class="field-group">
+      <div class="field-header">
+        <label class="field-label">💡 noteのお題・テーマ <span style="color: #ef4444;">*</span></label>
+        <span id="topicCount" class="field-count">0 文字</span>
+      </div>
+      <input type="text" id="topicInput" placeholder="例: 下請け構造と物価高のシワ寄せ、Z世代と昭和の職人気質" oninput="updateCounts()">
     </div>
 
-    <textarea id="contentBox" placeholder="ここに生成された文章を貼り付け、または編集して即時コピーできます..."></textarea>
+    <div class="field-group">
+      <div class="field-header">
+        <label class="field-label" style="color: #94a3b8;">✍️ 着眼点・現場メモ・入れたい本音 (任意)</label>
+        <span id="detailsCount" class="field-count">0 文字</span>
+      </div>
+      <textarea id="detailsInput" rows="3" placeholder="例: 先週の現場点検での会話。値上げできない零細の辛さ。最後は前向きに。「熟睡したい」を入れて。" oninput="updateCounts()"></textarea>
+    </div>
 
-    <div class="action-bar">
-      <button id="copyBtn" class="btn btn-copy" onclick="copyContent()">
-        <span>📋 全文コピー</span>
+    <button id="generateBtn" class="btn-generate" onclick="generateContent()">
+      <span id="btnIcon">⚡</span>
+      <span id="btnText">完全ゼロベース執筆を開始</span>
+    </button>
+  </div>
+
+  <!-- 生成結果エリア -->
+  <div id="resultCard" class="card" style="display: none;">
+    <!-- 4大SNSタブ -->
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('note', this)">📝 note (<span id="noteCharBadge">0</span>字)</button>
+      <button class="tab-btn" onclick="switchTab('x', this)">🐦 X (<span id="xCharBadge">0</span>字)</button>
+      <button class="tab-btn" onclick="switchTab('instagram', this)">📸 Instagram</button>
+      <button class="tab-btn" onclick="switchTab('facebook', this)">👥 Facebook</button>
+    </div>
+
+    <textarea id="resultText" class="result-box"></textarea>
+
+    <div class="action-grid">
+      <button id="copyBtn" class="btn-action btn-copy" onclick="copyCurrentTab()">
+        <span>📋 本文をコピー</span>
       </button>
-      <a id="openAppBtn" class="btn btn-open" href="https://note.com" target="_blank" rel="noopener">
+      <a id="openAppBtn" class="btn-action btn-open" href="https://note.com" target="_blank" rel="noopener">
         <span>🚀 noteを開く</span>
       </a>
     </div>
   </div>
 
+  <!-- 履歴ドロワー -->
+  <div id="historyDrawer" class="drawer-overlay" onclick="closeHistory()">
+    <div class="drawer-content" onclick="event.stopPropagation()">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+        <h2 style="font-size: 1.1rem; font-weight: 800; color: #f8fafc;">📚 執筆履歴</h2>
+        <button onclick="closeHistory()" style="background: transparent; border: none; color: #94a3b8; font-size: 1.2rem; cursor: pointer;">✕</button>
+      </div>
+      <div id="historyList" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;"></div>
+    </div>
+  </div>
+
+  <!-- APIキーモーダル -->
+  <div id="keyModal" class="modal-overlay">
+    <div class="modal-card">
+      <h2 style="font-size: 1.1rem; font-weight: 800; color: #f8fafc; margin-bottom: 8px;">🔑 Google Gemini API キー設定</h2>
+      <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.5; margin-bottom: 14px;">
+        外出先（スマホLTE/5G）から直接AIを呼び出すため、APIキーを設定してください。キーは端末（ブラウザ）内のみに安全に保存されます。
+      </p>
+      <input type="password" id="apiKeyInput" placeholder="AIzaSy..." style="margin-bottom: 12px;">
+      <div style="font-size: 0.75rem; color: #38bdf8; margin-bottom: 16px;">
+        <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" style="color: #38bdf8; text-decoration: underline;">
+          👉 Google AI Studio で無料APIキーを取得する（無料枠あり）
+        </a>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button onclick="closeKeyModal()" style="flex: 1; background: #1e293b; color: #cbd5e1; border: none; border-radius: 10px; padding: 12px; font-weight: 700; cursor: pointer;">キャンセル</button>
+        <button onclick="saveApiKey()" style="flex: 1; background: var(--primary-gradient); color: #fff; border: none; border-radius: 10px; padding: 12px; font-weight: 800; cursor: pointer;">保存して適用</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- トースト -->
   <div id="toast" class="toast">クリップボードにコピーしました！</div>
 
   <script>
-    let currentTab = 'note';
-    const contents = {
-      note: "",
-      x: "",
-      instagram: "",
-      facebook: ""
+    const TONES = {
+      oji: {
+        name: "✍️ オジ文体 (原本再現)",
+        systemPrompt: `あなたは「鈴木啓悟」本人としてnoteエッセイを執筆する最高峰のゴーストライターです。
+以下の【文体ルール】と【原本スタイル】を極限まで忠実に再現し、与えられたお題に対して1,500〜2,500文字の深みのあるエッセイをゼロベースで書き下ろしてください。
+
+【厳格な執筆ルール】
+1. 定型文（「連日、様々なニュースが…」「脳内OSのアップデートが…」等）の使い回しは完全禁止。お題に固有の現場感・リアルな違和感をゼロから書くこと。
+2. タイトルは必ず【】で囲んだ一語〜短句（例: 【ギャップ】【ズレ】【お地蔵さん】【タイパ】【違和感】【境界線】【泥臭さ】【覚悟】など）。
+3. 見出しは「■」を使用し、3〜4ブロック構成にする。
+4. 自称は「オジ(おじ)」。
+5. （）を使った照れ隠し・自己ツッコミを自然に多用する（例: 得意気()に、自虐()、反省()、カッコつけ()、知らんけど()）。
+6. 句読点（、）のリズムを意図的に効かせ、語りかけるような独特のグルーヴを作る。
+7. 構成の流れ：身の回りの生々しい肌感・違和感のエピソード ➔ 理由の箇条書き（ざっくり3〜4つ） ➔ 格差・実体経済・世代構造への鋭い社会派着地。
+8. 絵文字は要所のみ的確に配置（💹🇺🇸🇯🇵💸🌀✍️など）。
+9. 最後のオチ：「だから今出来る事を黙々とやるよ、」「熟睡したいぜ。いつもご飯腹いっぱい食べたい。」などの本音 ➔ 「皆さんよい週末を。」で必ず締めくくる。
+10. 全体で1,500〜2,500文字程度の読み応えあるボリュームにすること。マークダウンの装飾記号（\`\`\`等）は付けず、エッセイ本文のみを出力すること。`
+      },
+      business: {
+        name: "💼 硬派ビジネス・知見",
+        systemPrompt: `あなたは会社経営25年の経験を持つ事業家（鈴木啓悟）として、実践的なビジネス知見・コラムを執筆します。
+建前や教科書通りの理論ではなく、現場で汗をかき、修羅場をくぐってきた経営者ならではの「泥臭くも再現性のある本質」を1,500〜2,500文字で論述してください。
+構成：【タイトル】➔ ■現状の構造と課題 ➔ ■現場の実態と見落とされがちな真実 ➔ ■事業家としての実践的打ち手 ➔ ■まとめ。`
+      },
+      sharp: {
+        name: "⚡ 鋭い辛口・本音",
+        systemPrompt: `あなたは世の中の綺麗事や建前、不都合な真実に鋭くメスを入れる辛口コラムニスト（鈴木啓悟）として執筆します。
+世間が口を濁す構造的な格差、制度の形骸化、利害関係の歪みを、ユーモアと冷徹なリアリズムを交えて1,500〜2,500文字で痛快に論破・言語化してください。
+最後は読者に媚びず、現実を直視した上での前向きな覚悟で締めること。`
+      },
+      story: {
+        name: "🌿 現場録・人間ドラマ",
+        systemPrompt: `あなたは現場の人間味と泥臭い情熱に焦点を当てるエッセイスト（鈴木啓悟）として執筆します。
+建築、洗車、地域ビジネス、職人たちの息遣いや葛藤、人との出会いによって心が動かされた瞬間を、情景が浮かぶ温かくも芯のある筆致で1,500〜2,500文字で書き下ろしてください。`
+      }
     };
+
+    let currentTone = 'oji';
+    let currentTab = 'note';
+    let contentStore = { note: "", x: "", instagram: "", facebook: "" };
 
     const urls = {
       note: "https://note.com",
-      x: "https://twitter.com/compose/tweet",
+      x: "https://twitter.com/intent/tweet?text=",
       instagram: "https://www.instagram.com/",
       facebook: "https://www.facebook.com/"
     };
 
-    const labels = {
-      note: "📝 note エッセイ本文",
-      x: "🐦 X (Twitter) 投稿文",
-      instagram: "📸 Instagram キャプション",
-      facebook: "👥 Facebook 投稿文"
-    };
+    function init() {
+      const key = localStorage.getItem("sgo_gemini_api_key");
+      const keyBtn = document.getElementById("keyBtn");
+      if (key) {
+        keyBtn.className = "btn-header key-set";
+        keyBtn.textContent = "⚙️ 設定 (設定済)";
+      } else {
+        keyBtn.className = "btn-header key-empty";
+        keyBtn.textContent = "⚙️ キー未設定";
+        openKeyModal();
+      }
+      updateHistoryBadge();
+    }
 
-    const textBox = document.getElementById('contentBox');
-    textBox.addEventListener('input', () => {
-      contents[currentTab] = textBox.value;
-      updateBadge();
-    });
+    function selectTone(toneId, btn) {
+      currentTone = toneId;
+      document.querySelectorAll(".tone-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+    }
 
-    function switchTab(tab, e) {
-      if (e) e.preventDefault();
-      contents[currentTab] = textBox.value;
+    function updateCounts() {
+      document.getElementById("topicCount").textContent = `${document.getElementById("topicInput").value.length} 文字`;
+      document.getElementById("detailsCount").textContent = `${document.getElementById("detailsInput").value.length} 文字`;
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2500);
+    }
+
+    function openKeyModal() {
+      document.getElementById("apiKeyInput").value = localStorage.getItem("sgo_gemini_api_key") || "";
+      document.getElementById("keyModal").classList.add("open");
+    }
+    function closeKeyModal() {
+      document.getElementById("keyModal").classList.remove("open");
+    }
+    function saveApiKey() {
+      const val = document.getElementById("apiKeyInput").value.trim();
+      if (!val) {
+        alert("APIキーを入力してください。");
+        return;
+      }
+      localStorage.setItem("sgo_gemini_api_key", val);
+      closeKeyModal();
+      init();
+      showToast("✅ APIキーを保存しました");
+    }
+
+    async function generateContent() {
+      const apiKey = localStorage.getItem("sgo_gemini_api_key");
+      if (!apiKey) {
+        openKeyModal();
+        return;
+      }
+
+      const topic = document.getElementById("topicInput").value.trim();
+      const details = document.getElementById("detailsInput").value.trim();
+      if (!topic) {
+        alert("お題やテーマを入力してください。");
+        return;
+      }
+
+      const genBtn = document.getElementById("generateBtn");
+      const btnIcon = document.getElementById("btnIcon");
+      const btnText = document.getElementById("btnText");
+
+      genBtn.disabled = true;
+      btnIcon.innerHTML = `<span class="spinner"></span>`;
+      btnText.textContent = "ゼロベース書き下ろし中 (1,500〜2,500字)...";
+
+      const selectedTone = TONES[currentTone];
+      const userPrompt = `【お題】: ${topic}
+${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
+
+上記のお題に基づき、指定の文体・構成ルールを100%遵守して、1,500〜2,500文字の完全ゼロベース書き下ろしエッセイを作成してください。`;
+
+      try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: [{ text: `${selectedTone.systemPrompt}\n\n${userPrompt}` }] }],
+            generationConfig: { temperature: 0.85, topP: 0.95, maxOutputTokens: 3500 }
+          })
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error?.message || `通信エラー (${res.status})`);
+        }
+
+        const data = await res.json();
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+        if (!text) throw new Error("生成結果が空でした。");
+
+        contentStore.note = text;
+        contentStore.x = "";
+        contentStore.instagram = "";
+        contentStore.facebook = "";
+
+        document.getElementById("resultCard").style.display = "block";
+        switchTab("note");
+        showToast("✨ ゼロベース執筆が完了しました！");
+
+        // 履歴保存
+        const historyItem = {
+          id: Date.now().toString(),
+          createdAt: new Date().toLocaleString("ja-JP"),
+          topic,
+          tone: selectedTone.name,
+          text,
+          charCount: text.length,
+          sns: { x: "", instagram: "", facebook: "" }
+        };
+        saveHistory(historyItem);
+
+        // SNS自動展開
+        autoGenerateSns(text, historyItem.id);
+      } catch (err) {
+        alert(`生成に失敗しました: ${err.message}\nAPIキーを確認してください。`);
+      } finally {
+        genBtn.disabled = false;
+        btnIcon.textContent = "⚡";
+        btnText.textContent = "完全ゼロベース執筆を開始";
+      }
+    }
+
+    async function autoGenerateSns(essayText, historyId) {
+      const apiKey = localStorage.getItem("sgo_gemini_api_key");
+      if (!apiKey || !essayText) return;
+
+      const snsPrompt = `以下のnoteエッセイを元に、各SNSプラットフォームに最適化された投稿文をJSON形式で作成してください。
+
+【元エッセイ】:
+${essayText.slice(0, 2000)}
+
+【出力フォーマット（厳格なJSONのみを出力）】:
+{
+  "x": "140字以内のX投稿文（興味を惹くフック＋要約＋ハッシュタグ2〜3個）",
+  "instagram": "Instagram用キャプション（改行で読みやすく、共感ストーリー＋関連ハッシュタグ15個程度）",
+  "facebook": "Facebook用投稿文（ビジネス関係者や経営者向けの丁寧な解説と学び、導入リンク導線）"
+}`;
+
+      try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: [{ text: snsPrompt }] }],
+            generationConfig: { temperature: 0.7, responseMimeType: "application/json" }
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          const json = JSON.parse(data.candidates?.[0]?.content?.parts?.[0]?.text || "{}");
+          contentStore.x = json.x || "";
+          contentStore.instagram = json.instagram || "";
+          contentStore.facebook = json.facebook || "";
+
+          document.getElementById("xCharBadge").textContent = (json.x || "").length;
+          if (currentTab !== "note") {
+            document.getElementById("resultText").value = contentStore[currentTab];
+          }
+
+          // 履歴更新
+          updateHistorySns(historyId, json);
+        }
+      } catch (e) {
+        console.warn("SNS generation error:", e);
+      }
+    }
+
+    function switchTab(tab, btn) {
+      contentStore[currentTab] = document.getElementById("resultText").value;
       currentTab = tab;
 
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      if (e && e.target) e.target.classList.add('active');
+      if (btn) {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+      }
 
-      document.getElementById('targetLabel').textContent = labels[tab];
-      textBox.value = contents[tab] || "";
-      
-      const openBtn = document.getElementById('openAppBtn');
-      openBtn.href = urls[tab];
+      const resultBox = document.getElementById("resultText");
+      resultBox.value = contentStore[tab] || "";
+      resultBox.className = tab === "note" ? "result-box" : "result-box sns-mode";
+
+      document.getElementById("noteCharBadge").textContent = (contentStore.note || "").length;
+      document.getElementById("xCharBadge").textContent = (contentStore.x || "").length;
+
+      const openBtn = document.getElementById("openAppBtn");
+      if (tab === "x") {
+        openBtn.href = `${urls.x}${encodeURIComponent(contentStore.x || contentStore.note.slice(0, 100))}`;
+      } else {
+        openBtn.href = urls[tab];
+      }
       openBtn.innerHTML = `<span>🚀 ${tab.toUpperCase()} を開く</span>`;
-
-      updateBadge();
     }
 
-    function updateBadge() {
-      document.getElementById('charCount').textContent = `${textBox.value.length} 文字`;
-    }
-
-    function copyContent() {
-      const text = textBox.value;
+    function copyCurrentTab() {
+      const text = document.getElementById("resultText").value;
       if (!text) {
         alert("コピーする文章がありません。");
         return;
       }
       navigator.clipboard.writeText(text).then(() => {
-        const btn = document.getElementById('copyBtn');
-        btn.classList.add('copied');
-        btn.innerHTML = '<span>✅ コピー完了！</span>';
-
-        const toast = document.getElementById('toast');
-        toast.classList.add('show');
+        const btn = document.getElementById("copyBtn");
+        btn.classList.add("copied");
+        btn.innerHTML = `<span>✅ コピー完了！</span>`;
+        showToast("📋 クリップボードにコピーしました！");
         setTimeout(() => {
-          btn.classList.remove('copied');
-          btn.innerHTML = '<span>📋 全文コピー</span>';
-          toast.classList.remove('show');
+          btn.classList.remove("copied");
+          btn.innerHTML = `<span>📋 本文をコピー</span>`;
         }, 2000);
       });
     }
 
-    // 初期化
-    updateBadge();
+    /* 履歴管理 */
+    function getHistories() {
+      try { return JSON.parse(localStorage.getItem("sgo_studio_history") || "[]"); } catch { return []; }
+    }
+    function saveHistory(item) {
+      const list = [item, ...getHistories().filter(h => h.id !== item.id)].slice(0, 40);
+      localStorage.setItem("sgo_studio_history", JSON.stringify(list));
+      updateHistoryBadge();
+    }
+    function updateHistorySns(id, sns) {
+      const list = getHistories().map(h => h.id === id ? { ...h, sns } : h);
+      localStorage.setItem("sgo_studio_history", JSON.stringify(list));
+    }
+    function updateHistoryBadge() {
+      document.getElementById("historyCount").textContent = getHistories().length;
+    }
+    function openHistory() {
+      const list = getHistories();
+      const container = document.getElementById("historyList");
+      if (list.length === 0) {
+        container.innerHTML = `<div style="text-align:center;color:#64748b;padding:40px 0;">履歴はありません</div>`;
+      } else {
+        container.innerHTML = list.map(item => `
+          <div style="background:#162032;border-radius:12px;padding:12px;border:1px solid var(--border);cursor:pointer;" onclick="loadHistory('${item.id}')">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
+              <span style="font-size:0.85rem;font-weight:700;color:#38bdf8;">${item.topic}</span>
+              <button onclick="event.stopPropagation();deleteHistory('${item.id}')" style="background:transparent;border:none;color:#ef4444;cursor:pointer;">🗑️</button>
+            </div>
+            <div style="font-size:0.72rem;color:#94a3b8;display:flex;justify-content:space-between;">
+              <span>${item.tone}</span>
+              <span>${item.charCount} 字 / ${item.createdAt}</span>
+            </div>
+          </div>
+        `).join("");
+      }
+      document.getElementById("historyDrawer").classList.add("open");
+    }
+    function closeHistory() {
+      document.getElementById("historyDrawer").classList.remove("open");
+    }
+    function loadHistory(id) {
+      const item = getHistories().find(h => h.id === id);
+      if (!item) return;
+      document.getElementById("topicInput").value = item.topic;
+      contentStore.note = item.text;
+      contentStore.x = item.sns?.x || "";
+      contentStore.instagram = item.sns?.instagram || "";
+      contentStore.facebook = item.sns?.facebook || "";
+      document.getElementById("resultCard").style.display = "block";
+      switchTab("note");
+      closeHistory();
+      showToast("📂 履歴から読み込みました");
+    }
+    function deleteHistory(id) {
+      const list = getHistories().filter(h => h.id !== id);
+      localStorage.setItem("sgo_studio_history", JSON.stringify(list));
+      openHistory();
+      updateHistoryBadge();
+    }
+
+    // 起動
+    init();
   </script>
 </body>
 </html>
