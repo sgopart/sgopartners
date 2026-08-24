@@ -32,26 +32,31 @@ const TONES_MAP = {
 
 export async function onRequestPost(context) {
   try {
-    const { apiKey, tone = "oji", topic, details = "" } = await context.request.json();
+    const data = await context.request.json().catch(() => ({}));
+    const rawKey = data.apiKey || "";
+    const cleanKey = rawKey.trim().replace(/^['"]|['"]$/g, "");
+    const tone = data.tone || "oji";
+    const topic = (data.topic || "").trim();
+    const details = (data.details || "").trim();
 
-    if (!apiKey) {
-      return new Response(JSON.stringify({ success: false, error: "APIキーが指定されていません。右上の「⚙️ 設定」からGemini APIキーを入力してください。" }), {
+    if (!cleanKey) {
+      return new Response(JSON.stringify({ success: false, error: "APIキーが設定されていません。右上の「⚙️ 設定」をタップしてGemini APIキーを貼り付けてください。" }), {
         status: 400,
-        headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+        headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
       });
     }
 
-    if (!topic || !topic.trim()) {
-      return new Response(JSON.stringify({ success: false, error: "お題が入力されていません。" }), {
+    if (!topic) {
+      return new Response(JSON.stringify({ success: false, error: "お題が入力されていません。「🎲 ランダム」または「✨ AIでお題提案」をお試しください。" }), {
         status: 400,
-        headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+        headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
       });
     }
 
     const systemPrompt = TONES_MAP[tone] || TONES_MAP.oji;
-    const userPrompt = `【お題】: ${topic}\n${details.trim() ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}\n\n上記のお題に基づき、指定の文体・構成ルールを100%遵守して、1,500〜2,500文字の完全ゼロベース書き下ろしエッセイを作成してください。`;
+    const userPrompt = `【お題】: ${topic}\n${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}\n\n上記のお題に基づき、指定の文体・構成ルールを100%遵守して、1,500〜2,500文字の完全ゼロベース書き下ろしエッセイを作成してください。`;
 
-    // 候補モデルリスト（多段フォールバック）
+    // 試行するモデル順
     const candidateModels = [
       "gemini-2.5-flash",
       "gemini-1.5-flash",
@@ -61,13 +66,13 @@ export async function onRequestPost(context) {
     ];
 
     let essayText = "";
-    let lastError = null;
+    let lastErrorMsg = "";
 
     for (const model of candidateModels) {
       try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${cleanKey}`;
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 20000); // 20秒タイムアウト
+        const timeoutId = setTimeout(() => controller.abort(), 25000);
 
         const res = await fetch(url, {
           method: "POST",
@@ -90,35 +95,45 @@ export async function onRequestPost(context) {
         clearTimeout(timeoutId);
 
         if (res.ok) {
-          const data = await res.json();
-          essayText = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+          const resData = await res.json();
+          essayText = resData.candidates?.[0]?.content?.parts?.[0]?.text || "";
           if (essayText) break;
         } else {
           const errData = await res.json().catch(() => ({}));
-          const errMsg = errData.error?.message || `HTTP ${res.status}`;
-          lastError = new Error(errMsg);
-          if (res.status === 400 && errMsg.includes("API key not valid")) {
-            return new Response(JSON.stringify({ success: false, error: "Gemini APIキーが無効です。Google AI Studioから正しいキーをコピーして再設定してください。" }), {
+          const msg = errData.error?.message || `HTTP ${res.status}`;
+          lastErrorMsg = msg;
+
+          if (res.status === 400 && msg.includes("API key not valid")) {
+            return new Response(JSON.stringify({
+              success: false,
+              error: "設定されたGemini APIキーが無効です。Google AI Studio（https://aistudio.google.com/app/apikey）からキーを再コピーし、右上の「⚙️ 設定」に貼り直してください。"
+            }), {
               status: 400,
-              headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+              headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
             });
           }
         }
       } catch (err) {
-        lastError = err;
+        lastErrorMsg = err.message || "通信タイムアウト";
       }
     }
 
     if (!essayText) {
-      throw lastError || new Error("全モデルで生成に失敗しました。時間をおいて再試行してください。");
+      return new Response(JSON.stringify({
+        success: false,
+        error: `AI生成に失敗しました (${lastErrorMsg || "通信エラー"})。APIキーをご確認いただくか、しばらく経ってからお試しください。`
+      }), {
+        status: 500,
+        headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+      });
     }
 
-    // SNS展開文の自動生成
+    // SNS投稿文作成
     let sns = { x: "", instagram: "", facebook: "" };
     try {
       const snsPrompt = `以下のnoteエッセイを元に、各SNSプラットフォームに最適化された投稿文をJSON形式で作成してください。\n\n【元エッセイ】:\n${essayText.slice(0, 2000)}\n\n【出力フォーマット（厳格なJSONのみ）】:\n{\n  "x": "140字以内のX投稿文（興味を惹くフック＋要約＋ハッシュタグ2〜3個）",\n  "instagram": "Instagram用キャプション（改行で読みやすく、共感ストーリー＋関連ハッシュタグ15個程度）",\n  "facebook": "Facebook用投稿文（ビジネス関係者や経営者向けの丁寧な解説と学び、導入リンク導線）"\n}`;
 
-      const snsUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+      const snsUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${cleanKey}`;
       const snsRes = await fetch(snsUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -133,7 +148,7 @@ export async function onRequestPost(context) {
         sns = JSON.parse(rawJson);
       }
     } catch (e) {
-      console.warn("SNS generation error:", e);
+      console.warn("SNS generation non-critical error:", e);
     }
 
     return new Response(JSON.stringify({
@@ -144,7 +159,7 @@ export async function onRequestPost(context) {
     }), {
       status: 200,
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
         "Access-Control-Allow-Origin": "*",
         "Cache-Control": "no-store"
       }
@@ -153,10 +168,10 @@ export async function onRequestPost(context) {
   } catch (err) {
     return new Response(JSON.stringify({
       success: false,
-      error: err.message || "予期せぬエラーが発生しました。"
+      error: err.message || "サーバーエラーが発生しました。"
     }), {
       status: 500,
-      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+      headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
     });
   }
 }
