@@ -26,13 +26,20 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background: var(--bg); color: var(--text); padding: 14px 12px 60px; min-height: 100vh; line-height: 1.5; }
 
-    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding: 2px 4px; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 2px 4px; }
     .header-left h1 { font-size: 1.25rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; display: flex; align-items: center; gap: 6px; }
     .header-left p { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
     .header-actions { display: flex; gap: 6px; }
     .btn-header { background: #1e293b; border: 1px solid var(--border); color: var(--text-muted); border-radius: 10px; padding: 7px 11px; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
     .btn-header.key-set { color: #38bdf8; border-color: rgba(56,189,248,0.3); }
     .btn-header.key-empty { background: #dc2626; color: #fff; border-color: #ef4444; }
+
+    /* お題インスピレーションバー */
+    .idea-bar { background: linear-gradient(135deg, rgba(37,99,235,0.15), rgba(16,185,129,0.15)); border-radius: 14px; padding: 10px 12px; border: 1px solid rgba(56,189,248,0.25); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .idea-bar-title { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 700; color: var(--accent-cyan); }
+    .idea-bar-actions { display: flex; gap: 6px; }
+    .btn-idea-random { background: #1e293b; border: 1px solid rgba(255,255,255,0.15); color: #e2e8f0; border-radius: 8px; padding: 6px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
+    .btn-idea-ai { background: linear-gradient(135deg, #2563eb, #10b981); border: none; color: #fff; border-radius: 8px; padding: 6px 12px; font-size: 0.75rem; font-weight: 800; cursor: pointer; box-shadow: 0 2px 8px rgba(37,99,235,0.3); }
 
     .card { background: var(--card-bg); border-radius: 16px; padding: 14px; border: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,0.35); margin-bottom: 14px; }
     .card-title { font-size: 0.82rem; font-weight: 700; color: var(--accent-cyan); display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
@@ -75,11 +82,11 @@
     /* モーダル・ドロワー */
     .drawer-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.75); z-index: 900; display: none; justify-content: flex-end; backdrop-filter: blur(3px); }
     .drawer-overlay.open { display: flex; }
-    .drawer-content { width: 100%; maxWidth: 420px; background: #0f172a; height: 100%; padding: 18px 14px; display: flex; flex-direction: column; border-left: 1px solid rgba(255,255,255,0.1); }
+    .drawer-content { width: 100%; max-width: 420px; background: #0f172a; height: 100%; padding: 18px 14px; display: flex; flex-direction: column; border-left: 1px solid rgba(255,255,255,0.1); }
 
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px); }
     .modal-overlay.open { display: flex; }
-    .modal-card { background: #0f172a; border-radius: 18px; padding: 20px; width: 100%; max-width: 420px; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 16px 36px rgba(0,0,0,0.6); }
+    .modal-card { background: #0f172a; border-radius: 18px; padding: 20px; width: 100%; max-width: 440px; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 16px 36px rgba(0,0,0,0.6); max-height: 90vh; display: flex; flex-direction: column; }
 
     .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: rgba(16, 185, 129, 0.95); color: #fff; padding: 10px 22px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1100; box-shadow: 0 6px 20px rgba(0,0,0,0.5); backdrop-filter: blur(8px); }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
@@ -101,6 +108,17 @@
       <button id="keyBtn" class="btn-header key-empty" onclick="openKeyModal()">⚙️ 設定</button>
     </div>
   </header>
+
+  <!-- お題インスピレーションバー -->
+  <div class="idea-bar">
+    <div class="idea-bar-title">
+      <span>💡</span> お題に迷ったら？
+    </div>
+    <div class="idea-bar-actions">
+      <button class="btn-idea-random" onclick="applyRandomPreset()">🎲 ランダム</button>
+      <button class="btn-idea-ai" onclick="suggestIdeasWithAI()">✨ AIでお題提案</button>
+    </div>
+  </div>
 
   <!-- トーン選択カード -->
   <div class="card">
@@ -168,6 +186,25 @@
       <a id="openAppBtn" class="btn-action btn-open" href="https://note.com" target="_blank" rel="noopener">
         <span>🚀 noteを開く</span>
       </a>
+    </div>
+  </div>
+
+  <!-- お題提案モーダル -->
+  <div id="ideasModal" class="modal-overlay">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        <div style="font-size: 1rem; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+          <span>✨</span> AIが厳選したお題候補
+        </div>
+        <button onclick="closeIdeasModal()" style="background: transparent; border: none; color: #94a3b8; font-size: 1.2rem; cursor: pointer;">✕</button>
+      </div>
+
+      <div id="ideasList" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;"></div>
+
+      <div style="margin-top: 12px; display: flex; gap: 8px;">
+        <button id="refreshIdeaBtn" onclick="suggestIdeasWithAI()" style="flex: 1; background: #1e293b; color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); border-radius: 10px; padding: 10px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">🔄 別のお題を出す</button>
+        <button onclick="closeIdeasModal()" style="background: #334155; color: #f8fafc; border: none; border-radius: 10px; padding: 10px 18px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">閉じる</button>
+      </div>
     </div>
   </div>
 
@@ -243,6 +280,15 @@
       }
     };
 
+    const PRESET_IDEAS = [
+      { cat: "💴 実体経済・格差", topic: "物価高と下請け構造のシワ寄せ", memo: "値上げ要請が通らない現場の悲鳴。大手と零細の体力差。最後は泥臭い知恵と覚悟。" },
+      { cat: "👥 世代間ギャップ", topic: "タイパ重視のZ世代と昭和オジの温度差", memo: "倍速視聴と定時退社。合理的な若者にぐうの音も出ないオジの葛藤と、それでも残る泥臭さの価値。" },
+      { cat: "🛠️ 現場と道具", topic: "AI時代の到来と、絶対に代替されない泥臭い手触り", memo: "画面の前のスマートな効率化と、現場で油にまみれる職人技。手離れの悪さにこそ宿る利益。" },
+      { cat: "🏢 経営の修羅場", topic: "失敗という名の最強の教科書と、25年生き残った知恵", memo: "倒産危機、裏切り、痛い目を見た数々。教科書の経営論より、現場で流した冷や汗が人を育てる。" },
+      { cat: "🌀 世間の違和感", topic: "綺麗事だらけの正論と、生活者のリアルな肌感", memo: "テレビの景気回復ニュースと、スーパーの特売卵。数字の上のお祭りと我々の暮らしの境界線。" },
+      { cat: "☕ 中年の身体と日常", topic: "枯れゆく体力と、何にも代えがたい熟睡の快感", memo: "夜更かしができなくなったオジのリアル。美味しいご飯を腹いっぱい食べて泥のように眠る幸せ。" }
+    ];
+
     let currentTone = 'oji';
     let currentTab = 'note';
     let contentStore = { note: "", x: "", instagram: "", facebook: "" };
@@ -305,6 +351,97 @@
       showToast("✅ APIキーを保存しました");
     }
 
+    /* お題提案・ガチャ機能 */
+    function applyRandomPreset() {
+      const random = PRESET_IDEAS[Math.floor(Math.random() * PRESET_IDEAS.length)];
+      document.getElementById("topicInput").value = random.topic;
+      document.getElementById("detailsInput").value = random.memo;
+      updateCounts();
+      showToast("🎲 ランダムお題をセットしました！");
+    }
+
+    async function suggestIdeasWithAI() {
+      const apiKey = localStorage.getItem("sgo_gemini_api_key");
+      if (!apiKey) {
+        openKeyModal();
+        return;
+      }
+
+      document.getElementById("ideasModal").classList.add("open");
+      const listEl = document.getElementById("ideasList");
+      listEl.innerHTML = `
+        <div style="text-align:center;padding:40px 0;color:#94a3b8;">
+          <div class="spinner" style="width:24px;height:24px;border-color:rgba(56,189,248,0.3);border-top-color:#38bdf8;margin-bottom:12px;"></div>
+          <div style="font-size:0.85rem;">キレのあるお題をブレインストーミング中...</div>
+        </div>
+      `;
+
+      const prompt = `あなたは「鈴木啓悟（オジ文体エッセイスト／25年の会社経営者）」の専属企画編集者です。
+読者が思わず唸り、共感し、深く考えさせられるような「noteエッセイの切り口・お題」を【5つ】提案してください。
+
+【お題の方向性】
+- 身の回りの肌感、現場の泥臭さ、世代間ギャップ（Z世代 vs オジ）、実体経済と格差、物価高、手触り感、中年の本音など。
+- 陳腐な一般論ではなく、「あ、それ言いたかった！」「確かにそこに違和感ある」と思わせるエッジの効いたテーマ。
+
+【出力フォーマット（厳格なJSON配列のみ）】:
+[
+  {
+    "topic": "お題のタイトル（例: 下請けいじめと綺麗事のSDGs）",
+    "memo": "現場の着眼点メモ（例: 元請けのコンプラ研修と、現場に押し付けられるコスト負担。最後は泥臭い覚悟に着地。）",
+    "cat": "カテゴリ名（例: 実体経済・構造）"
+  }
+]`;
+
+      try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.9, responseMimeType: "application/json" }
+          })
+        });
+
+        if (!res.ok) throw new Error("お題生成エラー");
+        const data = await res.json();
+        const items = JSON.parse(data.candidates?.[0]?.content?.parts?.[0]?.text || "[]");
+        renderIdeas(items);
+      } catch (e) {
+        console.warn(e);
+        const shuffled = [...PRESET_IDEAS].sort(() => 0.5 - Math.random()).slice(0, 5);
+        renderIdeas(shuffled);
+      }
+    }
+
+    function renderIdeas(items) {
+      const listEl = document.getElementById("ideasList");
+      listEl.innerHTML = items.map((item, idx) => `
+        <div style="background:#162032;border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.08);cursor:pointer;" onclick="selectIdea(${idx})">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <span style="font-size:0.88rem;font-weight:800;color:#f8fafc;">${item.topic}</span>
+            <span style="font-size:0.68rem;background:rgba(56,189,248,0.15);color:#38bdf8;padding:2px 8px;border-radius:10px;font-weight:700;">${item.cat || "お題"}</span>
+          </div>
+          <p style="font-size:0.75rem;color:#94a3b8;line-height:1.4;margin:4px 0 0;">${item.memo}</p>
+          <div style="font-size:0.7rem;color:#10b981;font-weight:700;margin-top:6px;text-align:right;">👉 このお題を使う</div>
+        </div>
+      `).join("");
+      window._currentIdeas = items;
+    }
+
+    function selectIdea(idx) {
+      const idea = window._currentIdeas?.[idx];
+      if (!idea) return;
+      document.getElementById("topicInput").value = idea.topic;
+      document.getElementById("detailsInput").value = idea.memo;
+      updateCounts();
+      closeIdeasModal();
+      showToast("💡 お題をセットしました！");
+    }
+
+    function closeIdeasModal() {
+      document.getElementById("ideasModal").classList.remove("open");
+    }
+
     async function generateContent() {
       const apiKey = localStorage.getItem("sgo_gemini_api_key");
       if (!apiKey) {
@@ -315,7 +452,7 @@
       const topic = document.getElementById("topicInput").value.trim();
       const details = document.getElementById("detailsInput").value.trim();
       if (!topic) {
-        alert("お題やテーマを入力してください。");
+        alert("お題やテーマを入力してください（「🎲 お題をAIに提案してもらう」も使えます）。");
         return;
       }
 
@@ -361,7 +498,6 @@ ${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
         switchTab("note");
         showToast("✨ ゼロベース執筆が完了しました！");
 
-        // 履歴保存
         const historyItem = {
           id: Date.now().toString(),
           createdAt: new Date().toLocaleString("ja-JP"),
@@ -373,7 +509,6 @@ ${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
         };
         saveHistory(historyItem);
 
-        // SNS自動展開
         autoGenerateSns(text, historyItem.id);
       } catch (err) {
         alert(`生成に失敗しました: ${err.message}\nAPIキーを確認してください。`);
@@ -422,7 +557,6 @@ ${essayText.slice(0, 2000)}
             document.getElementById("resultText").value = contentStore[currentTab];
           }
 
-          // 履歴更新
           updateHistorySns(historyId, json);
         }
       } catch (e) {
