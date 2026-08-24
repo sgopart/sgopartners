@@ -351,6 +351,49 @@
       showToast("✅ APIキーを保存しました");
     }
 
+    /* 多段フォールバックAPIクライアント */
+    async function requestGeminiWithFallback(apiKey, payload) {
+      const models = [
+        "gemini-2.5-flash",
+        "gemini-1.5-flash",
+        "gemini-2.0-flash-exp",
+        "gemini-1.5-pro",
+        "gemini-2.0-flash"
+      ];
+
+      let lastError = null;
+
+      for (const model of models) {
+        try {
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+          const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          if (res.ok) {
+            return await res.json();
+          }
+
+          const errData = await res.json().catch(() => ({}));
+          const msg = errData.error?.message || `HTTP ${res.status}`;
+          lastError = new Error(msg);
+
+          if (res.status === 400 && msg.includes("API key not valid")) {
+            throw new Error("APIキーが無効です。設定画面で正しいキーを入力してください。");
+          }
+
+          console.warn(`Model ${model} failed (${res.status}): ${msg}. Trying next fallback...`);
+        } catch (e) {
+          if (e.message.includes("APIキーが無効")) throw e;
+          lastError = e;
+        }
+      }
+
+      throw lastError || new Error("AI生成サーバーとの通信に失敗しました。時間をおいて再試行してください。");
+    }
+
     /* お題提案・ガチャ機能 */
     function applyRandomPreset() {
       const random = PRESET_IDEAS[Math.floor(Math.random() * PRESET_IDEAS.length)];
@@ -393,17 +436,11 @@
 ]`;
 
       try {
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{ role: "user", parts: [{ text: prompt }] }],
-            generationConfig: { temperature: 0.9, responseMimeType: "application/json" }
-          })
+        const data = await requestGeminiWithFallback(apiKey, {
+          contents: [{ role: "user", parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.9, responseMimeType: "application/json" }
         });
 
-        if (!res.ok) throw new Error("お題生成エラー");
-        const data = await res.json();
         const items = JSON.parse(data.candidates?.[0]?.content?.parts?.[0]?.text || "[]");
         renderIdeas(items);
       } catch (e) {
@@ -471,21 +508,11 @@ ${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
 上記のお題に基づき、指定の文体・構成ルールを100%遵守して、1,500〜2,500文字の完全ゼロベース書き下ろしエッセイを作成してください。`;
 
       try {
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{ role: "user", parts: [{ text: `${selectedTone.systemPrompt}\n\n${userPrompt}` }] }],
-            generationConfig: { temperature: 0.85, topP: 0.95, maxOutputTokens: 3500 }
-          })
+        const data = await requestGeminiWithFallback(apiKey, {
+          contents: [{ role: "user", parts: [{ text: `${selectedTone.systemPrompt}\n\n${userPrompt}` }] }],
+          generationConfig: { temperature: 0.85, topP: 0.95, maxOutputTokens: 3500 }
         });
 
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.error?.message || `通信エラー (${res.status})`);
-        }
-
-        const data = await res.json();
         const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
         if (!text) throw new Error("生成結果が空でした。");
 
@@ -536,29 +563,22 @@ ${essayText.slice(0, 2000)}
 }`;
 
       try {
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{ role: "user", parts: [{ text: snsPrompt }] }],
-            generationConfig: { temperature: 0.7, responseMimeType: "application/json" }
-          })
+        const data = await requestGeminiWithFallback(apiKey, {
+          contents: [{ role: "user", parts: [{ text: snsPrompt }] }],
+          generationConfig: { temperature: 0.7, responseMimeType: "application/json" }
         });
 
-        if (res.ok) {
-          const data = await res.json();
-          const json = JSON.parse(data.candidates?.[0]?.content?.parts?.[0]?.text || "{}");
-          contentStore.x = json.x || "";
-          contentStore.instagram = json.instagram || "";
-          contentStore.facebook = json.facebook || "";
+        const json = JSON.parse(data.candidates?.[0]?.content?.parts?.[0]?.text || "{}");
+        contentStore.x = json.x || "";
+        contentStore.instagram = json.instagram || "";
+        contentStore.facebook = json.facebook || "";
 
-          document.getElementById("xCharBadge").textContent = (json.x || "").length;
-          if (currentTab !== "note") {
-            document.getElementById("resultText").value = contentStore[currentTab];
-          }
-
-          updateHistorySns(historyId, json);
+        document.getElementById("xCharBadge").textContent = (json.x || "").length;
+        if (currentTab !== "note") {
+          document.getElementById("resultText").value = contentStore[currentTab];
         }
+
+        updateHistorySns(historyId, json);
       } catch (e) {
         console.warn("SNS generation error:", e);
       }
