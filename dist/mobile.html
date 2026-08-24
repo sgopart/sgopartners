@@ -2,6 +2,9 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SGO Mobile Studio | ゼロベース執筆＆4大SNSマルチ展開</title>
   <meta name="description" content="鈴木啓悟の実筆オジ文体エッセイ・ビジネスコラムのゼロベース生成＆4大SNS（note, X, Instagram, Facebook）マルチ展開スタジオ">
@@ -292,6 +295,7 @@
     let currentTone = 'oji';
     let currentTab = 'note';
     let contentStore = { note: "", x: "", instagram: "", facebook: "" };
+    let cachedWorkingModel = null;
 
     const urls = {
       note: "https://note.com",
@@ -346,24 +350,48 @@
         return;
       }
       localStorage.setItem("sgo_gemini_api_key", val);
+      cachedWorkingModel = null;
       closeKeyModal();
       init();
       showToast("✅ APIキーを保存しました");
     }
 
-    /* 多段フォールバックAPIクライアント */
-    async function requestGeminiWithFallback(apiKey, payload) {
-      const models = [
+    /* 動的モデル検出＆多段フォールバックAPIクライアント */
+    async function requestGeminiDynamic(apiKey, payload) {
+      let candidateModels = [];
+
+      if (!cachedWorkingModel) {
+        try {
+          const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+          if (listRes.ok) {
+            const listData = await listRes.json();
+            const models = (listData.models || [])
+              .filter(m => m.supportedGenerationMethods?.includes("generateContent"))
+              .map(m => m.name.replace(/^models\//, ""));
+
+            if (models.length > 0) {
+              candidateModels = models;
+            }
+          }
+        } catch (e) {
+          console.warn("動的モデル一覧取得スキップ:", e);
+        }
+      }
+
+      const fallbackPriority = [
+        cachedWorkingModel,
         "gemini-2.5-flash",
         "gemini-1.5-flash",
-        "gemini-2.0-flash-exp",
         "gemini-1.5-pro",
-        "gemini-2.0-flash"
-      ];
+        "gemini-2.0-flash-exp",
+        "gemini-2.0-flash",
+        "gemini-1.0-pro"
+      ].filter(Boolean);
 
+      const finalCandidates = Array.from(new Set([...candidateModels, ...fallbackPriority]));
       let lastError = null;
 
-      for (const model of models) {
+      for (const model of finalCandidates) {
         try {
           const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
           const res = await fetch(url, {
@@ -373,6 +401,7 @@
           });
 
           if (res.ok) {
+            cachedWorkingModel = model;
             return await res.json();
           }
 
@@ -381,17 +410,15 @@
           lastError = new Error(msg);
 
           if (res.status === 400 && msg.includes("API key not valid")) {
-            throw new Error("APIキーが無効です。設定画面で正しいキーを入力してください。");
+            throw new Error("APIキーが無効です。Google AI Studioで正しいキーをコピーしてください。");
           }
-
-          console.warn(`Model ${model} failed (${res.status}): ${msg}. Trying next fallback...`);
         } catch (e) {
           if (e.message.includes("APIキーが無効")) throw e;
           lastError = e;
         }
       }
 
-      throw lastError || new Error("AI生成サーバーとの通信に失敗しました。時間をおいて再試行してください。");
+      throw lastError || new Error("AI生成サーバーとの通信に失敗しました。");
     }
 
     /* お題提案・ガチャ機能 */
@@ -436,7 +463,7 @@
 ]`;
 
       try {
-        const data = await requestGeminiWithFallback(apiKey, {
+        const data = await requestGeminiDynamic(apiKey, {
           contents: [{ role: "user", parts: [{ text: prompt }] }],
           generationConfig: { temperature: 0.9, responseMimeType: "application/json" }
         });
@@ -508,7 +535,7 @@ ${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
 上記のお題に基づき、指定の文体・構成ルールを100%遵守して、1,500〜2,500文字の完全ゼロベース書き下ろしエッセイを作成してください。`;
 
       try {
-        const data = await requestGeminiWithFallback(apiKey, {
+        const data = await requestGeminiDynamic(apiKey, {
           contents: [{ role: "user", parts: [{ text: `${selectedTone.systemPrompt}\n\n${userPrompt}` }] }],
           generationConfig: { temperature: 0.85, topP: 0.95, maxOutputTokens: 3500 }
         });
@@ -538,7 +565,7 @@ ${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
 
         autoGenerateSns(text, historyItem.id);
       } catch (err) {
-        alert(`生成に失敗しました: ${err.message}\nAPIキーを確認してください。`);
+        alert(`生成に失敗しました: ${err.message}`);
       } finally {
         genBtn.disabled = false;
         btnIcon.textContent = "⚡";
@@ -563,7 +590,7 @@ ${essayText.slice(0, 2000)}
 }`;
 
       try {
-        const data = await requestGeminiWithFallback(apiKey, {
+        const data = await requestGeminiDynamic(apiKey, {
           contents: [{ role: "user", parts: [{ text: snsPrompt }] }],
           generationConfig: { temperature: 0.7, responseMimeType: "application/json" }
         });
