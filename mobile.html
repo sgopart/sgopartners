@@ -178,20 +178,20 @@
   <div id="resultCard" class="card" style="display: none;">
     <!-- 4大SNSタブ -->
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('note', this)">📝 note (<span id="noteCharBadge">0</span>字)</button>
-      <button class="tab-btn" onclick="switchTab('x', this)">🐦 X (<span id="xCharBadge">0</span>字)</button>
-      <button class="tab-btn" onclick="switchTab('instagram', this)">📸 Instagram</button>
-      <button class="tab-btn" onclick="switchTab('facebook', this)">👥 Facebook</button>
+      <button id="tabBtnNote" class="tab-btn active" onclick="switchTab('note', this)">📝 note (<span id="noteCharBadge">0</span>字)</button>
+      <button id="tabBtnX" class="tab-btn" onclick="switchTab('x', this)">🐦 X (<span id="xCharBadge">0</span>字)</button>
+      <button id="tabBtnInsta" class="tab-btn" onclick="switchTab('instagram', this)">📸 Instagram</button>
+      <button id="tabBtnFb" class="tab-btn" onclick="switchTab('facebook', this)">👥 Facebook</button>
     </div>
 
-    <textarea id="resultText" class="result-box"></textarea>
+    <textarea id="resultText" class="result-box" oninput="handleTextChange()"></textarea>
 
     <div class="action-grid">
       <button id="copyBtn" class="btn-action btn-copy" onclick="copyCurrentTab()">
         <span>📋 本文をコピー</span>
       </button>
       <a id="openAppBtn" class="btn-action btn-open" href="https://note.com" target="_blank" rel="noopener">
-        <span>🚀 noteを開く</span>
+        <span>🚀 NOTEを開く</span>
       </a>
     </div>
   </div>
@@ -293,6 +293,16 @@
     function updateCounts() {
       document.getElementById("topicCount").textContent = `${document.getElementById("topicInput").value.length} 文字`;
       document.getElementById("detailsCount").textContent = `${document.getElementById("detailsInput").value.length} 文字`;
+    }
+
+    function handleTextChange() {
+      const val = document.getElementById("resultText").value;
+      contentStore[currentTab] = val;
+      if (currentTab === "note") {
+        document.getElementById("noteCharBadge").textContent = val.length;
+      } else if (currentTab === "x") {
+        document.getElementById("xCharBadge").textContent = val.length;
+      }
     }
 
     function showToast(msg) {
@@ -444,13 +454,8 @@
         const text = data.text || "";
         if (!text) throw new Error("生成結果が空でした。再度お試しください。");
 
-        contentStore.note = text;
-        contentStore.x = data.sns?.x || "";
-        contentStore.instagram = data.sns?.instagram || "";
-        contentStore.facebook = data.sns?.facebook || "";
-
-        document.getElementById("resultCard").style.display = "block";
-        switchTab("note");
+        // 結果を画面に確実に反映
+        displayResults(text, data.sns || {});
         showToast("✨ ゼロベース執筆が完了しました！");
 
         const historyItem = {
@@ -473,7 +478,37 @@
       }
     }
 
+    /* 生成結果の直接DOM反映 */
+    function displayResults(essayText, sns) {
+      contentStore.note = essayText || "";
+      contentStore.x = sns?.x || "";
+      contentStore.instagram = sns?.instagram || "";
+      contentStore.facebook = sns?.facebook || "";
+
+      currentTab = "note";
+
+      document.querySelectorAll(".tab-btn").forEach((btn, idx) => {
+        if (idx === 0) btn.classList.add("active");
+        else btn.classList.remove("active");
+      });
+
+      const resultBox = document.getElementById("resultText");
+      resultBox.value = contentStore.note;
+      resultBox.className = "result-box";
+
+      document.getElementById("noteCharBadge").textContent = contentStore.note.length;
+      document.getElementById("xCharBadge").textContent = contentStore.x.length;
+
+      const openBtn = document.getElementById("openAppBtn");
+      openBtn.href = "https://note.com";
+      openBtn.innerHTML = "<span>🚀 NOTEを開く</span>";
+
+      document.getElementById("resultCard").style.display = "block";
+      document.getElementById("resultCard").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
     function switchTab(tab, btn) {
+      // 現在のタブの内容を保存
       contentStore[currentTab] = document.getElementById("resultText").value;
       currentTab = tab;
 
@@ -525,6 +560,10 @@
       localStorage.setItem("sgo_studio_history", JSON.stringify(list));
       updateHistoryBadge();
     }
+    function updateHistorySns(id, sns) {
+      const list = getHistories().map(h => h.id === id ? { ...h, sns } : h);
+      localStorage.setItem("sgo_studio_history", JSON.stringify(list));
+    }
     function updateHistoryBadge() {
       document.getElementById("historyCount").textContent = getHistories().length;
     }
@@ -556,12 +595,7 @@
       const item = getHistories().find(h => h.id === id);
       if (!item) return;
       document.getElementById("topicInput").value = item.topic;
-      contentStore.note = item.text;
-      contentStore.x = item.sns?.x || "";
-      contentStore.instagram = item.sns?.instagram || "";
-      contentStore.facebook = item.sns?.facebook || "";
-      document.getElementById("resultCard").style.display = "block";
-      switchTab("note");
+      displayResults(item.text, item.sns || {});
       closeHistory();
       showToast("📂 履歴から読み込みました");
     }
