@@ -1,5 +1,5 @@
 // Google Analytics (GA4) 測定ID設定
-const GA_TRACKING_ID = "G-7N5WYV8GFE"; 
+const GA_TRACKING_ID = "G-XRDY99CY7G"; 
 
 if (GA_TRACKING_ID && GA_TRACKING_ID !== "G-XXXXXXXXXX") {
   // 1. gtag.js の非同期読み込みスクリプトを生成して head に挿入
