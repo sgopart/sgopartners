@@ -464,6 +464,86 @@ input:focus, textarea:focus {
     font-size: 1rem;
 }
 
+/* Corporate Access Map */
+.corporate-map-wrapper {
+    margin-top: 2.2rem;
+    background: rgba(20, 20, 20, 0.55);
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1.8rem 2.2rem 2.2rem;
+}
+
+.corporate-map-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.corporate-map-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-oswald);
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.corporate-map-label i {
+    font-size: 0.9rem;
+}
+
+.corporate-map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: #eee;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 6px 14px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.corporate-map-btn:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(230, 0, 0, 0.4);
+}
+
+.corporate-map-frame-wrap {
+    position: relative;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #111;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* ダークモード調フィルター（夜景・サイバー・ラグジュアリー） */
+.corporate-dark-map {
+    display: block;
+    width: 100%;
+    filter: invert(90%) hue-rotate(180deg) contrast(95%) saturate(80%);
+    transition: filter 0.3s ease;
+}
+
+.corporate-dark-map:hover {
+    filter: invert(90%) hue-rotate(180deg) contrast(100%) saturate(100%);
+}
+
 /* * フッター */
 footer {
     background: #050505;
@@ -710,6 +790,21 @@ footer {
     }
     .profile-table th {
         padding-bottom: 0;
+    }
+
+    .corporate-map-wrapper {
+        padding: 1.4rem 1.4rem 1.8rem;
+    }
+
+    .corporate-map-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .corporate-map-btn {
+        width: 100%;
+        justify-content: center;
     }
 }
 
