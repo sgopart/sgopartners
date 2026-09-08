@@ -1,5 +1,2 @@
-/studio         /mobile.html 200
-/studio.html    /mobile.html 301
-/mobile         /mobile.html 200
-/mobile-studio  /mobile.html 200
-/*              /index.html  200
+/studio    /mobile    301
+/*         /index.html 200
