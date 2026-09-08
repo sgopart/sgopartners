@@ -156,7 +156,10 @@ export async function onRequestPost(context) {
       });
       if (snsRes.ok) {
         const snsData = await snsRes.json();
-        const rawJson = snsData.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
+        const rawJson = (snsData.candidates?.[0]?.content?.parts?.[0]?.text || "{}")
+          .replace(/^```(?:json)?\s*/i, "")
+          .replace(/\s*```$/i, "")
+          .trim();
         sns = JSON.parse(rawJson);
       }
     } catch (e) {
