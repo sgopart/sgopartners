@@ -14,9 +14,12 @@ const PRESET_IDEAS = [
 export async function onRequestPost(context) {
   try {
     const data = await context.request.json().catch(() => ({}));
-    const apiKey = (data.apiKey || "").trim().replace(/^['"]|['"]$/g, "");
+    const rawKey = data.apiKey || "";
+    const cleanKey = rawKey.trim().replace(/^['"]|['"]$/g, "");
+    const serverKey = (context.env?.GEMINI_API_KEY || "").trim().replace(/^['"]|['"]$/g, "");
+    const effectiveKey = cleanKey || serverKey;
 
-    if (!apiKey) {
+    if (!effectiveKey) {
       const shuffled = [...PRESET_IDEAS].sort(() => 0.5 - Math.random()).slice(0, 5);
       return new Response(JSON.stringify({ success: true, ideas: shuffled }), {
         status: 200,
@@ -36,12 +39,12 @@ export async function onRequestPost(context) {
   }
 ]`;
 
-    const candidateModels = ["gemini-3.6-flash", "gemini-2.5-flash", "gemini-1.5-flash"];
+    const candidateModels = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.5-flash"];
     let ideas = [];
 
     for (const model of candidateModels) {
       try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${effectiveKey}`;
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 15000);
 

@@ -277,9 +277,8 @@
         keyBtn.className = "btn-header key-set";
         keyBtn.textContent = "⚙️ 設定 (設定済)";
       } else {
-        keyBtn.className = "btn-header key-empty";
-        keyBtn.textContent = "⚙️ キー未設定";
-        openKeyModal();
+        keyBtn.className = "btn-header";
+        keyBtn.textContent = "⚙️ 設定";
       }
       updateHistoryBadge();
     }
@@ -352,11 +351,7 @@
     }
 
     async function suggestIdeasWithAI() {
-      const apiKey = localStorage.getItem("sgo_gemini_api_key");
-      if (!apiKey) {
-        openKeyModal();
-        return;
-      }
+      const apiKey = localStorage.getItem("sgo_gemini_api_key") || "";
 
       document.getElementById("ideasModal").classList.add("open");
       const listEl = document.getElementById("ideasList");
@@ -412,16 +407,12 @@
 
     /* エッセイ＆SNS一括生成 */
     async function generateContent() {
-      const apiKey = localStorage.getItem("sgo_gemini_api_key");
-      if (!apiKey) {
-        openKeyModal();
-        return;
-      }
+      const apiKey = localStorage.getItem("sgo_gemini_api_key") || "";
 
       const topic = document.getElementById("topicInput").value.trim();
       const details = document.getElementById("detailsInput").value.trim();
       if (!topic) {
-        alert("お題やテーマを入力してください（「🎲 お題をAIに提案してもらう」も使えます）。");
+        alert("お題やテーマを入力してください（「🎲 ランダム」または「✨ AIでお題提案」も使えます）。");
         return;
       }
 
@@ -448,6 +439,9 @@
 
         const data = await res.json().catch(() => ({}));
         if (!res.ok || !data.success) {
+          if (data.error && data.error.includes("APIキー")) {
+            openKeyModal();
+          }
           throw new Error(data.error || `通信エラー (${res.status})`);
         }
 
