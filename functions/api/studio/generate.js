@@ -66,13 +66,10 @@ export async function onRequestPost(context) {
     const systemPrompt = TONES_MAP[tone] || TONES_MAP.oji;
     const userPrompt = `【お題】: ${topic}\n${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}\n\n上記のお題に基づき、指定の文体・構成ルールを100%遵守して、1,500〜2,500文字の完全ゼロベース書き下ろしエッセイを作成してください。`;
 
-    // Google APIの最新現行モデル順（gemini-3.6-flash最優先で高速応答）
+    // Google APIの最新現行モデル順（gemini-3.6-flashで高速応答）
     const candidateModels = [
       "gemini-3.6-flash",
-      "gemini-3.6-pro",
-      "gemini-3.0-flash",
-      "gemini-2.5-flash",
-      "gemini-1.5-flash"
+      "gemini-3.7-flash"
     ];
 
     let essayText = "";

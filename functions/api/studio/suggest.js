@@ -47,7 +47,7 @@ export async function onRequestPost(context) {
   }
 ]`;
 
-    const candidateModels = ["gemini-3.6-flash", "gemini-2.5-flash", "gemini-1.5-flash"];
+    const candidateModels = ["gemini-3.6-flash", "gemini-3.7-flash"];
     let ideas = [];
 
     for (const model of candidateModels) {
