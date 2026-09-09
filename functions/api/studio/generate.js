@@ -64,7 +64,21 @@ export async function onRequestPost(context) {
     }
 
     const systemPrompt = TONES_MAP[tone] || TONES_MAP.oji;
-    const userPrompt = `【お題】: ${topic}\n${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}\n\n上記のお題に基づき、指定の文体・構成ルールを100%遵守して、1,500〜2,500文字の完全ゼロベース書き下ろしエッセイを作成してください。`;
+    const combinedPrompt = `${systemPrompt}
+
+【お題】: ${topic}
+${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
+
+上記のお題に基づき、指定ルールを100%遵守した「ゼロベース書き下ろしエッセイ（1,500〜2,500文字）」と「4大SNS用投稿文（X, Instagram, Facebook）」を一括作成してください。
+必ず以下のJSONオブジェクト形式のみを出力してください:
+{
+  "essay": "エッセイ本文（【タイトル】から始まり、自虐や()ツッコミ、身近な肌感から実体経済への着地、最後のオチ、「皆さんよい週末を。」で締めくくる骨太な本文）",
+  "sns": {
+    "x": "140文字以内のX投稿文（興味を惹くフック＋要約＋ハッシュタグ2〜3個）",
+    "instagram": "Instagram用キャプション（改行で読みやすく、共感ストーリー＋関連ハッシュタグ15個程度）",
+    "facebook": "Facebook用投稿文（ビジネス関係者や経営者向けの丁寧な解説と学び、導入リンク導線）"
+  }
+}`;
 
     // Google APIの超高速・安定モデル多重フォールバック（混雑503・タイムアウト完全対策）
     const candidateModels = [
@@ -75,6 +89,7 @@ export async function onRequestPost(context) {
     ];
 
     let essayText = "";
+    let snsData = { x: "", instagram: "", facebook: "" };
     let lastErrorMsg = "";
     let successfulModel = "";
 
@@ -82,7 +97,7 @@ export async function onRequestPost(context) {
       try {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${effectiveKey}`;
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000);
+        const timeoutId = setTimeout(() => controller.abort(), 12000);
 
         const res = await fetch(url, {
           method: "POST",
@@ -91,13 +106,14 @@ export async function onRequestPost(context) {
             contents: [
               {
                 role: "user",
-                parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }]
+                parts: [{ text: combinedPrompt }]
               }
             ],
             generationConfig: {
               temperature: 0.85,
               topP: 0.95,
-              maxOutputTokens: 3500
+              responseMimeType: "application/json",
+              maxOutputTokens: 4000
             }
           }),
           signal: controller.signal
@@ -105,11 +121,25 @@ export async function onRequestPost(context) {
         clearTimeout(timeoutId);
 
         if (res.ok) {
-          const resData = await res.json();
-          essayText = resData.candidates?.[0]?.content?.parts?.[0]?.text || "";
-          if (essayText) {
-            successfulModel = model;
-            break;
+          const resJson = await res.json();
+          const rawText = resJson.candidates?.[0]?.content?.parts?.[0]?.text || "";
+          if (rawText) {
+            try {
+              const cleanJson = rawText
+                .replace(/^```(?:json)?\s*/i, "")
+                .replace(/\s*```$/i, "")
+                .trim();
+              const parsed = JSON.parse(cleanJson);
+              essayText = parsed.essay || "";
+              snsData = parsed.sns || { x: "", instagram: "", facebook: "" };
+            } catch {
+              essayText = rawText;
+            }
+
+            if (essayText) {
+              successfulModel = model;
+              break;
+            }
           }
         } else {
           const errData = await res.json().catch(() => ({}));
@@ -125,7 +155,6 @@ export async function onRequestPost(context) {
               headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
             });
           }
-          // 503 (High Demand) やその他エラーは即座に次のモデルを試行
         }
       } catch (err) {
         lastErrorMsg = err.message || "通信タイムアウト";
@@ -142,42 +171,11 @@ export async function onRequestPost(context) {
       });
     }
 
-    // SNS投稿文作成（成功した高速モデルを使用）
-    let sns = { x: "", instagram: "", facebook: "" };
-    try {
-      const snsPrompt = `以下のnoteエッセイを元に、各SNSプラットフォームに最適化された投稿文をJSON形式で作成してください。\n\n【元エッセイ】:\n${essayText.slice(0, 2000)}\n\n【出力フォーマット（厳格なJSONのみ）】:\n{\n  "x": "140字以内のX投稿文（興味を惹くフック＋要約＋ハッシュタグ2〜3個）",\n  "instagram": "Instagram用キャプション（改行で読みやすく、共感ストーリー＋関連ハッシュタグ15個程度）",\n  "facebook": "Facebook用投稿文（ビジネス関係者や経営者向けの丁寧な解説と学び、導入リンク導線）"\n}`;
-
-      const snsModel = successfulModel || "gemini-flash-latest";
-      const snsUrl = `https://generativelanguage.googleapis.com/v1beta/models/${snsModel}:generateContent?key=${effectiveKey}`;
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000);
-      const snsRes = await fetch(snsUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ role: "user", parts: [{ text: snsPrompt }] }],
-          generationConfig: { temperature: 0.7, responseMimeType: "application/json" }
-        }),
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
-      if (snsRes.ok) {
-        const snsData = await snsRes.json();
-        const rawJson = (snsData.candidates?.[0]?.content?.parts?.[0]?.text || "{}")
-          .replace(/^```(?:json)?\s*/i, "")
-          .replace(/\s*```$/i, "")
-          .trim();
-        sns = JSON.parse(rawJson);
-      }
-    } catch (e) {
-      console.warn("SNS generation non-critical error:", e);
-    }
-
     return new Response(JSON.stringify({
       success: true,
       text: essayText,
       charCount: essayText.length,
-      sns: sns,
+      sns: snsData,
       modelUsed: successfulModel
     }), {
       status: 200,
