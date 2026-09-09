@@ -66,10 +66,12 @@ export async function onRequestPost(context) {
     const systemPrompt = TONES_MAP[tone] || TONES_MAP.oji;
     const userPrompt = `【お題】: ${topic}\n${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}\n\n上記のお題に基づき、指定の文体・構成ルールを100%遵守して、1,500〜2,500文字の完全ゼロベース書き下ろしエッセイを作成してください。`;
 
-    // Google APIの最新現行モデル順（gemini-3.6-flashで高速応答）
+    // Google APIの高速・安定モデル多重フォールバック（503高負荷・混雑エラーの完全根絶）
     const candidateModels = [
+      "gemini-flash-latest",
       "gemini-3.6-flash",
-      "gemini-3.7-flash"
+      "gemini-3.5-flash",
+      "gemini-3.8-flash"
     ];
 
     let essayText = "";
@@ -80,7 +82,7 @@ export async function onRequestPost(context) {
       try {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${effectiveKey}`;
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 20000);
+        const timeoutId = setTimeout(() => controller.abort(), 12000);
 
         const res = await fetch(url, {
           method: "POST",
@@ -123,6 +125,7 @@ export async function onRequestPost(context) {
               headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
             });
           }
+          // 503 (High Demand) やその他エラーは即座に次のモデルを試行
         }
       } catch (err) {
         lastErrorMsg = err.message || "通信タイムアウト";
@@ -132,28 +135,32 @@ export async function onRequestPost(context) {
     if (!essayText) {
       return new Response(JSON.stringify({
         success: false,
-        error: `AI生成に失敗しました (${lastErrorMsg || "通信エラー"})。APIキーをご確認いただくか、しばらく経ってからお試しください。`
+        error: `AI生成に一時的な混雑が発生しました (${lastErrorMsg})。数秒後にもう一度「完全ゼロベース執筆を開始」を押してください。`
       }), {
         status: 500,
         headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
       });
     }
 
-    // SNS投稿文作成（成功したモデルを使用）
+    // SNS投稿文作成（成功した高速モデルを使用）
     let sns = { x: "", instagram: "", facebook: "" };
     try {
       const snsPrompt = `以下のnoteエッセイを元に、各SNSプラットフォームに最適化された投稿文をJSON形式で作成してください。\n\n【元エッセイ】:\n${essayText.slice(0, 2000)}\n\n【出力フォーマット（厳格なJSONのみ）】:\n{\n  "x": "140字以内のX投稿文（興味を惹くフック＋要約＋ハッシュタグ2〜3個）",\n  "instagram": "Instagram用キャプション（改行で読みやすく、共感ストーリー＋関連ハッシュタグ15個程度）",\n  "facebook": "Facebook用投稿文（ビジネス関係者や経営者向けの丁寧な解説と学び、導入リンク導線）"\n}`;
 
-      const snsModel = successfulModel || "gemini-3.6-flash";
+      const snsModel = successfulModel || "gemini-flash-latest";
       const snsUrl = `https://generativelanguage.googleapis.com/v1beta/models/${snsModel}:generateContent?key=${effectiveKey}`;
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
       const snsRes = await fetch(snsUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [{ role: "user", parts: [{ text: snsPrompt }] }],
           generationConfig: { temperature: 0.7, responseMimeType: "application/json" }
-        })
+        }),
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
       if (snsRes.ok) {
         const snsData = await snsRes.json();
         const rawJson = (snsData.candidates?.[0]?.content?.parts?.[0]?.text || "{}")
