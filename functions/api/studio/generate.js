@@ -66,12 +66,12 @@ export async function onRequestPost(context) {
     const systemPrompt = TONES_MAP[tone] || TONES_MAP.oji;
     const userPrompt = `【お題】: ${topic}\n${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}\n\n上記のお題に基づき、指定の文体・構成ルールを100%遵守して、1,500〜2,500文字の完全ゼロベース書き下ろしエッセイを作成してください。`;
 
-    // Google APIの高速・安定モデル多重フォールバック（503高負荷・混雑エラーの完全根絶）
+    // Google APIの超高速・安定モデル多重フォールバック（混雑503・タイムアウト完全対策）
     const candidateModels = [
+      "gemini-flash-lite-latest",
+      "gemini-3.5-flash-lite",
       "gemini-flash-latest",
-      "gemini-3.6-flash",
-      "gemini-3.5-flash",
-      "gemini-3.8-flash"
+      "gemini-3.6-flash"
     ];
 
     let essayText = "";
@@ -82,7 +82,7 @@ export async function onRequestPost(context) {
       try {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${effectiveKey}`;
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 12000);
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
 
         const res = await fetch(url, {
           method: "POST",
