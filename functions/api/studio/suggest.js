@@ -88,7 +88,7 @@ export async function onRequestPost(context) {
     ];
     const seed = randomSeeds[Math.floor(Math.random() * randomSeeds.length)];
 
-    const prompt = `あなたは「鈴木啓悟（オジ文体エッセイスト／25年の会社経営者）」の専属企画編集者です。
+    const prompt = `あなたは「Keigo Suzuki（オジ文体エッセイスト／25年の会社経営者）」の専属企画編集者です。
 今回は特に「${seed}」に関連する視点を含め、読者が思わず唸り、共感し、深く考えさせられるような「noteエッセイの切り口・お題」を【5つ】提案してください。
 定型文や過去の使い回しを避け、具体的で生々しい現場のエピソードを想起させるお題にしてください。
 
