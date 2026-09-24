@@ -5,6 +5,13 @@ export async function onRequestPost({ request, env }) {
     const { email, password } = await request.json();
     const creds = getAdminCredentials(env);
 
+    if (!creds.email || !creds.password || !creds.secret) {
+      return new Response(JSON.stringify({ error: "管理者の環境設定が完了していません。CloudflareダッシュボードでADMIN_EMAILおよびADMIN_PASSWORDを設定してください。" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     if (!email || !password || email !== creds.email || password !== creds.password) {
       return new Response(JSON.stringify({ error: "メールアドレスまたはパスワードが正しくありません。" }), {
         status: 401,

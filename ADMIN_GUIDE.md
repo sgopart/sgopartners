@@ -10,27 +10,27 @@ SGO Partners LP・HPに届いた「無料相談」の問い合わせを閲覧・
 | :--- | :--- |
 | **管理画面URL（ローカル開発時）** | **`http://localhost:5173/admin`** |
 | **管理画面URL（本番Nodeサーバー時）** | **`https://sgopartners.com/admin`** （※Nodeサーバー配信時） |
-| **ログインID（メールアドレス）** | `owner@example.com` |
-| **ログインパスワード** | `admin-sgo-partner-2026!` |
+| **ログインID（メールアドレス）** | ご自身の管理者メールアドレス（環境変数 `ADMIN_EMAIL`） |
+| **ログインパスワード** | ご自身で設定した強固なパスワード（環境変数 `ADMIN_PASSWORD`） |
 
-> [!NOTE]
-> ログイン情報は `.env` ファイルに保存されています。本番運用の際は、ご自身のお好きなメールアドレス・強固なパスワードへ変更してください。
+> [!IMPORTANT]
+> ログイン情報およびシークレットは、ローカルでは `.env` ファイル、本番環境では Cloudflare Pages の「Settings > Variables and Secrets」に安全に登録してください。
 
 ---
 
-## 2. ログインID・パスワードの変更方法
+## 2. ログインID・パスワードの設定方法
 
-`07_SGO_Partners_Full_Migration/.env` ファイルを開き、以下の値を編集して保存してください。
+`07_SGO_Partners_Full_Migration/.env` ファイル（ローカル）または Cloudflare Pages 環境変数（本番）に以下を設定してください。
 
 ```env
 # 運営者ログイン用のメールアドレス
-ADMIN_EMAIL=your-email@sgopartners.jp
+ADMIN_EMAIL=your-secure-email@sgopartners.jp
 
-# 運営者ログイン用のパスワード
-ADMIN_PASSWORD=YourStrongPassword2026!
+# 運営者ログイン用のパスワード（英数字記号を含む強固なもの）
+ADMIN_PASSWORD=YourSecurePasswordHere!
 
 # セッション署名用の32文字以上のランダム文字列
-SESSION_SECRET=sgo_partners_secure_session_secret_key_32bytes_long_string_2026
+SESSION_SECRET=generate_your_own_32char_random_secret_here
 ```
 
 ---

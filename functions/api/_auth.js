@@ -2,16 +2,16 @@
  * Cloudflare Pages Functions 認証・セッション管理ヘルパー
  * Web Crypto API による HMAC-SHA256 署名付き HttpOnly Cookie 実装
  */
-const DEFAULT_SESSION_SECRET = "sgo_partners_secure_session_secret_key_32bytes_long_string_2026";
 const COOKIE_NAME = "sgo_session";
 
 export function getAdminCredentials(env) {
   return {
-    email: env.ADMIN_EMAIL || "owner@example.com",
-    password: env.ADMIN_PASSWORD || "admin-sgo-partner-2026!",
-    secret: env.SESSION_SECRET || DEFAULT_SESSION_SECRET,
+    email: env?.ADMIN_EMAIL || "",
+    password: env?.ADMIN_PASSWORD || "",
+    secret: env?.SESSION_SECRET || "",
   };
 }
+
 
 export function parseCookies(cookieHeader) {
   const list = {};

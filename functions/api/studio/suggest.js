@@ -49,21 +49,14 @@ const PRESET_IDEAS = [
   { cat: "🎯 勝負と覚悟", topic: "今できることを黙々とやる、それしかない", memo: "先行き不透明な時代に不安がっても始まらない。目の前の一人、目の前の1台に全力を尽くす。" }
 ];
 
-function getFallbackKey() {
-  try {
-    return atob("QVEuQWI4Uk42SUpqaVAtNkZ4UHdoZl83bDljTGEzQVd0dThnd1hkQmRWa3E0VFExNVdZQ0E=");
-  } catch {
-    return "";
-  }
-}
-
 export async function onRequestPost(context) {
   try {
     const data = await context.request.json().catch(() => ({}));
     const rawKey = data.apiKey || "";
     const cleanKey = rawKey.trim().replace(/^['"]|['"]$/g, "");
-    const serverKey = (context.env?.GEMINI_API_KEY || getFallbackKey() || "").trim().replace(/^['"]|['"]$/g, "");
+    const serverKey = (context.env?.GEMINI_API_KEY || "").trim().replace(/^['"]|['"]$/g, "");
     const effectiveKey = cleanKey || serverKey;
+
 
     // シャッフル用ユーティリティ（Fisher-Yatesシャッフル）
     const getRandomPresets = (count = 5) => {

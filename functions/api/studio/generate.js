@@ -30,22 +30,15 @@ const TONES_MAP = {
 建築、洗車、地域ビジネス、職人たちの息遣いや葛藤、人との出会いによって心が動かされた瞬間を、情景が浮かぶ温かくも芯のある筆致で1,500〜2,500文字で書き下ろしてください。`
 };
 
-function getFallbackKey() {
-  try {
-    return atob("QVEuQWI4Uk42SUpqaVAtNkZ4UHdoZl83bDljTGEzQVd0dThnd1hkQmRWa3E0VFExNVdZQ0E=");
-  } catch {
-    return "";
-  }
-}
-
 export async function onRequestPost(context) {
   try {
     const data = await context.request.json().catch(() => ({}));
     const rawKey = data.apiKey || "";
     const cleanKey = rawKey.trim().replace(/^['"]|['"]$/g, "");
-    const serverKey = (context.env?.GEMINI_API_KEY || getFallbackKey() || "").trim().replace(/^['"]|['"]$/g, "");
+    const serverKey = (context.env?.GEMINI_API_KEY || "").trim().replace(/^['"]|['"]$/g, "");
     const effectiveKey = cleanKey || serverKey;
     const tone = data.tone || "oji";
+
     const topic = (data.topic || "").trim();
     const details = (data.details || "").trim();
 
