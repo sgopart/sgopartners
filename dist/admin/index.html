@@ -20,6 +20,10 @@
     <link rel="canonical" href="https://sgopartners.com/" />
     <meta name="theme-color" content="#111c2d" />
 
+    <!-- LLM / AI Search Standards (llms.txt) -->
+    <link rel="alternate" type="text/plain" href="https://sgopartners.com/llms.txt" title="LLM Summary" />
+    <link rel="help" type="text/plain" href="https://sgopartners.com/llms-full.txt" title="LLM Full Knowledge" />
+
     <!-- GEO / Local SEO Meta Tags (横浜・神奈川・東京) -->
     <meta name="geo.region" content="JP-14" />
     <meta name="geo.placename" content="横浜市中区桜木町" />
@@ -63,7 +67,7 @@
       gtag('config', 'G-XRDY99CY7G');
     </script>
 
-    <!-- Schema.org JSON-LD Structured Data (GEO & Local SEO) -->
+    <!-- Schema.org JSON-LD Structured Data (GEO, AI Search & LLM Engine Optimization) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -74,6 +78,7 @@
           "name": "SGO Partners",
           "alternateName": ["エスジーオー・パートナーズ", "SGOパートナーズ"],
           "url": "https://sgopartners.com",
+          "slogan": "現実から、事業を考える。",
           "logo": {
             "@type": "ImageObject",
             "url": "https://sgopartners.com/assets/sgo-logo-black.png",
@@ -81,7 +86,17 @@
             "height": "558"
           },
           "image": "https://sgopartners.com/assets/sgo-logo-black.png",
-          "description": "中小企業・個人事業主・起業家のための伴走型事業支援パートナー。起業、新規事業、経営改善、現場実務まで一貫支援。",
+          "description": "中小企業・個人事業主・起業家のための伴走型事業支援パートナー。起業、新規事業、経営改善、現場実務まで経営者と同じ目線で一貫支援。",
+          "knowsAbout": [
+            "中小企業経営",
+            "起業支援・創業支援",
+            "新規事業立ち上げ",
+            "経営顧問・伴走支援",
+            "業務改善・効率化",
+            "事業計画・収支計画策定",
+            "店舗開発・洗車ビジネス支援",
+            "生成AIツール実務活用"
+          ],
           "founder": {
             "@type": "Person",
             "name": "Keigo Suzuki",
@@ -128,15 +143,15 @@
                 "@type": "Offer",
                 "itemOffered": {
                   "@type": "Service",
-                  "name": "事業立ち上げ支援",
-                  "description": "アイデアを、実行できる事業へ。起業・新規事業・新店舗の構想から実現までを伴走。"
+                  "name": "事業立ち上げ支援 (Business Launch)",
+                  "description": "アイデアを、実行できる事業へ。起業・新規事業・新店舗の構想から実現までを一貫して伴走。"
                 }
               },
               {
                 "@type": "Offer",
                 "itemOffered": {
                   "@type": "Service",
-                  "name": "経営伴走・顧問",
+                  "name": "経営伴走・顧問 (Executive Advisory)",
                   "description": "経営者の隣に、もう一つの視点を。既存事業の課題整理、意思決定、売上改善を支援。"
                 }
               },
@@ -144,7 +159,7 @@
                 "@type": "Offer",
                 "itemOffered": {
                   "@type": "Service",
-                  "name": "実行支援・業務改善",
+                  "name": "実行支援・業務改善 (Hands-on & Improvement)",
                   "description": "考えて終わらせず、前へ進める。市場調査、実務推進、生成AI等の活用による業務効率化。"
                 }
               }
@@ -196,10 +211,372 @@
     <link rel="stylesheet" crossorigin href="/assets/index-BAAWSqay.css">
   </head>
   <body>
+    <!--
+      Root Container with Pre-rendered Semantic HTML
+      This content is fully readable by LLMs & AI search bots (Claude, GPT, Perplexity, Gemini, Google SGE)
+      without requiring JavaScript execution. When React loads in modern browsers, it hydrates/replaces this container seamlessly.
+    -->
     <div id="root">
-      <header style="display:none;" aria-hidden="true">
-        <h1>SGO Partners | 経営者の隣で、考えるだけでなく動く。伴走型事業支援</h1>
-      </header>
+      <div id="top" class="site-shell">
+        <header class="site-header">
+          <div class="header-inner">
+            <div class="brand-link">
+              <strong>SGO PARTNERS</strong>
+              <span>伴走型事業支援パートナー</span>
+            </div>
+            <nav class="desktop-nav" aria-label="ページ内ナビゲーション">
+              <a href="#why-us">特徴</a>
+              <a href="#services">支援領域</a>
+              <a href="#values">大切にしていること</a>
+              <a href="#flow-faq">相談の流れ</a>
+              <a href="#company">会社概要</a>
+              <a href="/corporate" class="nav-official-link">公式サイト</a>
+            </nav>
+            <a class="header-cta" href="#consultation">相談してみる</a>
+          </div>
+        </header>
+
+        <main>
+          <!-- Section 1: Hero -->
+          <section class="hero" aria-labelledby="hero-title">
+            <div class="page-frame hero-frame">
+              <div class="hero-copy">
+                <p class="eyebrow">中小企業・個人事業主・起業家のための伴走型事業支援</p>
+                <h1 id="hero-title" class="hero-title">
+                  <span>経営者の隣で、</span>
+                  <span class="hero-title-accent">考えるだけでなく動く。</span>
+                </h1>
+                <p class="hero-subtitle">現実から、事業を考える。</p>
+                <p class="hero-description">
+                  SGO Partnersは、中小企業・個人事業主・起業家のための伴走型事業支援サービスです。起業、新規事業、経営改善。課題を整理し、調べ、考え、必要に応じて実行まで。事業を前へ進めるために、経営者と同じ目線で伴走します。
+                </p>
+                <div class="hero-actions">
+                  <a class="primary-cta" href="#consultation">SGO Partnersに相談する</a>
+                  <span class="cta-note">ご相談テーマが曖昧な段階でも歓迎です / 無理な営業・契約の強要は一切ありません</span>
+                </div>
+                <div class="hero-badges">
+                  <div class="hero-badge-item"><span>✓ 準備不要・箇条書きのメモでOK</span></div>
+                  <div class="hero-badge-item"><span>✓ 助言だけで終わらない実働支援</span></div>
+                  <div class="hero-badge-item"><span>✓ 無理な営業・契約の強要なし</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="hero-footnote">SGO PARTNERS / REALITY-BASED BUSINESS SUPPORT</div>
+          </section>
+
+          <!-- Section 2: Empathy (課題共感) -->
+          <section id="empathy" class="section empathy-section">
+            <div class="page-frame">
+              <div class="section-header-center">
+                <p class="kicker">CHALLENGES & BOTTLENECK</p>
+                <h2>こんなことで、止まっていませんか？</h2>
+                <p class="section-lead-center">事業を前に進めたいという思いはあっても、現実は様々な課題が絡み合っています。</p>
+              </div>
+              <div class="empathy-grid">
+                <div class="empathy-card"><p class="empathy-text">やりたい事業はある。でも何から始めればいいかわからない。</p></div>
+                <div class="empathy-card"><p class="empathy-text">新しい事業を考えているが、本当に成立するかわからない。</p></div>
+                <div class="empathy-card"><p class="empathy-text">売上を増やしたいが、どこから改善すべきかわからない。</p></div>
+                <div class="empathy-card"><p class="empathy-text">事業計画や数字を整理しきれていない。</p></div>
+                <div class="empathy-card"><p class="empathy-text">経営について、本音で相談できる相手がいない。</p></div>
+                <div class="empathy-card"><p class="empathy-text">考えることが多すぎて、意思決定が止まっている。</p></div>
+                <div class="empathy-card"><p class="empathy-text">アドバイスだけではなく、実行まで一緒に考えてほしい。</p></div>
+              </div>
+              <div class="empathy-bridge-box">
+                <div class="empathy-bridge-inner">
+                  <h3>経営の問題は、ひとつだけではありません。</h3>
+                  <p>営業、集客、商品、価格、資金、人材、業務、意思決定。それぞれはつながっています。だからSGO Partnersは、ひとつの問題だけを見るのではなく、事業全体から「今、何を優先するべきか」を考えます。</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 3: Difference (思想・支援プロセス) -->
+          <section id="why-us" class="section why-us-section">
+            <div class="page-frame">
+              <div class="section-header-center">
+                <p class="kicker">PHILOSOPHY & APPROACH</p>
+                <h2>答えを渡して終わるコンサルではありません。</h2>
+                <p class="section-lead-center section-lead-strong">正しそうな答えではなく、現実に実行できる答えを。</p>
+                <p class="section-subtext-center">経営に必要なのは、必ずしも立派な資料や難しい理論ではありません。何が問題なのか。何から始めるのか。数字は合っているのか。現実に実行できるのか。そして、次に何をするのか。SGO Partnersは、そこを経営者と一緒に整理します。</p>
+              </div>
+              <div class="process-wrapper">
+                <div class="process-header">
+                  <span class="process-badge">PROCESS</span>
+                  <span class="process-title">支援プロセス</span>
+                </div>
+                <div class="process-timeline">
+                  <div class="process-step-card"><div class="process-step-num">01</div><div class="process-step-info"><strong>相談</strong><p>現状の違和感や課題のヒアリング</p></div></div>
+                  <div class="process-step-card"><div class="process-step-num">02</div><div class="process-step-info"><strong>現状整理</strong><p>事実・数字・リソースの棚卸し</p></div></div>
+                  <div class="process-step-card"><div class="process-step-num">03</div><div class="process-step-info"><strong>課題設定</strong><p>真に向き合うべき問いの特定</p></div></div>
+                  <div class="process-step-card"><div class="process-step-num">04</div><div class="process-step-info"><strong>調査・分析</strong><p>市場・競合・実現可能性の検証</p></div></div>
+                  <div class="process-step-card"><div class="process-step-num">05</div><div class="process-step-info"><strong>意思決定</strong><p>やること・やらないことの決定</p></div></div>
+                  <div class="process-step-card"><div class="process-step-num">06</div><div class="process-step-info"><strong>実行支援</strong><p>必要に応じた現場実務の推進</p></div></div>
+                  <div class="process-step-card"><div class="process-step-num">07</div><div class="process-step-info"><strong>検証・改善</strong><p>結果を見ながらの継続的調整</p></div></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 4: Services (3つの支援領域) -->
+          <section id="services" class="section services-section">
+            <div class="page-frame">
+              <div class="section-header-center">
+                <p class="kicker">SERVICES & EXPERTISE</p>
+                <h2>事業の前進を支える<em>3つの支援領域</em></h2>
+                <p class="section-lead-center">構想の立ち上げから、日々の経営判断、現場の泥臭い実務まで。<br />企業の状況と必要性に応じた伴走体制を整えます。</p>
+              </div>
+              <div class="services-grid services-grid-3col">
+                <article class="service-card">
+                  <div class="service-card-top"><span class="service-number">01</span><span class="service-label">BUSINESS LAUNCH</span></div>
+                  <h3>事業立ち上げ支援</h3>
+                  <p class="service-catch">アイデアを、実行できる事業へ。</p>
+                  <p class="service-summary">起業・創業・新規事業・新サービス・新店舗など、構想段階から事業として成立するまでを一貫して支援します。</p>
+                  <div class="service-points-list">
+                    <span class="service-points-heading">主な支援内容</span>
+                    <ul>
+                      <li>事業アイデア・コンセプトの整理</li>
+                      <li>市場調査・競合リサーチ</li>
+                      <li>ビジネスモデル・収支検討・価格設定</li>
+                      <li>営業・集客設計とテストマーケティング</li>
+                      <li>実行ロードマップ・事業計画の策定</li>
+                    </ul>
+                  </div>
+                  <div class="service-targets">
+                    <span>主な対象</span>
+                    <p>起業準備中 / 創業直後 / 新規事業開発 / 新店舗・新展開</p>
+                  </div>
+                </article>
+
+                <article class="service-card">
+                  <div class="service-card-top"><span class="service-number">02</span><span class="service-label">EXECUTIVE ADVISORY</span></div>
+                  <h3>経営伴走・顧問</h3>
+                  <p class="service-catch">経営者の隣に、もう一つの視点を。</p>
+                  <p class="service-summary">既存事業を運営する経営者・事業者のための継続的支援。日々の意思決定から売上改善まで、経営者と同じ目線で向き合います。</p>
+                  <div class="service-points-list">
+                    <span class="service-points-heading">主な支援内容</span>
+                    <ul>
+                      <li>経営課題の棚卸しと優先順位づけ</li>
+                      <li>意思決定の壁打ち・客観的な多角検証</li>
+                      <li>事業戦略・売上改善施策の立案</li>
+                      <li>営業・マーケティング施策の見直し</li>
+                      <li>経営リサーチ・プロジェクト推進支援</li>
+                    </ul>
+                  </div>
+                  <div class="service-targets">
+                    <span>主な対象</span>
+                    <p>中小企業経営者 / 小規模事業者 / 個人事業主 / 後継者</p>
+                  </div>
+                </article>
+
+                <article class="service-card">
+                  <div class="service-card-top"><span class="service-number">03</span><span class="service-label">HANDS-ON & IMPROVEMENT</span></div>
+                  <h3>実行支援・業務改善</h3>
+                  <p class="service-catch">考えて終わらせず、前へ進める。</p>
+                  <p class="service-summary">提案書を渡して終わるのではなく、必要な調査や実務まで現場に入り込んで前へ進めます。生成AI等の実務ツールも問題解決の手段として柔軟に活用します。</p>
+                  <div class="service-points-list">
+                    <span class="service-points-heading">主な支援内容</span>
+                    <ul>
+                      <li>市場調査・情報収集・データ整理</li>
+                      <li>提案資料・実務ドキュメント作成</li>
+                      <li>事業推進・タスク進行管理</li>
+                      <li>業務フローの整理と無駄の削減</li>
+                      <li>生成AI等のツールを活用した業務効率化</li>
+                    </ul>
+                  </div>
+                  <div class="service-targets">
+                    <span>主な対象</span>
+                    <p>リソース不足の経営現場 / 業務効率化 / 実務推進</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 5: Values (大切にしていること) -->
+          <section id="values" class="section values-section">
+            <div class="page-frame">
+              <div class="section-header-center">
+                <p class="kicker">OUR CORE PRINCIPLES</p>
+                <h2>SGO Partnersが大切にしていること</h2>
+                <p class="section-lead-center">「実績の誇示」ではなく、「考え方と仕事の進め方」で信頼を築きます。</p>
+              </div>
+              <div class="values-grid">
+                <div class="value-card">
+                  <div class="value-card-header"><span class="value-number">01</span></div>
+                  <h3>現実を見る。</h3>
+                  <p>理想論だけではなく、資金、人員、時間、市場などの現実的な条件を踏まえて考えます。</p>
+                </div>
+                <div class="value-card">
+                  <div class="value-card-header"><span class="value-number">02</span></div>
+                  <h3>数字を見る。</h3>
+                  <p>感覚や思い込みだけではなく、可能な範囲で数字と事実から冷静に判断します。</p>
+                </div>
+                <div class="value-card">
+                  <div class="value-card-header"><span class="value-number">03</span></div>
+                  <h3>一緒に考える。</h3>
+                  <p>一方的に答えを押し付けるのではなく、経営者と対話しながら意思決定を整理します。</p>
+                </div>
+                <div class="value-card">
+                  <div class="value-card-header"><span class="value-number">04</span></div>
+                  <h3>必要なら動く。</h3>
+                  <p>助言や提案だけで終わらず、必要に応じて調査や現場の実行まで支援します。</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 6: Reality Check (事業リアリティチェック) -->
+          <section class="section reality-check-section">
+            <div class="page-frame">
+              <div class="reality-check-box">
+                <div class="reality-check-inner">
+                  <span class="reality-badge">事業リアリティチェック</span>
+                  <h3>まずは、事業を整理するところから。</h3>
+                  <p class="reality-check-desc">新しい事業を考えている。今の事業に違和感がある。何から改善すればいいかわからない。自分の考えを第三者と一度整理したい。そんな段階でも構いません。市場、顧客、競合、収益性、資金、営業、実現可能性などから状況を整理します。相談したからといって、顧問契約を前提とするものではありません。</p>
+                  <div class="reality-check-action">
+                    <a class="primary-cta" href="#consultation">事業について相談する</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 7: Flow & FAQ -->
+          <section id="flow-faq" class="section flow-faq-section">
+            <div class="page-frame">
+              <div class="flow-faq-layout">
+                <div class="flow-block">
+                  <div class="block-header">
+                    <p class="kicker">HOW IT WORKS</p>
+                    <h2>ご相談の<em>3ステップ</em></h2>
+                    <p class="block-sub">申し込みから面談まで、シンプルな3つの手順です。</p>
+                  </div>
+                  <div class="flow-timeline">
+                    <div class="flow-step-item">
+                      <div class="flow-step-badge">STEP 01</div>
+                      <div class="flow-step-content">
+                        <h3>ご相談のお申し込み</h3>
+                        <p>下部のフォームより、現状のお悩みや状況をお気軽にお送りください（1〜2分で完了）。箇条書きで構いません。</p>
+                      </div>
+                    </div>
+                    <div class="flow-step-item">
+                      <div class="flow-step-badge">STEP 02</div>
+                      <div class="flow-step-content">
+                        <h3>日程のご調整</h3>
+                        <p>担当者より24時間以内にメールにてご連絡し、オンライン面談（Zoom等）の日程を確定します。※お電話や近郊対面もご相談可。</p>
+                      </div>
+                    </div>
+                    <div class="flow-step-item">
+                      <div class="flow-step-badge">STEP 03</div>
+                      <div class="flow-step-content">
+                        <h3>オンラインで整理</h3>
+                        <p>準備資料は不要です。現状をお伺いしながら、いま最優先で取り組むべき課題と次の一手を一緒に整理します。</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="faq-block">
+                  <div class="block-header">
+                    <p class="kicker">Q & A</p>
+                    <h2>よくあるご質問</h2>
+                    <p class="block-sub">ご相談前に寄せられる主な質問をまとめました。</p>
+                  </div>
+                  <div class="faq-list">
+                    <div class="faq-item">
+                      <strong>Q. 相談するテーマがまだ漠然としていますが大丈夫ですか？</strong>
+                      <p>全く問題ありません。「何が原因で滞っているのかわからない」「誰かに壁打ち相手になってほしい」という段階から、対話を通じて課題の輪郭をクリアにしていきます。</p>
+                    </div>
+                    <div class="faq-item">
+                      <strong>Q. 相談したら、契約を強く迫られることはありませんか？</strong>
+                      <p>一切ございません。初回相談は現状の整理と相性の確認を目的としています。無理な営業や押し売りは行いませんのでご安心ください。</p>
+                    </div>
+                    <div class="faq-item">
+                      <strong>Q. どのような規模・業種の事業者が対象ですか？</strong>
+                      <p>中小企業経営者様、小規模事業者様、個人事業主様、これから起業する方、新規事業を考えている企業様を主な対象としています。業種を問わず柔軟に対応いたします。</p>
+                    </div>
+                    <div class="faq-item">
+                      <strong>Q. オンライン以外（対面・電話）での相談も可能ですか？</strong>
+                      <p>原則オンライン（Zoom等）で実施しておりますが、お電話でのご相談や神奈川・東京近郊での対面相談をご希望の場合はフォームの自由記入欄にてご相談ください。</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 8: Final CTA -->
+          <section class="section final-cta-section">
+            <div class="page-frame">
+              <div class="final-cta-box">
+                <p class="kicker">TAKE THE FIRST STEP</p>
+                <h2>現実から、事業を考える。</h2>
+                <div class="final-cta-text">
+                  <p>正解がわからない。何から手をつければいいかわからない。一人で考えているうちに、時間だけが過ぎている。そんなときこそ、一度外から事業を見ることに意味があります。SGO Partnersは、経営者の隣で、考えるだけでなく動きます。</p>
+                </div>
+                <div class="final-cta-btn-wrap">
+                  <a class="primary-cta final-cta-btn" href="#consultation">SGO Partnersに相談する</a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 9: Company & Founder -->
+          <section id="company" class="section company-section-wrap">
+            <div class="page-frame">
+              <div class="company-compact">
+                <div class="company-compact-header">
+                  <span class="kicker">COMPANY OVERVIEW</span>
+                  <h3>会社概要</h3>
+                </div>
+                <div class="company-compact-grid">
+                  <div class="company-compact-item"><span class="company-item-label">社名</span><span class="company-item-value">SGO Partners（エスジーオー・パートナーズ）</span></div>
+                  <div class="company-compact-item"><span class="company-item-label">設立</span><span class="company-item-value">2026年 4月28日</span></div>
+                  <div class="company-compact-item"><span class="company-item-label">代表者</span><span class="company-item-value">Keigo Suzuki (Founder / SGO Partners)</span></div>
+                  <div class="company-compact-item"><span class="company-item-label">所在地</span><span class="company-item-value">〒231-0062 神奈川県横浜市中区桜木町1-101-1 クロスゲート7F</span></div>
+                  <div class="company-compact-item"><span class="company-item-label">事業内容</span><span class="company-item-value">総合事業支援（事業立ち上げ支援、経営伴走・顧問、実行支援・業務改善、ブランディング、各種実務支援）</span></div>
+                </div>
+
+                <!-- Founder Profile -->
+                <div class="company-founder-inner" style="margin-top: 2rem;">
+                  <span class="founder-kicker-tag">FOUNDER & PARTNER</span>
+                  <h4 class="founder-quote-head">経営者の隣で、同じ目線で考え、現場で共に動く。</h4>
+                  <p class="founder-lead-quote">理想論ではなく、現実の条件に向き合いながら事業の前進を支えます。</p>
+                  <div class="founder-story-body">
+                    <p>自ら25年間にわたり事業経営を行い、企業の舵取りと数々のシビアな意思決定に向き合い続けてきました。</p>
+                    <p>事業を経営する中で直面する孤独や重圧、資金繰りや雇用の責任、理想と現実のギャップ、そして失敗から得られる教訓を自らの実体験として理解しているからこそ、机上の空論や上から目線のアドバイスではなく、「現実から事業を考え、必要なら一緒に動く」伴走型の支援を貫いています。</p>
+                    <p>大手コンサルティング会社にはない生々しい経営実務の感覚と距離感で、経営者や起業家が本音で話せる頼れるパートナーとして、事業を前へ進めるお手伝いをいたします。</p>
+                    <p><strong>Keigo Suzuki / Founder, SGO Partners</strong></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 10: Consultation Section -->
+          <section id="consultation" class="section consultation-section">
+            <div class="page-frame">
+              <div class="section-header-center">
+                <p class="kicker">CONSULTATION FORM</p>
+                <h2>ご相談フォーム</h2>
+                <p class="section-lead-center">現状の課題や違和感をそのままお聞かせください。担当者より24時間以内にご連絡いたします。</p>
+                <p>メールでのお問い合わせ: <a href="mailto:info@sgopartners.jp">info@sgopartners.jp</a></p>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <footer class="site-footer">
+          <div class="page-frame footer-inner">
+            <p>&copy; 2026 SGO Partners. All Rights Reserved. 桜木町1-101-1 クロスゲート7F, 横浜市中区, 神奈川県</p>
+            <div class="footer-links">
+              <a href="/corporate">企業情報</a>
+              <a href="/privacy">プライバシーポリシー</a>
+              <a href="/llms.txt">AI/LLM Summary</a>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
     <noscript>
       <div style="padding: 2rem; text-align: center; color: #1e293b; background: #f8fafc;">
