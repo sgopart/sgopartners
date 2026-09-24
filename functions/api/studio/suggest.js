@@ -53,7 +53,16 @@ export async function onRequestPost(context) {
   try {
     const data = await context.request.json().catch(() => ({}));
     const clientKey = (data.apiKey || "").trim().replace(/^['"]|['"]$/g, "");
-    const serverKey = (context.env?.GEMINI_API_KEY || "").trim().replace(/^['"]|['"]$/g, "");
+    
+    // Cloudflare 環境変数のキー名（前後のスペースを許容）から安全に取得
+    let serverKey = "";
+    for (const [k, v] of Object.entries(context.env || {})) {
+      if (k.trim() === "GEMINI_API_KEY" && typeof v === "string") {
+        serverKey = v.trim().replace(/^['"]|['"]$/g, "");
+        break;
+      }
+    }
+
     const effectiveKey = serverKey || clientKey;
 
 
