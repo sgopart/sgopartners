@@ -102,12 +102,12 @@ export async function onRequestPost(context) {
   }
 ]`;
 
-    // 4重モデルフォールバック（超高速gemini-flash-lite-latest優先）
+    // 4重モデルフォールバック（最新のgemini-3.5-flash優先）
     const candidateModels = [
+      "gemini-3.5-flash",
+      "gemini-3.6-flash",
       "gemini-flash-lite-latest",
-      "gemini-2.5-flash",
-      "gemini-flash-latest",
-      "gemini-2.5-flash-lite"
+      "gemini-3.5-flash-lite"
     ];
     let ideas = [];
 
@@ -115,7 +115,7 @@ export async function onRequestPost(context) {
       try {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${effectiveKey}`;
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
 
         const res = await fetch(url, {
           method: "POST",
