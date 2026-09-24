@@ -531,12 +531,31 @@
       }
     }
 
+    /* 文字化け・生エスケープ（\uXXXX, \n, \"）の完全安全解除 */
+    function cleanOutputText(str) {
+      if (!str) return "";
+      let s = str;
+      if (typeof s !== "string") return "";
+      if (s.startsWith('{"essay":') || s.startsWith('{"text":')) {
+        try {
+          const p = JSON.parse(s);
+          s = p.essay || p.text || s;
+        } catch {}
+      }
+      return s
+        .replace(/\\n/g, "\n")
+        .replace(/\\r/g, "")
+        .replace(/\\"/g, '"')
+        .replace(/\\t/g, "  ")
+        .replace(/\\u([0-9a-fA-F]{4})/g, (_, h) => String.fromCharCode(parseInt(h, 16)));
+    }
+
     /* 生成結果の直接DOM反映 */
     function displayResults(essayText, sns) {
-      contentStore.note = essayText || "";
-      contentStore.x = sns?.x || "";
-      contentStore.instagram = sns?.instagram || "";
-      contentStore.facebook = sns?.facebook || "";
+      contentStore.note = cleanOutputText(essayText) || "";
+      contentStore.x = cleanOutputText(sns?.x) || "";
+      contentStore.instagram = cleanOutputText(sns?.instagram) || "";
+      contentStore.facebook = cleanOutputText(sns?.facebook) || "";
 
       currentTab = "note";
 

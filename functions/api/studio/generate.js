@@ -118,7 +118,7 @@ ${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
               temperature: 0.85,
               topP: 0.95,
               responseMimeType: "application/json",
-              maxOutputTokens: 4000
+              maxOutputTokens: 8192
             }
           }),
           signal: controller.signal
@@ -127,18 +127,66 @@ ${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
 
         if (res.ok) {
           const resJson = await res.json();
-          const rawText = resJson.candidates?.[0]?.content?.parts?.[0]?.text || "";
+          const candidate = resJson.candidates?.[0];
+          const rawText = candidate?.content?.parts?.[0]?.text || "";
           if (rawText) {
+            // 文字化け・生エスケープ（\uXXXX, \n, \"）の安全解除ヘルパー
+            const unescapeString = (str) => {
+              if (!str) return "";
+              return str
+                .replace(/\\n/g, "\n")
+                .replace(/\\r/g, "")
+                .replace(/\\t/g, "  ")
+                .replace(/\\"/g, '"')
+                .replace(/\\\\/g, "\\")
+                .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)));
+            };
+
+            // 1. 完全なJSONとしての解析
             try {
               const cleanJson = rawText
                 .replace(/^```(?:json)?\s*/i, "")
                 .replace(/\s*```$/i, "")
                 .trim();
               const parsed = JSON.parse(cleanJson);
-              essayText = parsed.essay || "";
-              snsData = parsed.sns || { x: "", instagram: "", facebook: "" };
+              if (parsed && typeof parsed.essay === "string" && parsed.essay.trim()) {
+                essayText = parsed.essay.trim();
+                snsData = parsed.sns || { x: "", instagram: "", facebook: "" };
+              }
             } catch {
-              essayText = rawText;
+              // 2. トークン長等で途中で切れた場合の正規表現抽出＆エスケープ解除
+              const essayMatch = rawText.match(/"essay"\s*:\s*"((?:[^"\\]|\\.)*)/);
+              if (essayMatch && essayMatch[1]) {
+                essayText = unescapeString(essayMatch[1]).trim();
+              }
+              const xMatch = rawText.match(/"x"\s*:\s*"((?:[^"\\]|\\.)*)/);
+              const instaMatch = rawText.match(/"instagram"\s*:\s*"((?:[^"\\]|\\.)*)/);
+              const fbMatch = rawText.match(/"facebook"\s*:\s*"((?:[^"\\]|\\.)*)/);
+
+              snsData = {
+                x: xMatch ? unescapeString(xMatch[1]).trim() : "",
+                instagram: instaMatch ? unescapeString(instaMatch[1]).trim() : "",
+                facebook: fbMatch ? unescapeString(fbMatch[1]).trim() : ""
+              };
+            }
+
+            // 3. それでも取れなかった場合のプレーンテキスト救出
+            if (!essayText) {
+              essayText = rawText
+                .replace(/^```(?:json)?\s*/i, "")
+                .replace(/\s*```$/i, "")
+                .replace(/^{\s*"essay"\s*:\s*"/, "")
+                .trim();
+              essayText = unescapeString(essayText);
+            }
+
+            // オジ文体で末尾が切れていた場合の自然な締め処理
+            if (essayText && tone === "oji" && !essayText.includes("皆さんよい週末を。")) {
+              if (!essayText.endsWith("。") && !essayText.endsWith("\n")) {
+                essayText += "。\n\n皆さんよい週末を。";
+              } else {
+                essayText += "\n\n皆さんよい週末を。";
+              }
             }
 
             if (essayText) {
