@@ -52,10 +52,9 @@ const PRESET_IDEAS = [
 export async function onRequestPost(context) {
   try {
     const data = await context.request.json().catch(() => ({}));
-    const rawKey = data.apiKey || "";
-    const cleanKey = rawKey.trim().replace(/^['"]|['"]$/g, "");
+    const clientKey = (data.apiKey || "").trim().replace(/^['"]|['"]$/g, "");
     const serverKey = (context.env?.GEMINI_API_KEY || "").trim().replace(/^['"]|['"]$/g, "");
-    const effectiveKey = cleanKey || serverKey;
+    const effectiveKey = serverKey || clientKey;
 
 
     // シャッフル用ユーティリティ（Fisher-Yatesシャッフル）
@@ -97,9 +96,9 @@ export async function onRequestPost(context) {
     // 4重モデルフォールバック（超高速gemini-flash-lite-latest優先）
     const candidateModels = [
       "gemini-flash-lite-latest",
-      "gemini-3.5-flash-lite",
+      "gemini-2.5-flash",
       "gemini-flash-latest",
-      "gemini-3.6-flash"
+      "gemini-2.5-flash-lite"
     ];
     let ideas = [];
 

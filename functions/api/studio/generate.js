@@ -33,17 +33,20 @@ const TONES_MAP = {
 export async function onRequestPost(context) {
   try {
     const data = await context.request.json().catch(() => ({}));
-    const rawKey = data.apiKey || "";
-    const cleanKey = rawKey.trim().replace(/^['"]|['"]$/g, "");
+    const clientKey = (data.apiKey || "").trim().replace(/^['"]|['"]$/g, "");
     const serverKey = (context.env?.GEMINI_API_KEY || "").trim().replace(/^['"]|['"]$/g, "");
-    const effectiveKey = cleanKey || serverKey;
+    // サーバー側の環境変数キー（管理画面で設定した安全な最新キー）を最優先、なければクライアントキーを使用
+    const effectiveKey = serverKey || clientKey;
     const tone = data.tone || "oji";
 
     const topic = (data.topic || "").trim();
     const details = (data.details || "").trim();
 
     if (!effectiveKey) {
-      return new Response(JSON.stringify({ success: false, error: "APIキーが設定されていません。右上の「⚙️ 設定」をタップしてGemini APIキーを貼り付けてください。" }), {
+      return new Response(JSON.stringify({
+        success: false,
+        error: "APIキーが設定されていません。CloudflareダッシュボードにGEMINI_API_KEYを設定するか、右上の「⚙️ 設定」にAPIキーを入力してください。"
+      }), {
         status: 400,
         headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
       });
@@ -73,12 +76,12 @@ ${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
   }
 }`;
 
-    // Google APIの超高速・安定モデル多重フォールバック（混雑503・タイムアウト完全対策）
+    // Google APIの超高速・安定モデル多重フォールバック
     const candidateModels = [
       "gemini-flash-lite-latest",
-      "gemini-3.5-flash-lite",
+      "gemini-2.5-flash",
       "gemini-flash-latest",
-      "gemini-3.6-flash"
+      "gemini-2.5-flash-lite"
     ];
 
     let essayText = "";
