@@ -1013,3 +1013,147 @@ footer {
         line-height: 1.6 !important;
     }
 }
+
+/* ==========================================================================
+   note Integration Styles (Founder Action, SNS Badge, Thanks Banner)
+   ========================================================================== */
+.founder-note-action {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.2rem;
+    width: 100%;
+}
+
+.founder-note-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 6px;
+    padding: 10px 18px;
+    color: #eee;
+    text-decoration: none;
+    font-size: 0.88rem;
+    transition: all 0.25s ease;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.founder-note-btn:hover {
+    border-color: #2bb28c;
+    background: rgba(43, 178, 140, 0.12);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(43, 178, 140, 0.25);
+}
+
+.note-pill {
+    background: #2bb28c;
+    color: #fff;
+    font-family: var(--font-oswald, sans-serif);
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 2px 7px;
+    border-radius: 3px;
+    text-transform: lowercase;
+    flex-shrink: 0;
+}
+
+/* SNS note badge in header / footer */
+.sns-note-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 7px;
+    height: 22px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff !important;
+    font-family: var(--font-oswald, sans-serif);
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    vertical-align: middle;
+}
+
+.sns-note-badge:hover {
+    background: #2bb28c;
+    border-color: #2bb28c;
+    color: #fff !important;
+    transform: translateY(-1px);
+}
+
+/* Thanks Screen note Banner */
+.thanks-note-banner {
+    margin: 2rem auto;
+    padding: 1.4rem 1.6rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 3px solid #2bb28c;
+    border-radius: 6px;
+    text-align: left;
+    max-width: 580px;
+    box-sizing: border-box;
+}
+
+.thanks-note-title {
+    font-weight: 700;
+    color: #fff;
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+}
+
+.thanks-note-desc {
+    color: #bbb;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    margin-bottom: 14px;
+}
+
+.thanks-note-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(43, 178, 140, 0.15);
+    border: 1px solid rgba(43, 178, 140, 0.4);
+    color: #2bb28c;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.thanks-note-btn:hover {
+    background: #2bb28c;
+    color: #fff;
+    border-color: #2bb28c;
+}
+
+@media (max-width: 768px) {
+    .founder-note-action {
+        justify-content: flex-start !important;
+    }
+    .founder-note-btn {
+        width: 100% !important;
+        justify-content: center !important;
+        font-size: 0.82rem !important;
+        padding: 10px 12px !important;
+    }
+    .thanks-note-banner {
+        padding: 1.2rem 1rem !important;
+        margin: 1.6rem auto !important;
+    }
+    .thanks-note-btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+}
