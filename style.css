@@ -302,10 +302,35 @@ header {
     text-transform: none;
 }
 
+.inline-chunk {
+    display: inline-block;
+    max-width: 100%;
+}
+
 .philosophy-box {
     padding: 1.5rem 1.8rem;
     box-sizing: border-box;
     width: 100%;
+}
+
+.philosophy-list {
+    font-size: 1rem;
+    line-height: 1.65;
+}
+
+.philosophy-list li {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+}
+
+.services-bottom-note {
+    text-align: center;
+    margin-top: 2.2rem;
+    color: #aaa;
+    font-size: clamp(0.75rem, 2.3vw, 0.9rem);
+    line-height: 1.85;
+    word-break: normal;
+    overflow-wrap: break-word;
 }
 
 /* * サービス/事業内容グリッド */
@@ -781,6 +806,29 @@ footer {
 
     .philosophy-box {
         padding: 1.2rem 1.1rem !important;
+    }
+
+    .philosophy-list {
+        font-size: clamp(0.88rem, 2.7vw, 1rem) !important;
+        gap: 10px !important;
+    }
+
+    .services-bottom-note {
+        font-size: clamp(0.72rem, 2.3vw, 0.84rem) !important;
+        line-height: 1.75 !important;
+        padding: 0 !important;
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+    }
+    .services-bottom-note .inline-chunk {
+        display: inline-block;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    @media (max-width: 350px) {
+        .services-bottom-note .inline-chunk {
+            display: inline;
+        }
     }
 
     .grid-wrapper { 
