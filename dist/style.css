@@ -302,13 +302,18 @@ header {
     text-transform: none;
 }
 
-#message-body { font-size: 1.1rem; color: #dddddd; font-weight: 300; }
+.philosophy-box {
+    padding: 1.5rem 1.8rem;
+    box-sizing: border-box;
+    width: 100%;
+}
 
 /* * サービス/事業内容グリッド */
 .grid-wrapper {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
     gap: 30px;
+    width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -662,8 +667,15 @@ footer {
 .visible { opacity: 1 !important; transform: translateY(0) !important; }
 
 @media (max-width: 768px) {
+    .container {
+        padding: 0 1.25rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
     .top-nav {
-        padding: 0 1.5rem;
+        padding: 0 1.25rem;
         height: 70px;
     }
     
@@ -767,13 +779,35 @@ footer {
         text-overflow: clip;
     }
 
+    .philosophy-box {
+        padding: 1.2rem 1.1rem !important;
+    }
+
     .grid-wrapper { 
-        grid-template-columns: 1fr; 
-        gap: 2rem;
+        grid-template-columns: 1fr !important; 
+        gap: 1.8rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
     }
 
     .card-body {
-        padding: 2rem 1.5rem;
+        padding: 1.8rem 1.25rem !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+
+    .card-cat {
+        white-space: normal !important;
+        word-break: break-word !important;
     }
 
     .company-section {
@@ -785,12 +819,20 @@ footer {
     }
 
     #contact-form-wrapper {
-        padding: 2.5rem 1.5rem;
+        padding: 2.2rem 1.25rem !important;
+        box-sizing: border-box !important;
     }
 
     .footer-content {
         flex-direction: column;
         text-align: center;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .footer-logo img {
+        max-width: 100% !important;
+        height: auto !important;
     }
 
     .footer-links {
@@ -809,15 +851,18 @@ footer {
 
     .profile-table th, .profile-table td {
         display: block;
-        width: 100%;
-        padding: 1.2rem 1.5rem;
+        width: 100% !important;
+        padding: 1rem 1.2rem !important;
+        box-sizing: border-box !important;
+        word-break: break-word !important;
     }
     .profile-table th {
-        padding-bottom: 0;
+        padding-bottom: 0.2rem !important;
     }
 
     .corporate-map-wrapper {
-        padding: 1.4rem 1.4rem 1.8rem;
+        padding: 1.2rem 1.2rem 1.6rem !important;
+        box-sizing: border-box !important;
     }
 
     .corporate-map-header {

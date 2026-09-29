@@ -124,7 +124,7 @@
     </script>
 </head>
 
-<body>
+<body id="top">
 
     <!-- 3D Background Canvas -->
     <canvas id="webgl-canvas"></canvas>
@@ -132,7 +132,7 @@
     <div class="container">
         <!-- Top Navigation -->
         <nav class="top-nav">
-            <a href="/" class="logo">
+            <a href="#top" class="logo" onclick="event.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); if (window.history.replaceState) window.history.replaceState(null, '', '#top');" aria-label="SGO Partners コーポレート トップへ戻る">
                 <img src="/assets/sgo-logo-horiz-white.png" alt="SGO PARTNERS" style="height: 28px; width: auto; display: block; object-fit: contain;">
             </a>
             <div class="nav-links" id="nav-links">
@@ -194,7 +194,7 @@
                         私たちは経営者の外部事業推進パートナーとして、一緒に考え、調べ、整理し、決めたことを必要に応じて実行まで支えます。
                     </p>
 
-                    <div style="background: rgba(255, 255, 255, 0.04); border-left: 3px solid var(--primary-color); padding: 1.5rem 1.8rem; margin: 2rem 0; border-radius: 4px;">
+                    <div class="philosophy-box" style="background: rgba(255, 255, 255, 0.04); border-left: 3px solid var(--primary-color); margin: 2rem 0; border-radius: 4px;">
                         <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-weight: 600; color: #fff;">
                             <li>・何をやるかではなく、何をやらないか？</li>
                             <li>・自社と自身の、本当の強みは何か？</li>
@@ -217,7 +217,7 @@
                 </h2>
             </div>
 
-            <div class="grid-wrapper" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+            <div class="grid-wrapper">
                 <!-- Service 1 -->
                 <div class="card" style="transition-delay: 0s;">
                     <div class="card-img-wrap">
@@ -437,7 +437,7 @@
     <footer>
         <div class="container footer-content">
             <div>
-                <a href="/" class="footer-logo">
+                <a href="#top" class="footer-logo" onclick="event.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); if (window.history.replaceState) window.history.replaceState(null, '', '#top');" aria-label="SGO Partners コーポレート トップへ戻る">
                     <img src="/assets/sgo-logo-horiz-white.png" alt="SGO PARTNERS" style="height: 38px; width: auto; display: block; object-fit: contain; margin-bottom: 10px;">
                 </a>
                 <p style="color: #aaa; font-size: 0.9rem; margin-top: 6px;">&copy; 2026 SGO PARTNERS. All Rights Reserved.</p>
