@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>プライバシーポリシー ＆ サイト利用規約 | SGO Partners</title>
-    <meta name="description" content="SGO Partners（エスジーオー・パートナーズ）のプライバシーポリシーおよびサイト利用規約。個人情報の取り扱い、機密保持、AIモデル学習非利用の保証、著作権保護方針について明記しています。">
-    <meta name="keywords" content="SGO Partners,プライバシーポリシー,利用規約,個人情報保護,機密保持,AIデータ保護,著作権,横浜 経営パートナー">
+    <meta name="description" content="SGO Partners（エスジーオー・パートナーズ）のプライバシーポリシーおよびサイト利用規約。経営者の外部事業推進パートナーとして、事業立ち上げ支援・経営伴走・実行支援における個人情報の適正管理、機密保持、AIモデル学習非利用の保証、著作権保護方針について明記しています。">
+    <meta name="keywords" content="SGO Partners,プライバシーポリシー,利用規約,個人情報保護,機密保持,AIデータ保護,著作権,事業立ち上げ支援,経営伴走,横浜">
     
     <!-- Search Engine Verification & Canonical -->
     <meta name="google-site-verification" content="u-dGhMf8eaO_QRSLSGIqIjMotpAHqT6uVXpbfUK-xkI">
@@ -22,7 +22,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sgopartners.com/privacy">
     <meta property="og:title" content="プライバシーポリシー ＆ サイト利用規約 | SGO Partners">
-    <meta property="og:description" content="SGO Partners（エスジーオー・パートナーズ）のプライバシーポリシーおよびサイト利用規約。個人情報保護、機密保持、AIデータの非学習保証、著作権保護方針について明記しています。">
+    <meta property="og:description" content="SGO Partnersのプライバシーポリシーおよびサイト利用規約。個人情報保護、機密保持、AIデータの非学習保証、著作権保護方針について明記。">
     <meta property="og:image" content="https://sgopartners.com/assets/sgo-logo-black.png">
     <meta property="og:site_name" content="SGO Partners">
     <meta property="og:locale" content="ja_JP">
@@ -33,8 +33,6 @@
     <meta name="twitter:description" content="SGO Partnersのプライバシーポリシーおよびサイト利用規約。個人情報保護、機密保持、AIデータの非学習保証について明記。">
     <meta name="twitter:image" content="https://sgopartners.com/assets/sgo-logo-black.png">
 
-    <link rel="stylesheet" href="style.css?v=202605051651">
-    
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XRDY99CY7G"></script>
     <script>
@@ -44,11 +42,352 @@
       gtag('config', 'G-XRDY99CY7G');
     </script>
     
+    <!-- Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <!-- Favicon / Mobile Icons -->
     <link rel="icon" href="favicon.ico" sizes="32x32">
     <link rel="icon" href="icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
+
+    <!-- Inlined Rock-solid Dark Theme Styles (白飛び防止・完全自立型CSS) -->
+    <style>
+        :root {
+            --primary-color: #E60000;
+            --accent-color: #ff4d4d;
+            --bg-color: #080b12;
+            --card-bg: rgba(18, 24, 38, 0.78);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-color: #e2e8f0;
+            --text-muted: #94a3b8;
+            --font-body: 'Noto Sans JP', 'Montserrat', sans-serif;
+            --font-heading: 'Oswald', 'Noto Sans JP', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            background-color: var(--bg-color);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            background: radial-gradient(circle at 50% 15%, #141c2c 0%, #0a0e17 50%, #04060a 100%) fixed;
+            color: var(--text-color);
+            line-height: 1.9;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Top Header */
+        header {
+            padding: 2.2rem 0 1.8rem;
+        }
+
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo img {
+            height: 32px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .nav-link-btn {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            padding: 7px 16px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.02);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link-btn:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        /* Main Content Card */
+        main.policy-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-top: 3px solid var(--primary-color);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 10px;
+            padding: 4rem 3.5rem;
+            margin: 2rem 0 4rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+        }
+
+        .policy-kicker {
+            font-family: var(--font-heading);
+            letter-spacing: 0.2em;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            margin-bottom: 0.6rem;
+            font-weight: 700;
+        }
+
+        .policy-title {
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.35;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .policy-lead {
+            font-size: 0.98rem;
+            line-height: 2.0;
+            color: #cbd5e1;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2.5rem;
+        }
+
+        .policy-section-title {
+            color: #ffffff;
+            margin: 2.8rem 0 1rem;
+            font-size: 1.18rem;
+            border-left: 3px solid var(--primary-color);
+            padding-left: 12px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.95;
+        }
+
+        ul {
+            list-style: disc;
+            margin-left: 1.5rem;
+            color: #cbd5e1;
+            margin-bottom: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.94rem;
+            line-height: 1.85;
+        }
+
+        strong {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* Cookie Table */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 1.5rem 0 2rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            color: #cbd5e1;
+            background: rgba(0, 0, 0, 0.35);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+            font-weight: 600;
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            line-height: 1.6;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        a {
+            color: #60a5fa;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            color: #93c5fd;
+        }
+
+        /* Company Box */
+        .company-box {
+            background: rgba(0, 0, 0, 0.45);
+            padding: 2.2rem 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-top: 1.4rem;
+            line-height: 2.0;
+        }
+
+        .company-box p {
+            margin-bottom: 0.6rem;
+        }
+
+        .company-label {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            display: inline-block;
+            width: 140px;
+        }
+
+        .dates-row {
+            margin-top: 3.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 2rem;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .btn-center-wrap {
+            margin-top: 3.5rem;
+            text-align: center;
+        }
+
+        .btn-back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary-color);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 34px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .btn-back-home:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            color: #ffffff;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 0;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.88rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .footer-links a.active {
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            main.policy-card {
+                padding: 2.5rem 1.4rem;
+                margin: 1rem 0 3rem;
+            }
+
+            .policy-title {
+                font-size: 1.6rem;
+            }
+
+            .company-box {
+                padding: 1.5rem 1.2rem;
+            }
+
+            .company-label {
+                display: block;
+                width: auto;
+                margin-bottom: 2px;
+            }
+
+            .dates-row {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: right;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
 
     <!-- Schema.org JSON-LD Structured Data (GEO & Legal Document) -->
     <script type="application/ld+json">
@@ -77,192 +416,172 @@
     }
     </script>
 </head>
-<body class="privacy-page">
+<body>
     <div class="container">
-        <header style="height: auto; padding: 3.5rem 0 2rem;">
-            <nav class="top-nav" style="position: relative; background: transparent; border: none; display: flex; align-items: center; justify-content: space-between;">
-                <a href="/" class="logo" style="text-decoration: none; font-weight: 700; letter-spacing: 0.1em; color: #fff;">SGO PARTNERS</a>
-                <a href="/" style="color: #94a3b8; font-size: 0.85rem; text-decoration: none; border: 1px solid rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 4px; transition: all 0.2s;">&larr; TOPへ戻る</a>
+        <!-- Header -->
+        <header>
+            <nav class="top-nav">
+                <a href="/" class="logo">
+                    <img src="/assets/sgo-logo-horiz-white.png" alt="SGO PARTNERS">
+                </a>
+                <div class="nav-links">
+                    <a href="/" class="nav-link-btn"><i class="fa-solid fa-arrow-left"></i> TOPへ戻る</a>
+                    <a href="/corporate.html" class="nav-link-btn"><i class="fa-solid fa-building"></i> 会社情報</a>
+                </div>
             </nav>
         </header>
 
-        <main class="text-section" style="opacity: 1; transform: translateY(0); margin-top: 1.5rem; padding: 4rem 3.5rem;">
-            <h1 class="section-title" style="font-size: 2.2rem; margin-bottom: 2rem;">
-                <span style="letter-spacing: 0.2em; font-size: 0.85rem; color: #94a3b8;">COMPLIANCE & TERMS</span>
-                プライバシーポリシー ＆ サイト利用規約
-            </h1>
+        <!-- Main Card -->
+        <main class="policy-card">
+            <p class="policy-kicker">COMPLIANCE & TERMS</p>
+            <h1 class="policy-title">プライバシーポリシー ＆ サイト利用規約</h1>
             
-            <div id="message-body" style="margin-top: 2.5rem; line-height: 1.9; color: #e2e8f0; font-size: 0.95rem;">
-                <p style="margin-bottom: 2rem;">
-                    SGO Partners（以下「当方」といいます）は、総合事業支援、ブランディング戦略、エグゼクティブメンタリング、イベントプロデュース、AIソリューション開発等の各種サービス（以下「本サービス」といいます）を提供するにあたり、クライアント様および当サイト（<a href="https://sgopartners.com" style="color: #60a5fa; text-decoration: none;">https://sgopartners.com</a>）をご利用いただく皆様（以下「利用者」といいます）の個人情報を適正に取り扱い、その保護を徹底するとともに、サイトの健全な運営と知的財産権の保護に努めます。
-                </p>
+            <p class="policy-lead">
+                SGO Partners（エスジーオー・パートナーズ、以下「当方」といいます）は、経営者の外部事業推進パートナーとして提供する伴走型事業支援サービス（事業立ち上げ支援／経営伴走・顧問／実行支援・業務改善、以下「本サービス」といいます）および当サイト（<a href="https://sgopartners.com">https://sgopartners.com</a>）において、クライアント様およびサイト利用者の皆様（以下「利用者」といいます）の個人情報を適正に取り扱い、機密保護・情報セキュリティを徹底いたします。
+            </p>
 
-                <!-- 第1条 -->
-                <h3 style="color: var(--primary-color, #38bdf8); margin: 2.5rem 0 1rem; font-size: 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; font-weight: 700;">
-                    第1条（取得する情報および取得方法）
-                </h3>
-                <p>当方は、適法かつ公正な手段により、以下の情報を取得いたします。</p>
-                <ul style="list-style: disc; margin-left: 1.5rem; color: #cbd5e1; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 6px;">
-                    <li><strong>利用者から直接ご提供いただく情報：</strong> 氏名、会社名・屋号、役職、メールアドレス、電話番号、所在地、お問い合わせ・ご相談内容、面談メモ、アンケート回答等。</li>
-                    <li><strong>技術的・自動的に収集される情報：</strong> 接続元IPアドレス、アクセス日時、閲覧ページURL、遷移元URL（Referrer）、ブラウザ種別・バージョン、OS（オペレーティングシステム）、画面解像度、Cookie（クッキー）情報等。</li>
-                    <li><strong>セキュリティ監視に伴い取得される属性ログ：</strong> 画面キャプチャ・印刷・不正ダウンロード等の操作検知イベントログ、セッション識別子、タイムスタンプ等。</li>
-                </ul>
+            <!-- 第1条 -->
+            <h2 class="policy-section-title">第1条（取得する情報および取得方法）</h2>
+            <p>当方は、適法かつ公正な手段により、以下の情報を取得いたします。</p>
+            <ul>
+                <li><strong>利用者から直接ご提供いただく情報：</strong> 氏名、会社名・屋号、役職、メールアドレス、電話番号、所在地、お問い合わせ・ご相談フォームの入力内容、オンライン／対面面談でのヒアリング内容、アンケート回答等。</li>
+                <li><strong>技術的・自動的に収集される情報：</strong> 接続元IPアドレス、アクセス日時、閲覧ページURL、遷移元URL（Referrer）、ブラウザ種別・バージョン、OS、端末種別、Cookie（クッキー）情報等。</li>
+                <li><strong>セキュリティ監視に伴うログ情報：</strong> 不正アクセス防止、サイバー攻撃検知、およびコンテンツ不正コピー抑止に伴い記録される通信属性ログ、タイムスタンプ等。</li>
+            </ul>
 
-                <!-- 第2条 -->
-                <h3 style="color: var(--primary-color, #38bdf8); margin: 2.5rem 0 1rem; font-size: 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; font-weight: 700;">
-                    第2条（個人情報およびログ情報の利用目的）
-                </h3>
-                <p>取得した情報は、以下の利用目的の範囲内でのみ適正に利用し、目的外利用は一切行いません。</p>
-                <ul style="list-style: disc; margin-left: 1.5rem; color: #cbd5e1; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 6px;">
-                    <li>事業支援、コンサルティング、ブランディング、メンタリング等の業務遂行およびご案内</li>
-                    <li>お問い合わせ、無料相談、お見積もり依頼への回答・ご連絡およびご本人確認</li>
-                    <li>ご契約内容の管理、請求書発行、アフターサポートの提供</li>
-                    <li>当サイトの利便性向上、トラフィック分析、コンテンツの改善</li>
-                    <li>当サイトのセキュリティ確保、不正アクセス・無断転載・著作権侵害行為の防止および調査対応</li>
-                </ul>
+            <!-- 第2条 -->
+            <h2 class="policy-section-title">第2条（個人情報の利用目的）</h2>
+            <p>取得した情報は、以下の利用目的の範囲内でのみ適正に利用し、目的外利用は一切行いません。</p>
+            <ul>
+                <li>事業立ち上げ支援、経営伴走・顧問、実行支援・業務改善等の本サービスのご提供、企画提案、および業務連絡</li>
+                <li>ご相談・お問い合わせへの回答、日程調整、およびご本人様確認</li>
+                <li>ご契約手続き、請求書発行・経理処理、およびアフターフォローの実施</li>
+                <li>当サイトの利便性向上、トラフィック分析、および提供コンテンツの品質改善</li>
+                <li>不正アクセス、著作権侵害、営業秘密漏洩、および悪質な迷惑行為の防止・調査・対応</li>
+            </ul>
 
-                <!-- 第3条 -->
-                <h3 style="color: var(--primary-color, #38bdf8); margin: 2.5rem 0 1rem; font-size: 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; font-weight: 700;">
-                    第3条（著作権・知的財産権およびセキュリティ監視機能）
-                </h3>
-                <p style="margin-bottom: 0.8rem;">
-                    当サイトに掲載されているすべてのコンテンツ（文章、画像、デザイン、レイアウト、ロゴマーク、プログラム、商標、ノウハウ等）の著作権および知的財産権は、当方または正当な権利を有する第三者に帰属します。
-                </p>
-                <ul style="list-style: disc; margin-left: 1.5rem; color: #cbd5e1; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 6px;">
-                    <li><strong>無断利用の禁止：</strong> 法令により認められた私的使用の範囲を超えて、当方の事前の書面による許諾なく、これらの一部または全部を無断で複製、転載、改変、配布、公衆送信、商業利用することは固く禁じます。</li>
-                    <li><strong>セキュリティ保護と電子透かし：</strong> 当サイトでは、コンテンツの不正流出および著作権侵害を抑止・防止するため、ダイナミック・ウォーターマーク（電子透かし技術）および不正キャプチャ検知機能を導入しております。悪質な著作権侵害行為が疑われる場合、セキュリティポリシーに基づき、発生日時・接続元IP・端末属性情報等を記録・保全する場合があります。</li>
-                    <li><strong>不正行為への対処：</strong> 悪質な無断複製・転載・改ざん、またはシステムに対する攻撃・不正アクセスが確認された場合、記録されたログ情報に基づき、法的措置（損害賠償請求および刑事告訴等を含む）を講じる場合がございます。</li>
-                </ul>
+            <!-- 第3条 -->
+            <h2 class="policy-section-title">第3条（著作権・知的財産権の保護方針）</h2>
+            <p>
+                当サイトに掲載されているすべてのコンテンツ（文章、コピーライト、画像、図版、デザイン、レイアウト、ロゴマーク、プログラム、商標、ノウハウ等）の著作権および知的財産権は、当方または正当な権利を有する権利者に帰属します。
+            </p>
+            <ul>
+                <li><strong>無断利用の禁止：</strong> 法令により認められた私的使用の範囲を超えて、当方の事前の書面による許諾なく、一部または全部を無断で複製、転載、改変、翻案、配布、公衆送信、商業利用することは固く禁じます。</li>
+                <li><strong>セキュリティ保護：</strong> 当サイトでは、コンテンツの不正流出および著作権侵害を抑止するため、電子透かし技術（ウォーターマーク）およびセキュリティ保護措置を講じています。</li>
+                <li><strong>侵害行為への対処：</strong> 悪質な無断複製・転載・盗用、またはシステムに対する不正攻撃が確認された場合、記録されたログ情報に基づき、損害賠償請求等の法的措置を厳正に講じます。</li>
+            </ul>
 
-                <!-- 第4条 (★AI学習非利用保証 ＆ 安全管理措置) -->
-                <h3 style="color: var(--primary-color, #38bdf8); margin: 2.5rem 0 1rem; font-size: 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; font-weight: 700;">
-                    第4条（機密保持・AIモデル学習非利用の保証 ＆ 安全管理措置）
-                </h3>
-                <p style="margin-bottom: 1rem;">
-                    当方は、クライアント様の機密情報および個人情報の重要性を深く認識し、以下の厳格な管理体制を維持いたします。
-                </p>
-                <ul style="list-style: disc; margin-left: 1.5rem; color: #cbd5e1; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 6px;">
-                    <li><strong>AIモデル学習非利用の保証：</strong> 当方が業務および相談対応においてAIツールを活用する場合であっても、クライアント様からお預かりした個人情報、財務情報、事業計画、相談内容等の機密データを、パブリックな外部AIモデルの機械学習データ（学習用素材）として提供・学習させることは一切ございません（オプトアウト・非学習設定および専用秘匿環境の適用を徹底）。</li>
-                    <li><strong>通信の暗号化（SSL/TLS）：</strong> 当サイト内のすべての通信は、最新の暗号化通信（SSL/TLS）により常時保護されています。</li>
-                    <li><strong>秘密保持（NDA）の徹底：</strong> 業務上知り得たクライアント様の事業情報は、秘密保持契約（NDA）の定めに従い厳重に秘匿管理いたします。</li>
-                    <li><strong>アクセス制限：</strong> データベースおよび顧客情報へのアクセス権限を責任者のみに限定し、漏洩防止に万全を期しています。</li>
-                </ul>
+            <!-- 第4条 (★AI学習非利用保証 ＆ 安全管理措置) -->
+            <h2 class="policy-section-title">第4条（機密保持・AIモデル学習非利用の保証 ＆ 安全管理措置）</h2>
+            <p>
+                当方は、クライアント様の経営情報、財務データ、事業構想等の機密性の高さを深く認識し、以下の厳格な安全管理体制を維持いたします。
+            </p>
+            <ul>
+                <li><strong>AIモデル学習非利用の保証：</strong> 当方が業務および事業分析においてAIツールを活用する場合であっても、クライアント様からお預かりした個人情報、財務諸表、事業計画、相談内容等の機密データを、パブリックな外部AIモデルの機械学習データ（学習用素材）として提供・学習させることは一切ございません（非学習環境・オプトアウト設定および専用秘匿環境の適用を徹底）。</li>
+                <li><strong>通信の暗号化（常時SSL/TLS）：</strong> 当サイト内のすべての通信は、最新の暗号化プロトコル（SSL/TLS）により常時保護されています。</li>
+                <li><strong>秘密保持（NDA）の徹底：</strong> 業務上知り得たクライアント様の事業情報は、秘密保持契約（NDA）の定めに従い厳重に秘匿管理いたします。</li>
+                <li><strong>アクセス制限と管理：</strong> お預かりした情報へのアクセス権限を事業責任者に限定し、漏洩・紛失の防止に万全を期しています。</li>
+            </ul>
 
-                <!-- 第5条 (★電気通信事業法 外部送信規律) -->
-                <h3 style="color: var(--primary-color, #38bdf8); margin: 2.5rem 0 1rem; font-size: 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; font-weight: 700;">
-                    第5条（外部送信規律に基づく公表事項 ＆ Cookieの利用）
-                </h3>
-                <p style="margin-bottom: 1rem;">
-                    当サイトでは、サイトパフォーマンスの維持、アクセス状況の把握、およびセキュリティ保護のため、以下の外部事業者が提供するサービスを利用し、端末から第三者への情報送信（Cookie等の送信）を行っております。
-                </p>
-                
-                <div style="overflow-x: auto; margin-bottom: 1.5rem;">
-                    <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; color: #cbd5e1; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08);">
-                        <thead>
-                            <tr style="background: rgba(255,255,255,0.06); color: #fff; text-align: left;">
-                                <th style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);">送信先事業者</th>
-                                <th style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);">サービス名</th>
-                                <th style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);">送信される情報の内容</th>
-                                <th style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);">利用目的</th>
-                                <th style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);">オプトアウト</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);">Google LLC</td>
-                                <td style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);">Google Analytics (GA4)</td>
-                                <td style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);">閲覧履歴、Cookie識別子、IPアドレス、端末・ブラウザ情報</td>
-                                <td style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);">サイト利用状況の計測・トラフィック分析によるサービス向上</td>
-                                <td style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);"><a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" style="color: #60a5fa;">Googleオプトアウト</a></td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);">Cloudflare, Inc.</td>
-                                <td style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);">Cloudflare Pages / CDN</td>
-                                <td style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);">接続元IPアドレス、リクエストヘッダー情報、アクセス日時</td>
-                                <td style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);">コンテンツの高速配信、DDoS攻撃防御、サイトセキュリティ維持</td>
-                                <td style="padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);"><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer" style="color: #60a5fa;">Cloudflareポリシー</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- 第6条 -->
-                <h3 style="color: var(--primary-color, #38bdf8); margin: 2.5rem 0 1rem; font-size: 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; font-weight: 700;">
-                    第6条（個人情報の第三者提供）
-                </h3>
-                <p style="margin-bottom: 0.8rem;">
-                    当方は、以下の場合を除き、ご本人の事前の同意を得ることなく個人情報を第三者に開示または提供いたしません。
-                </p>
-                <ul style="list-style: disc; margin-left: 1.5rem; color: #cbd5e1; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 6px;">
-                    <li>法令に基づく開示請求がある場合</li>
-                    <li>人の生命、身体または財産の保護のために必要がある場合であって、本人の同意を得ることが困難である場合</li>
-                    <li>国の機関もしくは地方公共団体またはその委託を受けた者が法令の定める事務を遂行することに対して協力する必要がある場合</li>
-                    <li>業務委託先に対し、利用目的の達成に必要な範囲内で個人情報の取り扱いを委託する場合（※適切な安全管理監督を実施）</li>
-                </ul>
-
-                <!-- 第7条 -->
-                <h3 style="color: var(--primary-color, #38bdf8); margin: 2.5rem 0 1rem; font-size: 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; font-weight: 700;">
-                    第7条（保有個人データの開示・訂正・利用停止等の手続き）
-                </h3>
-                <p style="margin-bottom: 1rem;">
-                    利用者がご自身の保有個人データの開示、訂正、追加、削除、利用停止、消去等をご希望される場合は、下記のお問い合わせ窓口（メール）までご連絡ください。
-                </p>
-                <p style="margin-bottom: 1.5rem; color: #cbd5e1;">
-                    ご本人（または正当な代理人）からのご請求であることを確認（メールアドレス照合や本人確認書類の提示依頼等）させていただいた上で、個人情報保護法の定めに従い、合理的な期間および範囲で速やかに対応いたします。
-                </p>
-
-                <!-- 第8条 -->
-                <h3 style="color: var(--primary-color, #38bdf8); margin: 2.5rem 0 1rem; font-size: 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; font-weight: 700;">
-                    第8条（免責事項 ＆ 反社会的勢力の排除）
-                </h3>
-                <ul style="list-style: disc; margin-left: 1.5rem; color: #cbd5e1; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 6px;">
-                    <li>当サイトに掲載されている情報については正確性・最新性に万全を期しておりますが、その完全性・有用性を保証するものではありません。利用者が当サイトの情報を利用して行う一切の行為・判断について、当方は何ら責任を負いかねます。</li>
-                    <li>当サイトからリンクやバナー等によって外部サイトへ移動された場合、移動先サイトで提供される情報、サービス、個人情報の取り扱い等について、当方は一切の責任を負いません。</li>
-                    <li>事業支援・コンサルティングの性質上、当方が提供する助言・施策・情報は、個別の事業成果や利益を将来にわたり確約・保証するものではございません。</li>
-                    <li>当方は、反社会的勢力（暴力団、暴力団員、準構成員、総会屋その他これらに準ずる者）との一切の関係を遮断しており、反社会的勢力に該当する方からのご相談やご利用はお断りいたします。</li>
-                </ul>
-
-                <!-- 第9条 -->
-                <h3 style="color: var(--primary-color, #38bdf8); margin: 2.5rem 0 1rem; font-size: 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; font-weight: 700;">
-                    第9条（プライバシーポリシーの改定）
-                </h3>
-                <p style="margin-bottom: 1.5rem;">
-                    当方は、法令の改正、社会情勢の変化、セキュリティ技術の更新等に伴い、本ポリシーの内容を適宜見直し、改定することがあります。改定後のプライバシーポリシーは、当サイトに掲載された時点から効力を有するものとします。
-                </p>
-
-                <!-- 第10条 -->
-                <h3 style="color: var(--primary-color, #38bdf8); margin: 2.5rem 0 1rem; font-size: 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; font-weight: 700;">
-                    第10条（事業者情報およびお問い合わせ窓口）
-                </h3>
-                <p style="margin-bottom: 1rem;">
-                    本ポリシーおよび個人情報の取り扱いに関するご質問、苦情、開示請求等は、以下の窓口までお問い合わせください。
-                </p>
-                <div style="background: rgba(255,255,255,0.03); padding: 2rem 2.5rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); margin-top: 1rem; line-height: 1.8;">
-                    <p style="margin-bottom: 0.6rem;"><span style="color: #94a3b8; font-size: 0.85rem; display: inline-block; width: 140px;">事業所名</span> <strong>SGO Partners（エスジーオー・パートナーズ）</strong></p>
-                    <p style="margin-bottom: 0.6rem;"><span style="color: #94a3b8; font-size: 0.85rem; display: inline-block; width: 140px;">代表者</span> Keigo Suzuki</p>
-                    <p style="margin-bottom: 0.6rem;"><span style="color: #94a3b8; font-size: 0.85rem; display: inline-block; width: 140px;">所在地</span> 〒231-0062 神奈川県横浜市中区桜木町1-101-1 クロスゲート7F</p>
-                    <p style="margin-bottom: 0.6rem;"><span style="color: #94a3b8; font-size: 0.85rem; display: inline-block; width: 140px;">事業内容</span> 総合事業支援・ブランディング・エグゼクティブメンタリング・イベント企画運営・AIソリューション開発</p>
-                    <p><span style="color: #94a3b8; font-size: 0.85rem; display: inline-block; width: 140px;">メールアドレス</span> <a href="mailto:info@sgopartners.jp" style="color: #60a5fa; text-decoration: none;">info@sgopartners.jp</a></p>
-                </div>
-                
-                <div style="margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: flex-end; gap: 2rem; color: #94a3b8; font-size: 0.85rem;">
-                    <span>制定日：2026年4月28日</span>
-                    <span>最終改定日：2026年8月24日</span>
-                </div>
+            <!-- 第5条 (★電気通信事業法 外部送信規律 ＆ Cookie) -->
+            <h2 class="policy-section-title">第5条（外部送信規律に基づく公表事項 ＆ Cookieの利用）</h2>
+            <p>
+                当サイトでは、サイトパフォーマンスの維持、アクセス状況の把握、およびセキュリティ確保のため、以下の外部事業者が提供するサービスを利用し、端末から第三者への情報送信（Cookie等の送信）を行っております。
+            </p>
+            
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>送信先事業者</th>
+                            <th>サービス名</th>
+                            <th>送信される情報の内容</th>
+                            <th>利用目的</th>
+                            <th>オプトアウト</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Google LLC</td>
+                            <td>Google Analytics (GA4)</td>
+                            <td>閲覧履歴、Cookie識別子、IPアドレス、端末・ブラウザ情報</td>
+                            <td>サイト利用状況の計測・トラフィック分析によるサービス向上</td>
+                            <td><a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Googleオプトアウト</a></td>
+                        </tr>
+                        <tr>
+                            <td>Cloudflare, Inc.</td>
+                            <td>Cloudflare Pages / CDN</td>
+                            <td>接続元IPアドレス、リクエストヘッダー情報、アクセス日時</td>
+                            <td>コンテンツの高速配信、DDoS攻撃防御、サイトセキュリティ維持</td>
+                            <td><a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflareポリシー</a></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
-            <div style="margin-top: 4rem; text-align: center;">
-                <a href="/" class="btn-submit" style="text-decoration: none; display: inline-block; max-width: 250px; padding: 12px 30px; background: #3b82f6; color: #fff; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">TOPページへ戻る</a>
+            <!-- 第6条 -->
+            <h2 class="policy-section-title">第6条（個人情報の第三者提供）</h2>
+            <p>
+                当方は、以下の場合を除き、ご本人の事前の同意を得ることなく個人情報を第三者に開示または提供いたしません。
+            </p>
+            <ul>
+                <li>法令に基づく開示請求がある場合</li>
+                <li>人の生命、身体または財産の保護のために必要がある場合であって、本人の同意を得ることが困難である場合</li>
+                <li>国の機関もしくは地方公共団体またはその委託を受けた者が法令の定める事務を遂行することに対して協力する必要がある場合</li>
+                <li>業務委託先に対し、利用目的の達成に必要な範囲内で個人情報の取り扱いを委託する場合（※厳格な守秘義務・安全管理監督を実施）</li>
+            </ul>
+
+            <!-- 第7条 -->
+            <h2 class="policy-section-title">第7条（保有個人データの開示・訂正・利用停止等の手続き）</h2>
+            <p>
+                利用者がご自身の保有個人データの開示、訂正、追加、削除、利用停止、消去等をご希望される場合は、下記のお問い合わせ窓口（メール）までご連絡ください。ご本人（または正当な代理人）からのご請求であることを確認させていただいた上で、個人情報保護法の定めに従い、速やかに誠意をもって対応いたします。
+            </p>
+
+            <!-- 第8条 -->
+            <h2 class="policy-section-title">第8条（免責事項 ＆ 反社会的勢力の排除）</h2>
+            <ul>
+                <li>当サイトに掲載されている情報については正確性・最新性に万全を期しておりますが、その完全性・有用性を保証するものではありません。利用者が当サイトの情報を利用して行う一切の行為・判断について、当方は責任を負いかねます。</li>
+                <li>事業支援・経営顧問の性質上、当方が提供する助言・施策・情報は、個別の事業成果や利益を将来にわたり確約・保証するものではございません。</li>
+                <li>当方は、反社会的勢力（暴力団、暴力団員、準構成員、総会屋その他これらに準ずる者）との一切の関係を遮断しており、該当する方からのご相談やご利用はお断りいたします。</li>
+            </ul>
+
+            <!-- 第9条 -->
+            <h2 class="policy-section-title">第9条（プライバシーポリシーの改定）</h2>
+            <p>
+                当方は、法令の改正、社会情勢の変化、セキュリティ技術の更新等に伴い、本ポリシーの内容を適宜見直し、改定することがあります。改定後のプライバシーポリシーは、当サイトに掲載された時点から効力を有するものとします。
+            </p>
+
+            <!-- 第10条 -->
+            <h2 class="policy-section-title">第10条（事業者情報およびお問い合わせ窓口）</h2>
+            <p>
+                本ポリシーおよび個人情報の取り扱いに関するご質問、開示請求等は、以下の窓口までお問い合わせください。
+            </p>
+            <div class="company-box">
+                <p><span class="company-label">屋号</span> <strong>SGO Partners（エスジーオー・パートナーズ）</strong></p>
+                <p><span class="company-label">代表者</span> Keigo Suzuki</p>
+                <p><span class="company-label">所在地</span> 〒231-0062 神奈川県横浜市中区桜木町1-101-1 クロスゲート7F</p>
+                <p><span class="company-label">事業内容</span> 事業立ち上げ支援／経営伴走・顧問／実行支援・業務改善</p>
+                <p><span class="company-label">メールアドレス</span> <a href="mailto:info@sgopartners.jp">info@sgopartners.jp</a></p>
+            </div>
+            
+            <div class="dates-row">
+                <span>制定日：2026年4月28日</span>
+                <span>最終改定日：2026年9月29日</span>
+            </div>
+
+            <div class="btn-center-wrap">
+                <a href="/" class="btn-back-home"><i class="fa-solid fa-house"></i> TOPページへ戻る</a>
             </div>
         </main>
 
-        <footer style="margin-top: 5rem; border-top: 1px solid rgba(255,255,255,0.05); padding: 4rem 0;">
-            <div class="footer-content" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                <p style="color: #94a3b8; font-size: 0.85rem;">&copy; 2026 SGO PARTNERS. All Rights Reserved.</p>
-                <div style="display: flex; gap: 1.5rem; font-size: 0.85rem;">
-                    <a href="/" style="color: #94a3b8; text-decoration: none;">TOP</a>
-                    <a href="/corporate" style="color: #94a3b8; text-decoration: none;">Corporate</a>
-                    <a href="/privacy" style="color: #38bdf8; text-decoration: none;">Privacy Policy & Terms</a>
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <p style="color: var(--text-muted); font-size: 0.88rem;">&copy; 2026 SGO PARTNERS. All Rights Reserved.</p>
+                <div class="footer-links">
+                    <a href="/">TOP</a>
+                    <a href="/corporate.html">会社情報</a>
+                    <a href="/privacy.html" class="active">Privacy Policy & Terms</a>
                 </div>
             </div>
         </footer>

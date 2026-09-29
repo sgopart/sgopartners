@@ -23,30 +23,37 @@
   const sessionId = getSessionId();
 
   // ==========================================
-  // 1. ダイナミック・ウォーターマーク（視認性 8%）
+  // 1. ダイナミック・ウォーターマーク（超微細・極薄仕様：目視で目を凝らすと微かに見えるレベル）
   // ==========================================
   function initWatermark() {
-    if (document.getElementById('sgo-watermark-overlay')) return;
-
-    const overlay = document.createElement('div');
-    overlay.id = 'sgo-watermark-overlay';
-    overlay.style.cssText = `
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      pointer-events: none !important;
-      user-select: none !important;
-      -webkit-user-select: none !important;
-      z-index: 99998 !important;
-      opacity: 0.08 !important;
-      overflow: hidden !important;
-    `;
+    let overlay = document.getElementById('sgo-watermark-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'sgo-watermark-overlay';
+      overlay.style.cssText = `
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        pointer-events: none !important;
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        z-index: 1 !important;
+        mix-blend-mode: multiply !important;
+        opacity: 0.025 !important;
+        overflow: hidden !important;
+      `;
+      if (document.body) {
+        document.body.appendChild(overlay);
+      } else {
+        document.addEventListener('DOMContentLoaded', () => document.body && document.body.appendChild(overlay));
+      }
+    }
 
     const canvas = document.createElement('canvas');
-    canvas.width = 340;
-    canvas.height = 170;
+    canvas.width = 360;
+    canvas.height = 180;
     const ctx = canvas.getContext('2d');
 
     function updateWatermarkPattern() {
@@ -61,23 +68,16 @@
         String(now.getMonth() + 1).padStart(2, '0') + '-' +
         String(now.getDate()).padStart(2, '0') + ' ' +
         String(now.getHours()).padStart(2, '0') + ':' +
-        String(now.getMinutes()).padStart(2, '0') + ':' +
-        String(now.getSeconds()).padStart(2, '0');
+        String(now.getMinutes()).padStart(2, '0');
 
-      // テキスト描画（白文字＋微細なシャドウで背景色に関わらず視認可能に）
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
-      ctx.shadowBlur = 3;
-      ctx.shadowOffsetX = 1;
-      ctx.shadowOffsetY = 1;
-
-      ctx.font = '700 13.5px "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif';
-      ctx.fillStyle = '#ffffff';
+      // 黒系インク（multiply合成）：紺色背景では同化して完全不可視、白背景でのみ微細に見える
+      ctx.font = '500 12px "Noto Sans JP", -apple-system, sans-serif';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
       ctx.textAlign = 'center';
-      ctx.fillText('SGO PARTNERS', 0, -10);
+      ctx.fillText('SGO PARTNERS', 0, -8);
 
-      ctx.font = '600 11px "Noto Sans JP", sans-serif';
-      ctx.fillStyle = '#ffffff';
-      ctx.fillText(dateStr + '  [' + sessionId + ']', 0, 11);
+      ctx.font = '400 10px "Noto Sans JP", sans-serif';
+      ctx.fillText(dateStr + ' [' + sessionId + ']', 0, 10);
       ctx.restore();
 
       overlay.style.backgroundImage = `url(${canvas.toDataURL('image/png')})`;
@@ -85,21 +85,9 @@
     }
 
     updateWatermarkPattern();
-    // 5秒毎に時刻を最新化
-    setInterval(updateWatermarkPattern, 5000);
-
-    function appendOverlay() {
-      if (document.body && !document.getElementById('sgo-watermark-overlay')) {
-        document.body.appendChild(overlay);
-      }
-    }
-
-    if (document.body) {
-      appendOverlay();
-    } else {
-      document.addEventListener('DOMContentLoaded', appendOverlay);
-    }
+    setInterval(updateWatermarkPattern, 10000);
   }
+
 
   // ==========================================
   // 2. 警告トースト通知 UI
