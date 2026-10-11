@@ -87,12 +87,13 @@ ${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
   }
 }`;
 
-    // Google APIの最新・超高速モデル多重フォールバック（最新のGemini 3.5 / 3.6系を優先）
+    // Google APIの最新・超高速モデル多重フォールバック（最新のGemini 3.6 / flash-latest系を最優先）
     const candidateModels = [
-      "gemini-3.5-flash",
       "gemini-3.6-flash",
+      "gemini-flash-latest",
+      "gemini-3.8-flash",
       "gemini-flash-lite-latest",
-      "gemini-3.5-flash-lite"
+      "gemini-3.5-flash"
     ];
 
     let essayText = "";

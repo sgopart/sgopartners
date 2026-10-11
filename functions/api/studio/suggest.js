@@ -102,12 +102,13 @@ export async function onRequestPost(context) {
   }
 ]`;
 
-    // 4重モデルフォールバック（最新のgemini-3.5-flash優先）
+    // 5重モデルフォールバック（最新のgemini-3.6-flashおよびgemini-flash-latest最優先）
     const candidateModels = [
-      "gemini-3.5-flash",
       "gemini-3.6-flash",
+      "gemini-flash-latest",
+      "gemini-3.8-flash",
       "gemini-flash-lite-latest",
-      "gemini-3.5-flash-lite"
+      "gemini-3.5-flash"
     ];
     let ideas = [];
 
