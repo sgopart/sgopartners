@@ -131,23 +131,23 @@
 
   <!-- トーン選択カード -->
   <div class="card">
-    <div class="card-title">🎭 執筆トーンを選択</div>
+    <div class="card-title">🎭 執筆トーン・切り口を選択</div>
     <div class="tone-grid">
       <button class="tone-btn active" onclick="selectTone('oji', this)">
-        <div class="tone-name">✍️ 経営者オジ文体</div>
-        <div class="tone-desc">自虐・自己ツッコミ()・肌感から実体経済/格差着地・今日も頑張って行きましょう。そしてご苦労様でした。</div>
+        <div class="tone-name">✍️ 経営者オジ（自虐ショート）</div>
+        <div class="tone-desc">600〜850字。比喩のハイパーインフレ・パニック実況・尊厳崩壊と温かいエール</div>
       </button>
       <button class="tone-btn" onclick="selectTone('business', this)">
-        <div class="tone-name">💼 硬派ビジネス・知見</div>
-        <div class="tone-desc">25年の経営知見・現場の泥臭さ・構造的アプローチ</div>
-      </button>
-      <button class="tone-btn" onclick="selectTone('sharp', this)">
-        <div class="tone-name">⚡ 鋭い辛口・本音</div>
-        <div class="tone-desc">世間の建前や欺瞞、構造の歪みをズバッと突く切れ味</div>
+        <div class="tone-name">💼 経営・営業のやらかし編</div>
+        <div class="tone-desc">資金繰りの胃痛、大手コンペの背伸び、横文字自爆、理不尽な相見積もり</div>
       </button>
       <button class="tone-btn" onclick="selectTone('story', this)">
-        <div class="tone-name">🌿 現場録・人間ドラマ</div>
-        <div class="tone-desc">汗と泥臭い情熱、人間味あふれる共感エッセイ</div>
+        <div class="tone-name">⚡ 現場・板挟み・駆け引き編</div>
+        <div class="tone-desc">設備現場トラブル、職人との駆け引き、道具の見栄、通じない綺麗事企画書</div>
+      </button>
+      <button class="tone-btn" onclick="selectTone('sharp', this)">
+        <div class="tone-name">🌿 日常・加齢・健康のパニック編</div>
+        <div class="tone-desc">健康診断の惨劇、深夜の衝動買い、レジのスマホ決済パニック、老眼腰痛の意地</div>
       </button>
     </div>
   </div>
@@ -159,7 +159,7 @@
         <label class="field-label">💡 noteのお題・テーマ <span style="color: #ef4444;">*</span></label>
         <span id="topicCount" class="field-count">0 文字</span>
       </div>
-      <input type="text" id="topicInput" placeholder="例: 下請け構造と物価高のシワ寄せ、Z世代と昭和の職人気質" oninput="updateCounts()">
+      <input type="text" id="topicInput" placeholder="例: レジ前のコード決済パニック、健康診断の惨劇、大手コンペでの横文字自爆" oninput="updateCounts()">
     </div>
 
     <div class="field-group">
@@ -167,35 +167,34 @@
         <label class="field-label" style="color: #94a3b8;">✍️ 着眼点・現場メモ・入れたい本音 (任意)</label>
         <span id="detailsCount" class="field-count">0 文字</span>
       </div>
-      <textarea id="detailsInput" rows="3" placeholder="例: 先週の現場点検での会話。値上げできない零細の辛さ。最後は前向きに。「熟睡したい」を入れて。" oninput="updateCounts()"></textarea>
+      <textarea id="detailsInput" rows="3" placeholder="例: 後ろの女子高生の冷たい視線。生まれたての子鹿のように震える膝。最後は『生きているだけで丸儲け』で。" oninput="updateCounts()"></textarea>
     </div>
 
     <div id="errorCard" class="error-card"></div>
 
     <button id="generateBtn" class="btn-generate" onclick="generateContent()">
       <span id="btnIcon">⚡</span>
-      <span id="btnText">完全ゼロベース執筆を開始</span>
+      <span id="btnText">noteショートエッセイを執筆 (600〜850字)</span>
     </button>
   </div>
 
   <!-- 生成結果エリア -->
   <div id="resultCard" class="card" style="display: none;">
-    <!-- 4大SNSタブ -->
-    <div class="tab-bar">
-      <button id="tabBtnNote" class="tab-btn active" onclick="switchTab('note', this)">📝 note (<span id="noteCharBadge">0</span>字)</button>
-      <button id="tabBtnX" class="tab-btn" onclick="switchTab('x', this)">🐦 X (<span id="xCharBadge">0</span>字)</button>
-      <button id="tabBtnInsta" class="tab-btn" onclick="switchTab('instagram', this)">📸 Instagram</button>
-      <button id="tabBtnFb" class="tab-btn" onclick="switchTab('facebook', this)">👥 Facebook</button>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
+      <div style="font-size: 0.95rem; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+        <span>📝</span> noteショートエッセイ完成原稿
+      </div>
+      <span id="noteCharBadge" style="font-size: 0.75rem; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 4px 10px; border-radius: 12px; font-weight: 700; border: 1px solid rgba(56, 189, 248, 0.3);">0 文字 (目安600〜850字)</span>
     </div>
 
-    <textarea id="resultText" class="result-box" oninput="handleTextChange()"></textarea>
+    <textarea id="resultText" class="result-box" oninput="handleTextChange()" style="min-height: 380px; line-height: 1.8;"></textarea>
 
-    <div class="action-grid">
+    <div class="action-grid" style="margin-top: 12px;">
       <button id="copyBtn" class="btn-action btn-copy" onclick="copyCurrentTab()">
-        <span>📋 本文をコピー</span>
+        <span>📋 note用に全文コピー</span>
       </button>
       <a id="openAppBtn" class="btn-action btn-open" href="https://note.com" target="_blank" rel="noopener">
-        <span>🚀 NOTEを開く</span>
+        <span>🚀 noteを開く</span>
       </a>
     </div>
   </div>
@@ -255,6 +254,21 @@
 
   <script>
     const PRESET_IDEAS = [
+      // 🌿 日常・加齢・健康のパニック編
+      { cat: "🌿 日常・加齢・健康", topic: "レジ前のコード決済パニックと尊厳の崩壊", memo: "後ろの女子高生の冷たい視線。画面の再ログイン要求。震える指先と太ももの幻聴バイブ。最後は小銭をぶちまけて敗走。" },
+      { cat: "🌿 日常・加齢・健康", topic: "深夜の衝動買いと、翌朝の高級ランニングシューズ", memo: "深夜の謎の全能感でポチった2万円のシューズ。走り出して3分で膝が悲鳴を上げ、今は玄関のお地蔵さん。" },
+      { cat: "🌿 日常・加齢・健康", topic: "健康診断のバリウム検査台という名の宇宙遊泳", memo: "「右に回って！」と怒号を浴びながら遠心力と胃痛に耐えるアラフィフ。尊厳を粉砕された惨劇。" },
+      { cat: "🌿 日常・加齢・健康", topic: "老眼を認めないオジの意地の張り合い", memo: "スマホを目から40cm離して眉間にシワを寄せる奇行。「腕が短くなっただけだ」と言い張る往生際の悪さ。" },
+
+      // 💼 経営・営業のやらかし編
+      { cat: "💼 経営・営業のやらかし", topic: "大手コンペでの横文字連発と大自爆劇", memo: "「アグリー」「アサイン」「シナジー」を背伸びして連発。突っ込まれて頭がマリアナ海溝まで沈没した黒歴史。" },
+      { cat: "💼 経営・営業のやらかし", topic: "月末の通帳記帳と、胃の中に広がるビッグバン", memo: "ATMの前で祈るように通帳を入れる瞬間。冷や汗と生まれたての子鹿のような膝。それでも生きている奇跡。" },
+      { cat: "💼 経営・営業のやらかし", topic: "理不尽な相見積もりと、見栄を張った接待の失敗", memo: "格安競合に奪われまいと高い店を予約したオジの末路。割り勘にもできず震えながらカードを切る夜。" },
+
+      // ⚡ 現場・板挟み・駆け引き編
+      { cat: "⚡ 現場・板挟み", topic: "職人の前で最新の高級工具を見せびらかした末路", memo: "形から入るオジの愚行。現場の親方に一瞬で見抜かれ、最初の1本で先端をへし折って敗走。" },
+      { cat: "⚡ 現場・板挟み", topic: "現場で通用しない綺麗すぎる企画書の悲哀", memo: "コンサル気取りで作った40ページのパワポ。現場監督に「で、誰が土嚢積むの？」の一言で瞬殺。" },
+
       // 💴 実体経済・格差・下請け
       { cat: "💴 実体経済・格差", topic: "物価高と下請け構造のシワ寄せ", memo: "値上げ要請が通らない零細の悲鳴。元請けと下請けの圧倒的な体力差。最後は泥臭い知恵と覚悟。" },
       { cat: "💴 実体経済・格差", topic: "大企業の賃上げ報道と、町工場の冷や汗", memo: "テレビで流れる「過去最高の大幅賃上げ」と、現場の原材料高騰。数字の上のお祭りと我々の暮らしの境界線。" },
@@ -553,56 +567,27 @@
     /* 生成結果の直接DOM反映 */
     function displayResults(essayText, sns) {
       contentStore.note = cleanOutputText(essayText) || "";
-      contentStore.x = cleanOutputText(sns?.x) || "";
-      contentStore.instagram = cleanOutputText(sns?.instagram) || "";
-      contentStore.facebook = cleanOutputText(sns?.facebook) || "";
-
       currentTab = "note";
-
-      document.querySelectorAll(".tab-btn").forEach((btn, idx) => {
-        if (idx === 0) btn.classList.add("active");
-        else btn.classList.remove("active");
-      });
 
       const resultBox = document.getElementById("resultText");
       resultBox.value = contentStore.note;
       resultBox.className = "result-box";
 
-      document.getElementById("noteCharBadge").textContent = contentStore.note.length;
-      document.getElementById("xCharBadge").textContent = contentStore.x.length;
+      const charCount = contentStore.note.length;
+      document.getElementById("noteCharBadge").textContent = `${charCount} 文字 (目安600〜850字)`;
 
       const openBtn = document.getElementById("openAppBtn");
       openBtn.href = "https://note.com";
-      openBtn.innerHTML = "<span>🚀 NOTEを開く</span>";
+      openBtn.innerHTML = "<span>🚀 noteを開く</span>";
 
       document.getElementById("resultCard").style.display = "block";
       document.getElementById("resultCard").scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    function switchTab(tab, btn) {
-      // 現在のタブの内容を保存
-      contentStore[currentTab] = document.getElementById("resultText").value;
-      currentTab = tab;
-
-      if (btn) {
-        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-      }
-
-      const resultBox = document.getElementById("resultText");
-      resultBox.value = contentStore[tab] || "";
-      resultBox.className = tab === "note" ? "result-box" : "result-box sns-mode";
-
-      document.getElementById("noteCharBadge").textContent = (contentStore.note || "").length;
-      document.getElementById("xCharBadge").textContent = (contentStore.x || "").length;
-
-      const openBtn = document.getElementById("openAppBtn");
-      if (tab === "x") {
-        openBtn.href = `${urls.x}${encodeURIComponent(contentStore.x || contentStore.note.slice(0, 100))}`;
-      } else {
-        openBtn.href = urls[tab];
-      }
-      openBtn.innerHTML = `<span>🚀 ${tab.toUpperCase()} を開く</span>`;
+    function handleTextChange() {
+      const text = document.getElementById("resultText").value;
+      contentStore.note = text;
+      document.getElementById("noteCharBadge").textContent = `${text.length} 文字 (目安600〜850字)`;
     }
 
     function copyCurrentTab() {
@@ -615,10 +600,10 @@
         const btn = document.getElementById("copyBtn");
         btn.classList.add("copied");
         btn.innerHTML = `<span>✅ コピー完了！</span>`;
-        showToast("📋 クリップボードにコピーしました！");
+        showToast("📋 note用原稿をコピーしました！");
         setTimeout(() => {
           btn.classList.remove("copied");
-          btn.innerHTML = `<span>📋 本文をコピー</span>`;
+          btn.innerHTML = `<span>📋 note用に全文コピー</span>`;
         }, 2000);
       });
     }
