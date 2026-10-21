@@ -1,2 +1,9 @@
-/studio    /mobile         301
-/*         /index.html     200
+# Security redirects: Deflect PHP probe attacks and obsolete CMS scans to home
+/index.php      /               301
+/*.php          /               301
+/wp-*           /               301
+/xmlrpc.php     /               301
+
+# App internal redirects
+/studio         /mobile         301
+/*              /index.html     200
