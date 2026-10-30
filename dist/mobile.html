@@ -328,17 +328,11 @@
       facebook: "https://www.facebook.com/"
     };
 
-    const DEFAULT_KEY = atob("QVEuQWI4Uk42SUpqaVAtNkZ4UHdoZl83bDljTGEzQVd0dThnd1hkQmRWa3E0VFExNVdZQ0E=");
-
     function init() {
-      let key = localStorage.getItem("sgo_gemini_api_key");
-      if (!key) {
-        key = DEFAULT_KEY;
-        localStorage.setItem("sgo_gemini_api_key", DEFAULT_KEY);
-      }
+      const key = localStorage.getItem("sgo_gemini_api_key") || "";
       const keyBtn = document.getElementById("keyBtn");
       keyBtn.className = "btn-header key-set";
-      keyBtn.textContent = "⚙️ 設定 (設定済)";
+      keyBtn.textContent = key ? "⚙️ 設定 (設定済)" : "⚙️ 設定 (サーバー連携)";
       updateHistoryBadge();
     }
 
