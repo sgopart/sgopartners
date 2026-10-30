@@ -131,23 +131,23 @@
 
   <!-- トーン選択カード -->
   <div class="card">
-    <div class="card-title">🎭 執筆トーン・切り口を選択</div>
+    <div class="card-title">🎭 執筆スタイル・温度を選択（黄金比＝ユーモア3：本質7）</div>
     <div class="tone-grid">
       <button class="tone-btn active" onclick="selectTone('oji', this)">
-        <div class="tone-name">✍️ 経営者オジ（自虐ショート）</div>
-        <div class="tone-desc">600〜850字。比喩のハイパーインフレ・パニック実況・尊厳崩壊と温かいエール</div>
+        <div class="tone-name">✨ スタイルA：主観と客観のズレ</div>
+        <div class="tone-desc">【最優先・約2,000字】淡々とした状況喜劇（デッドパン）から25年の経営本質へ</div>
       </button>
       <button class="tone-btn" onclick="selectTone('business', this)">
-        <div class="tone-name">💼 経営・営業のやらかし編</div>
-        <div class="tone-desc">資金繰りの胃痛、大手コンペの背伸び、横文字自爆、理不尽な相見積もり</div>
+        <div class="tone-name">🔥 スタイルB：体内実況＆本音</div>
+        <div class="tone-desc">【王道・約2,000字】オジのボヤキ・短い合いの手・一行比喩で泥臭い粗利と現場を語る</div>
       </button>
       <button class="tone-btn" onclick="selectTone('story', this)">
-        <div class="tone-name">⚡ 現場・板挟み・駆け引き編</div>
-        <div class="tone-desc">設備現場トラブル、職人との駆け引き、道具の見栄、通じない綺麗事企画書</div>
+        <div class="tone-name">🌙 変化球：静かな観察エッセイ</div>
+        <div class="tone-desc">【飽き防止・約1,800字】ドタバタを抑え日常や現場の1コマから孤独と矜持を描く</div>
       </button>
       <button class="tone-btn" onclick="selectTone('sharp', this)">
-        <div class="tone-name">🌿 日常・加齢・健康のパニック編</div>
-        <div class="tone-desc">健康診断の惨劇、深夜の衝動買い、レジのスマホ決済パニック、老眼腰痛の意地</div>
+        <div class="tone-name">⚡ サクッと凝縮ショート版</div>
+        <div class="tone-desc">【800〜1,200字】スマホで1分半で読める凝縮版（ユーモア3：本質7＋赤入れ7法則）</div>
       </button>
     </div>
   </div>
@@ -159,22 +159,22 @@
         <label class="field-label">💡 noteのお題・テーマ <span style="color: #ef4444;">*</span></label>
         <span id="topicCount" class="field-count">0 文字</span>
       </div>
-      <input type="text" id="topicInput" placeholder="例: レジ前のコード決済パニック、健康診断の惨劇、大手コンペでの横文字自爆" oninput="updateCounts()">
+      <input type="text" id="topicInput" placeholder="例: エレベーターで閉ボタンを連打したら取引先の社長だった朝" oninput="updateCounts()">
     </div>
 
     <div class="field-group">
       <div class="field-header">
-        <label class="field-label" style="color: #94a3b8;">✍️ 着眼点・現場メモ・入れたい本音 (任意)</label>
+        <label class="field-label" style="color: #94a3b8;">✍️ 着眼点・現場メモ・入れたい一行比喩 (任意)</label>
         <span id="detailsCount" class="field-count">0 文字</span>
       </div>
-      <textarea id="detailsInput" rows="3" placeholder="例: 後ろの女子高生の冷たい視線。生まれたての子鹿のように震える膝。最後は『生きているだけで丸儲け』で。" oninput="updateCounts()"></textarea>
+      <textarea id="detailsInput" rows="3" placeholder="例: 主観では開けようとしたが客観では締め出す男。目の前の数字に追われるほど大事な縁を締め出す経営の罠。" oninput="updateCounts()"></textarea>
     </div>
 
     <div id="errorCard" class="error-card"></div>
 
     <button id="generateBtn" class="btn-generate" onclick="generateContent()">
       <span id="btnIcon">⚡</span>
-      <span id="btnText">noteショートエッセイを執筆 (600〜850字)</span>
+      <span id="btnText">経営者オジDNAで完全ゼロベース執筆</span>
     </button>
   </div>
 
@@ -182,9 +182,9 @@
   <div id="resultCard" class="card" style="display: none;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
       <div style="font-size: 0.95rem; font-weight: 800; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
-        <span>📝</span> noteショートエッセイ完成原稿
+        <span>📝</span> noteエッセイ完成原稿（赤入れ7法則適用済）
       </div>
-      <span id="noteCharBadge" style="font-size: 0.75rem; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 4px 10px; border-radius: 12px; font-weight: 700; border: 1px solid rgba(56, 189, 248, 0.3);">0 文字 (目安600〜850字)</span>
+      <span id="noteCharBadge" style="font-size: 0.75rem; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 4px 10px; border-radius: 12px; font-weight: 700; border: 1px solid rgba(56, 189, 248, 0.3);">0 文字</span>
     </div>
 
     <textarea id="resultText" class="result-box" oninput="handleTextChange()" style="min-height: 380px; line-height: 1.8;"></textarea>
@@ -254,65 +254,26 @@
 
   <script>
     const PRESET_IDEAS = [
+      // ✨ スタイルA：主観と客観のズレ（デッドパン・ユーモア）
+      { cat: "✨ スタイルA・主観と客観のズレ", topic: "エレベーターで「閉」ボタンを連打していたら、駆け込んできたのが今日会う取引先の社長だった朝", memo: "主観では「開」を押したつもりが焦って「閉」を秒間5連打。目の前の小さな目的に追われるほど一番大事な縁を締め出す経営の罠。" },
+      { cat: "✨ スタイルA・主観と客観のズレ", topic: "最新の「骨伝導イヤホン」で独り言を叫びながら歩き、近所の奥様に道を譲られた昼下がり", memo: "私の目にはのどかな散歩、奥様の目には虚空に向かって『今日中にケリをつけるぞ！』と叫ぶ不審者。社長の頭の中にだけある『見えないイヤホン（前提の共有不足）』の怖さ。" },
+      { cat: "✨ スタイルA・主観と客観のズレ", topic: "オンライン商談で「下半身ステテコ」のまま立ち上がり、すべてが水の泡になった午後", memo: "上半身は紺ブレ、机の下は金魚柄のステテコ。書留のインターホンでカメラオフと間違えてピン留め固定。顧客から見える表面だけ整えて裏側の段取りを抜く会社の末路。" },
+      { cat: "✨ スタイルA・主観と客観のズレ", topic: "800円のコインパーキング代をケチって遠くに停め、大事な商談に汗だくで遅刻しかけた日", memo: "新古のミライースで安い駐車場を探して15分彷徨う本末転倒。目先の小銭（800円）に目を奪われて、一番大きな信用と時間を失う経営の盲点。" },
+
+      // 👦 5歳の若きCEOシリーズ（家庭・日常×経営視点）
+      { cat: "👦 5歳のCEOシリーズ", topic: "5歳の息子との「トミカとホットウィール」の交渉で、値引きの無意味さを突きつけられた休日", memo: "我が家の5歳の若きCEOは絶対に安売りをしない。顧客が本当に欲しいのは『安さ』ではなく『特別な理由（ストーリー）』であるという商売の真理。" },
+      { cat: "👦 5歳のCEOシリーズ", topic: "5歳の息子に「パパの会社って、誰を喜ばせてるの？」と真顔で聞かれて言葉に詰まった夜", memo: "事業計画書や粗利の計算ばかりしていた頭をハンマーで殴られたような一言。商売の原点は5歳児にも説明できるシンプルさにある。" },
+
+      // 🔥 世間のキラキラ綺麗事 × 泥臭い現実の対比
+      { cat: "🔥 綺麗事×泥臭い現実", topic: "「3階建1棟の広い事務所」を見栄で借りて、毎月の固定費に胃をキリキリさせた若き日の黒歴史", memo: "年商で語るな、粗利で語れ。ピカピカの額縁（広いオフィスや肩書き）より、折れても回復が早くなる身軽な経営の強さ。" },
+      { cat: "🔥 綺麗事×泥臭い現実", topic: "最新チャットツールを導入したのに「送りましたよ！」と電話で報告が来る怪奇現象", memo: "ツールを入れる前に『文字が短くても怒らないよ』という心の安心感を翻訳して渡すのがリーダーの仕事。そう、安心感。" },
+
+      // 🌙 変化球：静かな観察・独白エッセイ
+      { cat: "🌙 変化球・静かな観察", topic: "取引先のベテラン社長の「すり減った革靴のかかと」を見て、背筋が伸びた帰り道", memo: "ドタバタ劇を抑えた静かな観察回。派手な広報は一切しないのに20年潰れない会社の社長が、どんな足元で現場を歩いているか。" },
+      { cat: "🌙 変化球・静かな観察", topic: "夜の自社倉庫に置かれたママチャリと、ロブ・ゾンビを聴きながら帰る新古のミライース", memo: "誰にも言えない意思決定を終えた夜の静けさ。カッコいい成功論ではなく、今日を生き延びて明日もシャッターを開ける経営者の矜持。" },
       // 🌿 日常・加齢・健康のパニック編
-      { cat: "🌿 日常・加齢・健康", topic: "レジ前のコード決済パニックと尊厳の崩壊", memo: "後ろの女子高生の冷たい視線。画面の再ログイン要求。震える指先と太ももの幻聴バイブ。最後は小銭をぶちまけて敗走。" },
-      { cat: "🌿 日常・加齢・健康", topic: "深夜の衝動買いと、翌朝の高級ランニングシューズ", memo: "深夜の謎の全能感でポチった2万円のシューズ。走り出して3分で膝が悲鳴を上げ、今は玄関のお地蔵さん。" },
-      { cat: "🌿 日常・加齢・健康", topic: "健康診断のバリウム検査台という名の宇宙遊泳", memo: "「右に回って！」と怒号を浴びながら遠心力と胃痛に耐えるアラフィフ。尊厳を粉砕された惨劇。" },
-      { cat: "🌿 日常・加齢・健康", topic: "老眼を認めないオジの意地の張り合い", memo: "スマホを目から40cm離して眉間にシワを寄せる奇行。「腕が短くなっただけだ」と言い張る往生際の悪さ。" },
-
-      // 💼 経営・営業のやらかし編
-      { cat: "💼 経営・営業のやらかし", topic: "大手コンペでの横文字連発と大自爆劇", memo: "「アグリー」「アサイン」「シナジー」を背伸びして連発。突っ込まれて頭がマリアナ海溝まで沈没した黒歴史。" },
-      { cat: "💼 経営・営業のやらかし", topic: "月末の通帳記帳と、胃の中に広がるビッグバン", memo: "ATMの前で祈るように通帳を入れる瞬間。冷や汗と生まれたての子鹿のような膝。それでも生きている奇跡。" },
-      { cat: "💼 経営・営業のやらかし", topic: "理不尽な相見積もりと、見栄を張った接待の失敗", memo: "格安競合に奪われまいと高い店を予約したオジの末路。割り勘にもできず震えながらカードを切る夜。" },
-
-      // ⚡ 現場・板挟み・駆け引き編
-      { cat: "⚡ 現場・板挟み", topic: "職人の前で最新の高級工具を見せびらかした末路", memo: "形から入るオジの愚行。現場の親方に一瞬で見抜かれ、最初の1本で先端をへし折って敗走。" },
-      { cat: "⚡ 現場・板挟み", topic: "現場で通用しない綺麗すぎる企画書の悲哀", memo: "コンサル気取りで作った40ページのパワポ。現場監督に「で、誰が土嚢積むの？」の一言で瞬殺。" },
-
-      // 💴 実体経済・格差・下請け
-      { cat: "💴 実体経済・格差", topic: "物価高と下請け構造のシワ寄せ", memo: "値上げ要請が通らない零細の悲鳴。元請けと下請けの圧倒的な体力差。最後は泥臭い知恵と覚悟。" },
-      { cat: "💴 実体経済・格差", topic: "大企業の賃上げ報道と、町工場の冷や汗", memo: "テレビで流れる「過去最高の大幅賃上げ」と、現場の原材料高騰。数字の上のお祭りと我々の暮らしの境界線。" },
-      { cat: "💴 実体経済・格差", topic: "インボイスと中間搾取のリアル", memo: "制度の綺麗事と、現場の職人が被る事務負担と手取り減。誰も言わない不都合な真実。" },
-
-      // 👥 世代間ギャップ・昭和オジとZ世代
-      { cat: "👥 世代間ギャップ", topic: "タイパ重視のZ世代と昭和オジの温度差", memo: "倍速視聴と定時退社。合理的な若者にぐうの音も出ないオジの葛藤と、それでも残る泥臭さの価値。" },
-      { cat: "👥 世代間ギャップ", topic: "「飲みニケーション」が滅びた後の現場の絆", memo: "無理強い厳禁のコンプラ時代。じゃあどうやって本音をぶつけ合い、ピンチを乗り越えるのか。" },
-      { cat: "👥 世代間ギャップ", topic: "「教えてくれない」と嘆く若手と「背中を見ろ」のオジ", memo: "マニュアル至上主義と現場の勘どころ。言葉にできない暗黙知をどう伝えるかの試行錯誤。" },
-
-      // 🛠️ 現場と職人・手触り
-      { cat: "🛠️ 現場と道具", topic: "AI時代の到来と、絶対に代替されない泥臭い手触り", memo: "画面の前のスマートな効率化と、現場で油にまみれる職人技。手離れの悪さにこそ宿る利益。" },
-      { cat: "🛠️ 現場と道具", topic: "一流の職人が工具を磨く理由", memo: "道具の扱いに現れる仕事の精度。トラブルを未然に防ぐ現場の所作と美学。" },
-      { cat: "🛠️ 現場と道具", topic: "図面通りにいかない現場のリアル", memo: "設計図は完璧でも現場のミリ単位のズレが命取りになる。臨機応変に収める現場力。" },
-
-      // 🏢 経営の修羅場・知恵
-      { cat: "🏢 経営の修羅場", topic: "失敗という名の最強の教科書と、25年生き残った知恵", memo: "倒産危機、裏切り、痛い目を見た数々。教科書の経営論より、現場で流した冷や汗が人を育てる。" },
-      { cat: "🏢 経営の修羅場", topic: "資金繰りの胃痛と、通帳を握りしめた夜", memo: "月末の支払いを前に眠れなかった若き日の記憶。経営者しか知らない孤独と覚悟。" },
-      { cat: "🏢 経営の修羅場", topic: "「撤退」を決断した瞬間の静けさ", memo: "サンクコストに縛られず赤字事業を切る苦渋の決断。やめる勇気こそが会社を救う。" },
-
-      // 🌀 世間の違和感・本音
-      { cat: "🌀 世間の違和感", topic: "綺麗事だらけの正論と、生活者のリアルな肌感", memo: "テレビの景気回復ニュースと、スーパーの特売卵。数字の上のお祭りと我々の暮らしの境界線。" },
-      { cat: "🌀 世間の違和感", topic: "「自己責任」という便利な免罪符", memo: "格差が広がる社会で使われる冷たい言葉。構造の問題を個人の努力不足にすり替える違和感。" },
-      { cat: "🌀 世間の違和感", topic: "「何者かになりたい」SNS症候群の虚しさ", memo: "フォロワー数やキラキラ投稿を競う若者たち。現場で汗を流して1円を稼ぐ尊さの再確認。" },
-
-      // ☕ 中年の身体と日常
-      { cat: "☕ 中年の身体と日常", topic: "枯れゆく体力と、何にも代えがたい熟睡の快感", memo: "夜更かしができなくなったオジのリアル。美味しいご飯を腹いっぱい食べて泥のように眠る幸せ。" },
-      { cat: "☕ 中年の身体と日常", topic: "朝の白湯と、健康診断の数値に一喜一憂する日々", memo: "若い頃は無敵だった身体が送るサイン。身体を労わりながら黙々と働く日常の愛おしさ。" },
-      { cat: "☕ 中年の身体と日常", topic: "休日にふと見上げた夕暮れの空と、缶コーヒー", memo: "仕事の合間に訪れる何気ない余白。派手な娯楽より、静かな時間が染みる年齢になったオジの呟き。" },
-
-      // 🚗 洗車ビジネス・商売の本質
-      { cat: "🚗 商売の現場", topic: "たった数百円の洗車に見る、顧客感動の極意", memo: "ピカピカになった愛車を見て微笑むお客様。価格以上の価値を生み出す泥臭いこだわり。" },
-      { cat: "🚗 商売の現場", topic: "繁盛店と閑古鳥の差は「排水溝の掃除」に出る", memo: "見えない裏側の衛生管理や日々の点検。細部への執着がリピーターを作る現場の法則。" },
-      { cat: "🚗 商売の現場", topic: "立地論の嘘と、地域密着で愛される理由", memo: "データだけの物件選定では勝てない。生活動線と地元の空気感を肌で掴むフィールドワーク。" },
-
-      // 🤝 人間関係・信用
-      { cat: "🤝 人間関係と信用", topic: "「口約束を守る男」と「契約書で逃げる男」", memo: "トラブルの時に本性が出る。最後は書類ではなく、人間としての筋を通せるかどうかの勝負。" },
-      { cat: "🤝 人間関係と信用", topic: "裏切られた時に学んだ「許す技術」", memo: "恨みや怒りにエネルギーを使う暇はない。信じた自分の未熟さを笑い飛ばして前を向く。" },
-      { cat: "🤝 人間関係と信用", topic: "ピンチの時に駆けつけてくれた旧友の顔", memo: "儲かっている時に群がる人より、どん底の時に黙って手を差し伸べてくれた人の恩義。" },
-
-      // 🎯 勝負と覚悟
-      { cat: "🎯 勝負と覚悟", topic: "「石橋を叩いて渡らない」奴を置き去りにするスピード", memo: "リスクばかり気にして動けない評論家。7割の勝算で走り出す者だけが見る景色。" },
-      { cat: "🎯 勝負と覚悟", topic: "自分を安売りしない値付けの勇気", memo: "相見積もりの価格競争から抜け出す方法。技術と誇りに正当な対価を求める経営姿勢。" },
-      { cat: "🎯 勝負と覚悟", topic: "今できることを黙々とやる、それしかない", memo: "先行き不透明な時代に不安がっても始まらない。目の前の一人、目の前の1台に全力を尽くす。" }
+      { cat: "🌿 日常・加齢・健康", topic: "契約書の「甲と乙」が霞んで見えず、スマホを2メートル離して読む聖火ランナーのポーズ", memo: "老眼で近くのカナブンの足の毛が見えなくなった代わりに、組織全体や相手の背景を見渡す『経営の広角レンズ』を手に入れた話。" },
+      { cat: "🌿 日常・加齢・健康", topic: "深夜の衝動買いと、翌朝の高級ランニングシューズ", memo: "深夜の謎の全能感でポチったシューズ。形から入る見栄と、地味な継続の難しさ。" }
     ];
 
     let lastIdeaIndex = -1;
@@ -568,7 +529,7 @@
       resultBox.className = "result-box";
 
       const charCount = contentStore.note.length;
-      document.getElementById("noteCharBadge").textContent = `${charCount} 文字 (目安600〜850字)`;
+      document.getElementById("noteCharBadge").textContent = `${charCount} 文字`;
 
       const openBtn = document.getElementById("openAppBtn");
       openBtn.href = "https://note.com";
@@ -581,7 +542,7 @@
     function handleTextChange() {
       const text = document.getElementById("resultText").value;
       contentStore.note = text;
-      document.getElementById("noteCharBadge").textContent = `${text.length} 文字 (目安600〜850字)`;
+      document.getElementById("noteCharBadge").textContent = `${text.length} 文字`;
     }
 
     function copyCurrentTab() {
