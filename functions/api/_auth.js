@@ -39,6 +39,9 @@ async function getCryptoKey(secret) {
 }
 
 export async function createSignedToken(payload, secret) {
+  if (!secret || typeof secret !== "string" || secret.length < 16) {
+    throw new Error("Invalid or too short SESSION_SECRET");
+  }
   const encoder = new TextEncoder();
   const data = JSON.stringify(payload);
   const base64Data = btoa(unescape(encodeURIComponent(data)));
@@ -49,6 +52,7 @@ export async function createSignedToken(payload, secret) {
 }
 
 export async function verifySignedToken(token, secret) {
+  if (!secret || typeof secret !== "string" || secret.length < 16) return null;
   if (!token || !token.includes(".")) return null;
   const [base64Data, base64Sig] = token.split(".");
   try {
@@ -66,8 +70,28 @@ export async function verifySignedToken(token, secret) {
   }
 }
 
+/**
+ * タイミング攻撃を防ぐ定数時間文字列比較（SHA-256ダイジェスト比較）
+ */
+export async function timingSafeEqualStr(a, b) {
+  if (typeof a !== "string" || typeof b !== "string") return false;
+  const encoder = new TextEncoder();
+  const [hashA, hashB] = await Promise.all([
+    crypto.subtle.digest("SHA-256", encoder.encode(a)),
+    crypto.subtle.digest("SHA-256", encoder.encode(b)),
+  ]);
+  const viewA = new Uint8Array(hashA);
+  const viewB = new Uint8Array(hashB);
+  let diff = a.length ^ b.length;
+  for (let i = 0; i < viewA.length; i++) {
+    diff |= viewA[i] ^ viewB[i];
+  }
+  return diff === 0;
+}
+
 export async function authenticateAdmin(request, env) {
   const { secret } = getAdminCredentials(env);
+  if (!secret || secret.length < 16) return null;
   const cookies = parseCookies(request.headers.get("Cookie"));
   const token = cookies[COOKIE_NAME];
   if (!token) return null;

@@ -1,9 +1,14 @@
 import { authenticateAdmin } from "./_auth.js";
 
 const VALID_EMPLOYEE_COUNTS = ["individual", "1-5", "6-20", "21-50", "51-100", "101-plus"];
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function sanitize(str = "") {
-  return String(str).trim();
+function sanitize(str = "", maxLen = 1000) {
+  return String(str).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim().slice(0, maxLen);
+}
+
+function sanitizeSingleLine(str = "", maxLen = 200) {
+  return sanitize(str, maxLen).replace(/[\r\n]+/g, " ");
 }
 
 export async function onRequestPost({ request, env }) {
@@ -47,14 +52,36 @@ export async function onRequestPost({ request, env }) {
       });
     }
 
-    if (!Array.isArray(topics) || topics.length === 0) {
+    const cleanFullName = sanitizeSingleLine(fullName, 100);
+    const cleanCompanyName = sanitizeSingleLine(companyName, 150);
+    const cleanEmail = sanitizeSingleLine(email, 254);
+    const cleanMessage = sanitize(message, 5000);
+    const cleanContactMethod = sanitizeSingleLine(contactMethod, 50);
+    const cleanPhone = sanitizeSingleLine(phone, 40);
+    const cleanAvailableHours = sanitizeSingleLine(availableHours, 200);
+
+    if (!EMAIL_REGEX.test(cleanEmail)) {
+      return new Response(JSON.stringify({ error: "有効なメールアドレスをご入力ください。" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    if (!VALID_EMPLOYEE_COUNTS.includes(String(employeeCount))) {
+      return new Response(JSON.stringify({ error: "従業員規模の選択が不正です。" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    if (!Array.isArray(topics) || topics.length === 0 || topics.length > 20) {
       return new Response(JSON.stringify({ error: "ご相談テーマを1つ以上選択してください。" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
     }
 
-    const cleanTopics = topics.map(sanitize).filter(Boolean);
+    const cleanTopics = topics.map((t) => sanitizeSingleLine(t, 100)).filter(Boolean);
     const createdAt = new Date().toISOString();
 
     // 3. D1 データベースへの保存（バインディングがある場合）
@@ -85,15 +112,15 @@ export async function onRequestPost({ request, env }) {
           message, contact_method, phone, available_hours, privacy_accepted, status, created_at
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new', ?)
       `).bind(
-        sanitize(fullName),
-        sanitize(companyName),
-        sanitize(email),
+        cleanFullName,
+        cleanCompanyName,
+        cleanEmail,
         employeeCount,
         JSON.stringify(cleanTopics),
-        sanitize(message),
-        sanitize(contactMethod) || null,
-        sanitize(phone) || null,
-        sanitize(availableHours) || null,
+        cleanMessage,
+        cleanContactMethod || null,
+        cleanPhone || null,
+        cleanAvailableHours || null,
         privacyAccepted ? 1 : 0,
         createdAt
       ).run();
@@ -112,16 +139,16 @@ export async function onRequestPost({ request, env }) {
           Accept: "application/json",
         },
         body: JSON.stringify({
-          name: fullName,
-          company: companyName,
-          email: email,
+          name: cleanFullName,
+          company: cleanCompanyName,
+          email: cleanEmail,
           employeeCount: employeeCount,
           topics: cleanTopics.join(", "),
-          message: message,
-          contactMethod: contactMethod || "未指定",
-          phone: phone || "未記入",
-          availableHours: availableHours || "未記入",
-          _subject: `【HP無料相談】${companyName} ${fullName}様より (ID: ${inquiryId})`,
+          message: cleanMessage,
+          contactMethod: cleanContactMethod || "未指定",
+          phone: cleanPhone || "未記入",
+          availableHours: cleanAvailableHours || "未記入",
+          _subject: `【HP無料相談】${cleanCompanyName} ${cleanFullName}様より (ID: ${inquiryId})`,
         }),
       });
     } catch (e) {

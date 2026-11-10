@@ -49,7 +49,30 @@ const PRESET_IDEAS = [
   { cat: "🎯 勝負と覚悟", topic: "今できることを黙々とやる、それしかない", memo: "先行き不透明な時代に不安がっても始まらない。目の前の一人、目の前の1台に全力を尽くす。" }
 ];
 
+function getAllowedOrigin(request) {
+  const origin = request.headers.get("Origin") || "";
+  if (
+    !origin ||
+    origin === "https://sgopartners.com" ||
+    origin === "https://www.sgopartners.com" ||
+    origin.endsWith(".sgopartners.pages.dev") ||
+    origin.startsWith("http://localhost:") ||
+    origin.startsWith("http://127.0.0.1:")
+  ) {
+    return origin || "https://sgopartners.com";
+  }
+  return null;
+}
+
 export async function onRequestPost(context) {
+  const allowedOrigin = getAllowedOrigin(context.request);
+  if (!allowedOrigin) {
+    return new Response(JSON.stringify({ success: false, error: "許可されていないオリジンからのリクエストです。" }), {
+      status: 403,
+      headers: { "Content-Type": "application/json; charset=utf-8" }
+    });
+  }
+
   try {
     const data = await context.request.json().catch(() => ({}));
     const clientKey = (data.apiKey || "").trim().replace(/^['"]|['"]$/g, "");
@@ -79,7 +102,7 @@ export async function onRequestPost(context) {
     if (!effectiveKey) {
       return new Response(JSON.stringify({ success: true, ideas: getRandomPresets(5) }), {
         status: 200,
-        headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+        headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": allowedOrigin }
       });
     }
 
@@ -152,22 +175,23 @@ export async function onRequestPost(context) {
 
     return new Response(JSON.stringify({ success: true, ideas }), {
       status: 200,
-      headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+      headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": allowedOrigin }
     });
   } catch (e) {
     const fallbackCopy = [...PRESET_IDEAS].sort(() => 0.5 - Math.random()).slice(0, 5);
     return new Response(JSON.stringify({ success: true, ideas: fallbackCopy }), {
       status: 200,
-      headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+      headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": allowedOrigin }
     });
   }
 }
 
-export async function onRequestOptions() {
+export async function onRequestOptions(context) {
+  const allowedOrigin = getAllowedOrigin(context.request) || "https://sgopartners.com";
   return new Response(null, {
     status: 204,
     headers: {
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": allowedOrigin,
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type"
     }

@@ -1,18 +1,21 @@
-import { createSignedToken, getAdminCredentials, buildSessionCookie } from "../_auth.js";
+import { createSignedToken, getAdminCredentials, buildSessionCookie, timingSafeEqualStr } from "../_auth.js";
 
 export async function onRequestPost({ request, env }) {
   try {
     const { email, password } = await request.json();
     const creds = getAdminCredentials(env);
 
-    if (!creds.email || !creds.password || !creds.secret) {
-      return new Response(JSON.stringify({ error: "管理者の環境設定が完了していません。CloudflareダッシュボードでADMIN_EMAILおよびADMIN_PASSWORDを設定してください。" }), {
+    if (!creds.email || !creds.password || !creds.secret || creds.secret.length < 16) {
+      return new Response(JSON.stringify({ error: "管理者の環境設定が完了していません。CloudflareダッシュボードでADMIN_EMAIL、ADMIN_PASSWORD、および16文字以上のSESSION_SECRETを設定してください。" }), {
         status: 500,
         headers: { "Content-Type": "application/json" },
       });
     }
 
-    if (!email || !password || email !== creds.email || password !== creds.password) {
+    const emailMatch = await timingSafeEqualStr(String(email || ""), creds.email);
+    const passMatch = await timingSafeEqualStr(String(password || ""), creds.password);
+
+    if (!email || !password || !emailMatch || !passMatch) {
       return new Response(JSON.stringify({ error: "メールアドレスまたはパスワードが正しくありません。" }), {
         status: 401,
         headers: { "Content-Type": "application/json" },

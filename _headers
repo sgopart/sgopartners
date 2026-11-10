@@ -3,3 +3,18 @@
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Permitted-Cross-Domain-Policies: none
+  Cross-Origin-Opener-Policy: same-origin-allow-popups
+
+/admin*
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+/mobile*
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+/studio*
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+/construction*
+  X-Robots-Tag: noindex, nofollow, noarchive

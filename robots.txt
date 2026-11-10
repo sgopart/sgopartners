@@ -5,6 +5,11 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 Disallow: /api/
+Disallow: /mobile
+Disallow: /mobile.html
+Disallow: /studio
+Disallow: /construction
+Disallow: /construction.html
 
 # AI Search Engine & LLM Crawlers (GEO / Generative Engine Optimization)
 User-agent: ClaudeBot

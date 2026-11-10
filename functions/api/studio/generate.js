@@ -66,7 +66,30 @@ const TONES_MAP = {
 - 短くても「ユーモア3：泥臭い経営・現場の本質7」の黄金比率と、短い合いの手・粋な一行比喩はしっかり維持し、キレのある構成にしてください。`
 };
 
+function getAllowedOrigin(request) {
+  const origin = request.headers.get("Origin") || "";
+  if (
+    !origin ||
+    origin === "https://sgopartners.com" ||
+    origin === "https://www.sgopartners.com" ||
+    origin.endsWith(".sgopartners.pages.dev") ||
+    origin.startsWith("http://localhost:") ||
+    origin.startsWith("http://127.0.0.1:")
+  ) {
+    return origin || "https://sgopartners.com";
+  }
+  return null;
+}
+
 export async function onRequestPost(context) {
+  const allowedOrigin = getAllowedOrigin(context.request);
+  if (!allowedOrigin) {
+    return new Response(JSON.stringify({ success: false, error: "許可されていないオリジンからのリクエストです。" }), {
+      status: 403,
+      headers: { "Content-Type": "application/json; charset=utf-8" }
+    });
+  }
+
   try {
     const data = await context.request.json().catch(() => ({}));
     const clientKey = (data.apiKey || "").trim().replace(/^['"]|['"]$/g, "");
@@ -84,8 +107,8 @@ export async function onRequestPost(context) {
     const effectiveKey = serverKey || clientKey;
     const tone = data.tone || "oji";
 
-    const topic = (data.topic || "").trim();
-    const details = (data.details || "").trim();
+    const topic = String(data.topic || "").trim().slice(0, 500);
+    const details = String(data.details || "").trim().slice(0, 2000);
 
     if (!effectiveKey) {
       return new Response(JSON.stringify({
@@ -93,14 +116,14 @@ export async function onRequestPost(context) {
         error: "APIキーが設定されていません。CloudflareダッシュボードにGEMINI_API_KEYを設定するか、右上の「⚙️ 設定」にAPIキーを入力してください。"
       }), {
         status: 400,
-        headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+        headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": allowedOrigin }
       });
     }
 
     if (!topic) {
       return new Response(JSON.stringify({ success: false, error: "お題が入力されていません。「🎲 ランダム」または「✨ AIでお題提案」をお試しください。" }), {
         status: 400,
-        headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+        headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": allowedOrigin }
       });
     }
 
@@ -226,7 +249,7 @@ ${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
               error: "設定されたGemini APIキーが無効です。Google AI Studio（https://aistudio.google.com/app/apikey）からキーを再コピーし、右上の「⚙️ 設定」に貼り直してください。"
             }), {
               status: 400,
-              headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+              headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": allowedOrigin }
             });
           }
         }
@@ -241,7 +264,7 @@ ${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
         error: `AI生成に一時的な混雑が発生しました (${lastErrorMsg})。数秒後にもう一度「完全ゼロベース執筆を開始」を押してください。`
       }), {
         status: 500,
-        headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+        headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": allowedOrigin }
       });
     }
 
@@ -255,7 +278,7 @@ ${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
       status: 200,
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": allowedOrigin,
         "Cache-Control": "no-store"
       }
     });
@@ -266,16 +289,17 @@ ${details ? `【着眼点・こだわり・現場メモ】: ${details}` : ""}
       error: err.message || "サーバーエラーが発生しました。"
     }), {
       status: 500,
-      headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": "*" }
+      headers: { "Content-Type": "application/json; charset=utf-8", "Access-Control-Allow-Origin": allowedOrigin }
     });
   }
 }
 
-export async function onRequestOptions() {
+export async function onRequestOptions(context) {
+  const allowedOrigin = getAllowedOrigin(context.request) || "https://sgopartners.com";
   return new Response(null, {
     status: 204,
     headers: {
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": allowedOrigin,
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type"
     }
